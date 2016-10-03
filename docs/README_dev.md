@@ -18,7 +18,7 @@ Loo is a web application inspired by Yelp built using Ruby on Rails and React/Re
 - [ ] Production README [sample](docs/production_readme.md)
 
 ## Design Docs
-* [View Wireframes][wireframes]
+* [View Wireframes][../wireframes]
 * [React Components][components]
 * [API endpoints][api-endpoints]
 * [DB schema][schema]
