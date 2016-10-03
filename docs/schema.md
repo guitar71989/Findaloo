@@ -29,7 +29,7 @@ review_count| integer   | not null, default 0
 column name | data type | details
 ------------|-----------|-----------------------
 id          | integer   | not null, primary key
-users_id    | integer   | not null, foreign key (references users), indexed
+user_id    | integer   | not null, foreign key (references users), indexed
 loo_id      | integer   | not null, foreign key (references loos), indexed
 body        | text      | not null
 rating      | integer   | not null
