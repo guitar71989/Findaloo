@@ -6,7 +6,7 @@ class Api::SessionsController < ApplicationController
       log_in(user)
       render json: user
     else
-      render json "User does not exist", status: 422
+      render json: "User does not exist", status: 422
     end
   end
 
