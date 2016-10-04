@@ -1,6 +1,6 @@
 // webpack.config.js
 module.exports = {
-  entry: "./frontend/index.jsx",
+  entry: "./frontend/findaloo.jsx",
   output: {
     path: "app/assets/javascripts",
     filename: "bundle.js",
