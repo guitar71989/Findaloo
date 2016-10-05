@@ -4,13 +4,11 @@ import { RECEIVE_CURRENT_USER, RECEIVE_ERRORS, LOGOUT } from '../actions/session
 const SessionReducer = (state = { currentUser: null, errors: [] }, action) => {
   switch (action.type) {
     case RECEIVE_CURRENT_USER: {
-      debugger
       const nextState = merge({}, state);
       nextState.currentUser = action.user;
       return nextState;
     }
     case RECEIVE_ERRORS: {
-      debugger
       const nextState = merge({}, state);
       nextState.errors = action.errors;
       nextState.currentUser = null;

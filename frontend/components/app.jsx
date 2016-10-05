@@ -3,8 +3,15 @@ import GreetingContainer from './greeting_container.jsx';
 
 const App = ({ children }) => (
   <div>
-    <h1>Findaloo</h1>
-    <GreetingContainer />
+
+  <header className="header">
+    <nav className="header-nav group">
+      <h1 className="header-logo">
+        Findaloo is the best way to find <br></br>convenient, local restrooms.
+      </h1>
+      <GreetingContainer />
+    </nav>
+  </header>
     {children}
   </div>
 );

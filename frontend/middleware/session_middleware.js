@@ -12,7 +12,6 @@ export default ({ getState, dispatch }) => next => action => {
       return next(action);
     case ACTIONS.LOGIN:
       API.login(action.user, successCallback, errorCallback);
-      debugger
       return next(action);
     case ACTIONS.LOGOUT:
       API.logout(() => next(action));

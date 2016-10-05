@@ -1,18 +1,48 @@
 import React from 'react';
 import {Link} from 'react-router';
 
-const Greeting = ({ currentUser, logout }) => {
-  if (currentUser) {
+class Greeting extends React.Component { currentUser, logout }) => {
+
+  const showSessionForm = function(e) => {
+    console.log("Hello");
+  }
+
+  if (this.props.currentUser) {
       return(
-        <button onClick={logout}>Log Out</button>
+        <button onClick={this.props.logout}>Log Out</button>
       )
   } else {
-    return( <div>
-      <Link to="/signup">Sign Up</Link>
-      <Link to="/login">Log In</Link>
-    </div>
+    return( <ul className="header-list group">
+      <li><Link to="/signup" className="nav signup" onMouseEnter={this.showSessionForm.bind(this)}>Sign Up</Link></li>
+      <li><Link to="/login" className="nav login" onMouseEnter={this.showSessionForm.bind(this)}>Log In</Link></li>
+    </ul>
     )
   }
 };
 
 export default Greeting;
+
+
+//
+//
+//
+// const Greeting = ({ currentUser, logout }) => {
+//
+//   const showSessionForm = function(e) => {
+//     console.log("Hello");
+//   }
+//
+//   if (currentUser) {
+//       return(
+//         <button onClick={logout}>Log Out</button>
+//       )
+//   } else {
+//     return( <ul className="header-list group">
+//       <li><Link to="/signup" className="nav signup" onMouseEnter={this.showSessionForm.bind(this)}>Sign Up</Link></li>
+//       <li><Link to="/login" className="nav login" onMouseEnter={this.showSessionForm.bind(this)}>Log In</Link></li>
+//     </ul>
+//     )
+//   }
+// };
+//
+// export default Greeting;

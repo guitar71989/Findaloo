@@ -1,3 +1,22 @@
 // Place all the styles related to the staticpages controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+html, body, header, nav, h1, a, ul, li,
+strong, main, section, img, div, h2, p,
+form, fieldset, label, input, textarea,
+button, article, footer, small {
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  border: 0;
+
+  text-align: inherit;
+  text-decoration: inherit;
+  vertical-align: inherit;
+  font: inherit;
+  box-sizing: inherit;
+  color: inherit;
+
+  background: transparent;
+}

@@ -15,8 +15,16 @@ class SessionForm extends React.Component {
 
   redirectIfLoggedIn() {
     if(this.props.loggedIn){
-      this.props.router.push("/");
+      hashHistory.push("/");
     }
+  }
+
+  handleChange(field){
+    return e => this.setState({[field]: e.target.value});
+  }
+
+  componentDidUpdate(){
+    this.redirectIfLoggedIn();
   }
 
   handleSubmit(e) {
@@ -27,15 +35,6 @@ class SessionForm extends React.Component {
     this.props.processForm(user);
   }
 
-
-  handleChange(field){
-    return e => this.setState({[field]: e.target.value});
-    // this.setState({ })
-  }
-  componentDidUpdate(){
-    this.redirectIfLoggedIn();
-  }
-
   render(){
     let title = (this.props.formType === "signup") ? "Sign Up" : "Log In";
     let nontitle = (this.props.formType === "signup") ? "Log In" : "Sign Up";
@@ -43,7 +42,9 @@ class SessionForm extends React.Component {
     return(
       <div>
         <h1>{title}</h1>
+
         <p>{this.props.errors}</p>
+
         <form onSubmit={this.handleSubmit}>
           <input type="text" value={this.state.username}
             onChange={this.handleChange('username')}
