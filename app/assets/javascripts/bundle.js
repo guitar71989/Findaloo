@@ -28943,6 +28943,7 @@
 	  }, {
 	    key: 'componentDidUpdate',
 	    value: function componentDidUpdate() {
+	      console.log("yo");
 	      this.redirectIfLoggedIn();
 	    }
 	  }, {
@@ -28984,6 +28985,18 @@
 	    value: function form() {
 	      var title = this.props.formType === 'login' ? 'Log In to Findaloo' : 'Sign Up for Finadaloo';
 	
+	      var errors = void 0;
+	
+	      if (this.props.errors.length > 0) {
+	        errors = this.props.errors.map(function (error, idx) {
+	          return _react2.default.createElement(
+	            'li',
+	            { key: idx },
+	            error
+	          );
+	        });
+	      }
+	
 	      return _react2.default.createElement(
 	        'form',
 	        { onSubmit: this.handleSubmit },
@@ -29000,11 +29013,7 @@
 	        _react2.default.createElement(
 	          'ul',
 	          null,
-	          _react2.default.createElement(
-	            'li',
-	            null,
-	            this.props.errors
-	          )
+	          errors
 	        ),
 	        _react2.default.createElement('input', { type: 'text', value: this.state.username,
 	          onChange: this.handleChange('username'),
@@ -46174,7 +46183,7 @@
 	        dispatch(ACTIONS.receiveCurrentUser(user));
 	      };
 	      var errorCallback = function errorCallback(error) {
-	        return dispatch(ACTIONS.receiveErrors(error.responseText));
+	        return dispatch(ACTIONS.receiveErrors(error.responseJSON));
 	      };
 	      switch (action.type) {
 	        case ACTIONS.SIGNUP:

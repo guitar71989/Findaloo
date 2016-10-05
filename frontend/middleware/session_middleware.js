@@ -5,7 +5,7 @@ export default ({ getState, dispatch }) => next => action => {
   const successCallback = user => {
     dispatch(ACTIONS.receiveCurrentUser(user))
   };
-  const errorCallback = error => dispatch(ACTIONS.receiveErrors(error.responseText));
+  const errorCallback = error => dispatch(ACTIONS.receiveErrors(error.responseJSON));
   switch(action.type){
     case ACTIONS.SIGNUP:
       API.signup(action.user, successCallback, errorCallback);

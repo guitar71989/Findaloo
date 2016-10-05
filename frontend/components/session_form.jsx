@@ -28,6 +28,7 @@ class SessionForm extends React.Component {
   }
 
   componentDidUpdate(){
+    console.log("yo")
     this.redirectIfLoggedIn();
   }
 
@@ -52,13 +53,20 @@ class SessionForm extends React.Component {
   form(){
     let title = (this.props.formType === 'login') ? 'Log In to Findaloo' : 'Sign Up for Finadaloo';
 
+    let errors
+
+    if (this.props.errors.length > 0) {
+      errors = this.props.errors.map((error, idx) => (<li key={idx}>{error}</li>))
+    }
+
     return(
+
     <form onSubmit={this.handleSubmit}>
       <h1>{title}</h1>
       <p>Connect with great local restrooms</p>
 
         <ul>
-          <li>{this.props.errors}</li>
+          {errors}
         </ul>
 
       <input type="text" value={this.state.username}
