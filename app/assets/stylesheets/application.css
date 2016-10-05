@@ -104,7 +104,7 @@
     float: right;
     height: 342px;
     width: 390px;
-    background-image: url('signup_illustration.png');
+    /*background-image: url('signup_illustration.png');*/
   }
 
 form > input:first-child {

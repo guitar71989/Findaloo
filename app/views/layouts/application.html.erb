@@ -3,6 +3,16 @@
 <head>
   <title>Findaloo</title>
   <%= stylesheet_link_tag    'application', media: 'all' %>
+
+  <script type="text/javascript">
+    window.findalooAssets = {
+      // image_url is a rails helper method that does the fingerprinting
+      // so we need erb tag to use ruby
+      // file name is an argument to the image_url method
+      signup_illustration: "<%= image_url("signup_illustration.png") %>"
+    }
+  </script>
+
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
 </head>

@@ -67,7 +67,9 @@ class SessionForm extends React.Component {
   render(){
     return(
       <authcontainer className="group">
-        <div className="signup-logo"></div>
+        <img src={window.findalooAssets.signup_illustration} className="signup-logo">
+        </img>
+
         {this.form()}
       </authcontainer>
     );

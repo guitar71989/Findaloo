@@ -28994,7 +28994,7 @@
 	      return _react2.default.createElement(
 	        'authcontainer',
 	        { className: 'group' },
-	        _react2.default.createElement('div', { className: 'signup-logo' }),
+	        _react2.default.createElement('img', { src: window.findalooAssets.signup_illustration, className: 'signup-logo' }),
 	        this.form()
 	      );
 	    }
