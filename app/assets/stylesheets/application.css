@@ -92,6 +92,7 @@
  }
 
  .header-list > li:hover {
+  color: #eee;
  }
 
  form {
@@ -126,7 +127,6 @@ authcontainer {
   margin: 0 auto;
   background: #fff;
   padding: 100px;
-  color
 }
 
 authcontainer h1 {
@@ -146,8 +146,9 @@ authcontainer li {
   text-align: center;
   font-style: italic;
   font-size: 14px;
-  background: pink;
-  width: 400px;
+  color: #ff0000;
+  width: 300px;
+
 }
 
 authcontainer li:last-child {
@@ -163,4 +164,27 @@ authcontainer p {
   vertical-align: middle;
   display: block;
   margin-bottom: 20px;
+}
+
+.logged-in-ctn-main {
+  float: right;
+  padding: 10px 20px;
+  font-size: 16px;
+   text-shadow: 2px 2px #000;
+}
+
+.logout-btn {
+  float: left;
+  display: block;
+}
+
+.logout-btn:hover {
+  float: left;
+  display: block;
+  cursor:pointer;
+  color: #eee;
+}
+.username {
+  float: left;
+  display: block;
 }

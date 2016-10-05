@@ -5,7 +5,10 @@ const Greeting = ({ currentUser, logout }) => {
 
   if (currentUser) {
       return(
-        <button onClick={logout}>Log Out</button>
+        <div className="logged-in-ctn-main">
+          <p className="logged-in-ctn username">{'Signed in as ' + currentUser.username}</p><br></br>
+          <button className="logged-in-ctn logout-btn" onClick={logout}>Log Out</button>
+        </div>
       )
   } else {
     return( <ul className="header-list group">

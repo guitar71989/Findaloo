@@ -6,7 +6,7 @@ class Api::SessionsController < ApplicationController
       log_in(user)
       render json: user
     else
-      render json: "User does not exist", status: 422
+      render json: "Invalid username or password. Please try again.", status: 422
     end
   end
 
@@ -15,7 +15,7 @@ class Api::SessionsController < ApplicationController
       log_out
       render json: {}
     else
-      render json: "User does not exist", status: 404
+      render json: "Invalid username or password. Please try again.", status: 404
     end
   end
 

@@ -17,8 +17,9 @@ class SessionForm extends React.Component {
   }
 
   redirectIfLoggedIn() {
+
     if(this.props.loggedIn){
-      this.setState({showForm: false});
+      this.props.router.replace('/')
     }
   }
 
@@ -38,10 +39,15 @@ class SessionForm extends React.Component {
 
   form(){
     let title = (this.props.formType === 'login') ? 'Log In to Findaloo' : 'Sign Up for Finadaloo';
+
     return(
     <form onSubmit={this.handleSubmit}>
       <h1>{title}</h1>
       <p>Connect with great local restrooms</p>
+
+        <ul>
+          <li>{this.props.errors}</li>
+        </ul>
 
       <input type="text" value={this.state.username}
         onChange={this.handleChange('username')}
@@ -62,9 +68,6 @@ class SessionForm extends React.Component {
     return(
       <authcontainer className="group">
         <div className="signup-logo"></div>
-        <ul>
-          <li>{this.props.errors}</li>
-        </ul>
         {this.form()}
       </authcontainer>
     );

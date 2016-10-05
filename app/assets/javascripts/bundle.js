@@ -28788,9 +28788,19 @@
 	
 	  if (currentUser) {
 	    return _react2.default.createElement(
-	      'button',
-	      { onClick: logout },
-	      'Log Out'
+	      'div',
+	      { className: 'logged-in-ctn-main' },
+	      _react2.default.createElement(
+	        'p',
+	        { className: 'logged-in-ctn username' },
+	        'Signed in as ' + currentUser.username
+	      ),
+	      _react2.default.createElement('br', null),
+	      _react2.default.createElement(
+	        'button',
+	        { className: 'logged-in-ctn logout-btn', onClick: logout },
+	        'Log Out'
+	      )
 	    );
 	  } else {
 	    return _react2.default.createElement(
@@ -28916,8 +28926,9 @@
 	  _createClass(SessionForm, [{
 	    key: 'redirectIfLoggedIn',
 	    value: function redirectIfLoggedIn() {
+	
 	      if (this.props.loggedIn) {
-	        this.setState({ showForm: false });
+	        this.props.router.replace('/');
 	      }
 	    }
 	  }, {
@@ -28945,6 +28956,7 @@
 	    key: 'form',
 	    value: function form() {
 	      var title = this.props.formType === 'login' ? 'Log In to Findaloo' : 'Sign Up for Finadaloo';
+	
 	      return _react2.default.createElement(
 	        'form',
 	        { onSubmit: this.handleSubmit },
@@ -28957,6 +28969,15 @@
 	          'p',
 	          null,
 	          'Connect with great local restrooms'
+	        ),
+	        _react2.default.createElement(
+	          'ul',
+	          null,
+	          _react2.default.createElement(
+	            'li',
+	            null,
+	            this.props.errors
+	          )
 	        ),
 	        _react2.default.createElement('input', { type: 'text', value: this.state.username,
 	          onChange: this.handleChange('username'),
@@ -28974,15 +28995,6 @@
 	        'authcontainer',
 	        { className: 'group' },
 	        _react2.default.createElement('div', { className: 'signup-logo' }),
-	        _react2.default.createElement(
-	          'ul',
-	          null,
-	          _react2.default.createElement(
-	            'li',
-	            null,
-	            this.props.errors
-	          )
-	        ),
 	        this.form()
 	      );
 	    }
