@@ -28685,7 +28685,7 @@
 	
 	var _session_actions = __webpack_require__(259);
 	
-	var _greeting = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./greeting.jsx\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var _greeting = __webpack_require__(260);
 	
 	var _greeting2 = _interopRequireDefault(_greeting);
 	
@@ -28759,7 +28759,63 @@
 	};
 
 /***/ },
-/* 260 */,
+/* 260 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(173);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Greeting = function Greeting(_ref) {
+	  var currentUser = _ref.currentUser;
+	  var logout = _ref.logout;
+	
+	
+	  if (currentUser) {
+	    return _react2.default.createElement(
+	      'button',
+	      { onClick: logout },
+	      'Log Out'
+	    );
+	  } else {
+	    return _react2.default.createElement(
+	      'ul',
+	      { className: 'header-list group' },
+	      _react2.default.createElement(
+	        'li',
+	        null,
+	        _react2.default.createElement(
+	          _reactRouter.Link,
+	          { to: '/signup', className: 'nav signup' },
+	          'Sign Up'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'li',
+	        null,
+	        _react2.default.createElement(
+	          _reactRouter.Link,
+	          { to: '/login', className: 'nav login' },
+	          'Log In'
+	        )
+	      )
+	    );
+	  }
+	};
+	
+	exports.default = Greeting;
+
+/***/ },
 /* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -28789,7 +28845,6 @@
 	};
 	
 	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
-	
 	  var formType = ownProps.location.pathname.slice(1);
 	  var _processForm = formType === 'login' ? _session_actions.login : _session_actions.signup;
 	
@@ -28843,11 +28898,15 @@
 	
 	    _this.state = {
 	      username: '',
-	      password: ''
+	      password: '',
+	      showForm: false
 	    };
+	
 	    _this.handleSubmit = _this.handleSubmit.bind(_this);
 	    _this.handleChange = _this.handleChange.bind(_this);
 	    _this.redirectIfLoggedIn = _this.redirectIfLoggedIn.bind(_this);
+	    _this.revealForm = _this.revealForm.bind(_this);
+	    _this.hideForm = _this.hideForm.bind(_this);
 	    return _this;
 	  }
 	
@@ -28857,6 +28916,16 @@
 	      if (this.props.loggedIn) {
 	        hashHistory.push("/");
 	      }
+	    }
+	  }, {
+	    key: 'revealForm',
+	    value: function revealForm() {
+	      this.setState({ showForm: true });
+	    }
+	  }, {
+	    key: 'hideForm',
+	    value: function hideForm() {
+	      this.setState({ showForm: false });
 	    }
 	  }, {
 	    key: 'handleChange',
@@ -28884,39 +28953,79 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	
 	      var title = this.props.formType === "signup" ? "Sign Up" : "Log In";
 	      var nontitle = this.props.formType === "signup" ? "Log In" : "Sign Up";
 	      var url = this.props.formType === "signup" ? "login" : "signup";
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(
-	          'h1',
+	
+	      if (this.state.showForm) {
+	        return _react2.default.createElement(
+	          'div',
 	          null,
-	          title
-	        ),
-	        _react2.default.createElement(
-	          'p',
+	          _react2.default.createElement(
+	            'li',
+	            null,
+	            _react2.default.createElement(
+	              _reactRouter.Link,
+	              { to: '/signup', onMouseEnter: this.revealForm, onMouseLeave: this.hideForm, className: 'nav signup' },
+	              'Sign Up'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'li',
+	            null,
+	            _react2.default.createElement(
+	              _reactRouter.Link,
+	              { to: '/login', onMouseEnter: this.revealForm, onMouseLeave: this.hideForm, className: 'nav login' },
+	              'Log In'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'h1',
+	            null,
+	            title
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            this.props.errors
+	          ),
+	          _react2.default.createElement(
+	            'form',
+	            { onSubmit: this.handleSubmit },
+	            _react2.default.createElement('input', { type: 'text', value: this.state.username,
+	              onChange: this.handleChange('username'),
+	              placeholder: 'username' }),
+	            _react2.default.createElement('input', { type: 'password', value: this.state.password,
+	              onChange: this.handleChange('password'),
+	              placeholder: 'password' }),
+	            _react2.default.createElement('input', { type: 'submit' })
+	          )
+	        );
+	      } else {
+	        return _react2.default.createElement(
+	          'div',
 	          null,
-	          this.props.errors
-	        ),
-	        _react2.default.createElement(
-	          'form',
-	          { onSubmit: this.handleSubmit },
-	          _react2.default.createElement('input', { type: 'text', value: this.state.username,
-	            onChange: this.handleChange('username'),
-	            placeholder: 'username' }),
-	          _react2.default.createElement('input', { type: 'password', value: this.state.password,
-	            onChange: this.handleChange('password'),
-	            placeholder: 'password' }),
-	          _react2.default.createElement('input', { type: 'submit' })
-	        ),
-	        _react2.default.createElement(
-	          _reactRouter.Link,
-	          { to: "/" + url },
-	          nontitle
-	        )
-	      );
+	          _react2.default.createElement(
+	            'li',
+	            null,
+	            _react2.default.createElement(
+	              _reactRouter.Link,
+	              { to: '/signup', onMouseEnter: this.revealForm, onMouseLeave: this.hideForm, className: 'nav signup' },
+	              'Sign Up'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'li',
+	            null,
+	            _react2.default.createElement(
+	              _reactRouter.Link,
+	              { to: '/login', onMouseEnter: this.revealForm, onMouseLeave: this.hideForm, className: 'nav login' },
+	              'Log In'
+	            )
+	          )
+	        );
+	      }
 	    }
 	  }]);
 	

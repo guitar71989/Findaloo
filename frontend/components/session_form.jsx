@@ -6,11 +6,15 @@ class SessionForm extends React.Component {
     super(props);
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      showForm: false
     };
+
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.redirectIfLoggedIn = this.redirectIfLoggedIn.bind(this);
+    this.revealForm = this.revealForm.bind(this);
+      this.hideForm = this.hideForm.bind(this);
   }
 
   redirectIfLoggedIn() {
@@ -18,6 +22,15 @@ class SessionForm extends React.Component {
       hashHistory.push("/");
     }
   }
+
+  revealForm() {
+    this.setState({showForm: true});
+  }
+
+  hideForm() {
+    this.setState({showForm: false});
+  }
+
 
   handleChange(field){
     return e => this.setState({[field]: e.target.value});
@@ -36,32 +49,49 @@ class SessionForm extends React.Component {
   }
 
   render(){
+
+
+
     let title = (this.props.formType === "signup") ? "Sign Up" : "Log In";
     let nontitle = (this.props.formType === "signup") ? "Log In" : "Sign Up";
     let url = (this.props.formType === "signup") ? "login" : "signup";
-    return(
-      <div>
-        <h1>{title}</h1>
 
-        <p>{this.props.errors}</p>
+    if (this.state.showForm) {
+      return(
+        <div>
 
-        <form onSubmit={this.handleSubmit}>
-          <input type="text" value={this.state.username}
-            onChange={this.handleChange('username')}
-            placeholder="username">
-          </input>
+          <li><Link to="/signup" onMouseEnter={this.revealForm} onMouseLeave={this.hideForm} className="nav signup">Sign Up</Link></li>
+          <li><Link to="/login" onMouseEnter={this.revealForm} onMouseLeave={this.hideForm} className="nav login">Log In</Link></li>
 
-          <input type="password" value={this.state.password}
-            onChange={this.handleChange('password')}
-            placeholder="password">
-          </input>
+          <h1>{title}</h1>
 
-          <input type="submit"></input>
-        </form>
+          <p>{this.props.errors}</p>
 
-        <Link to={"/" + url}>{nontitle}</Link>
-      </div>
-    );
+          <form onSubmit={this.handleSubmit}>
+
+            <input type="text" value={this.state.username}
+              onChange={this.handleChange('username')}
+              placeholder="username">
+            </input>
+
+            <input type="password" value={this.state.password}
+              onChange={this.handleChange('password')}
+              placeholder="password">
+            </input>
+
+            <input type="submit"></input>
+          </form>
+
+        </div>
+      );
+    } else {
+      return(
+        <div>
+          <li><Link to="/signup" onMouseEnter={this.revealForm} onMouseLeave={this.hideForm} className="nav signup">Sign Up</Link></li>
+          <li><Link to="/login" onMouseEnter={this.revealForm} onMouseLeave={this.hideForm} className="nav login">Log In</Link></li>
+        </div>
+      );
+    }
   }
 }
 export default SessionForm;
