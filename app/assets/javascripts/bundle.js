@@ -28953,6 +28953,33 @@
 	      this.props.processForm(user);
 	    }
 	  }, {
+	    key: 'includeAlternativeSignIn',
+	    value: function includeAlternativeSignIn() {
+	      if (this.props.formType === 'signup') {
+	        return _react2.default.createElement(
+	          'small',
+	          null,
+	          'Already on Findaloo? ',
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: '/login', className: 'alt-link' },
+	            'Log in'
+	          )
+	        );
+	      } else {
+	        return _react2.default.createElement(
+	          'small',
+	          null,
+	          'New to Findaloo? ',
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: '/signup', className: 'alt-link' },
+	            'Sign up!'
+	          )
+	        );
+	      }
+	    }
+	  }, {
 	    key: 'form',
 	    value: function form() {
 	      var title = this.props.formType === 'login' ? 'Log In to Findaloo' : 'Sign Up for Finadaloo';
@@ -28995,7 +29022,8 @@
 	        'authcontainer',
 	        { className: 'group' },
 	        _react2.default.createElement('img', { src: window.findalooAssets.signup_illustration, className: 'signup-logo' }),
-	        this.form()
+	        this.form(),
+	        this.includeAlternativeSignIn()
 	      );
 	    }
 	  }]);

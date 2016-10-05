@@ -37,6 +37,18 @@ class SessionForm extends React.Component {
     this.props.processForm(user);
   }
 
+  includeAlternativeSignIn(){
+    if (this.props.formType === 'signup'){
+      return(
+        <small>Already on Findaloo? <Link to="/login" className="alt-link">Log in</Link></small>
+      )
+    } else {
+      return (
+        <small>New to Findaloo? <Link to="/signup" className="alt-link">Sign up!</Link></small>
+      )
+    }
+  }
+
   form(){
     let title = (this.props.formType === 'login') ? 'Log In to Findaloo' : 'Sign Up for Finadaloo';
 
@@ -71,6 +83,7 @@ class SessionForm extends React.Component {
         </img>
 
         {this.form()}
+        {this.includeAlternativeSignIn()}
       </authcontainer>
     );
   }

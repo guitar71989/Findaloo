@@ -104,7 +104,6 @@
     float: right;
     height: 342px;
     width: 390px;
-    /*background-image: url('signup_illustration.png');*/
   }
 
 form > input:first-child {
@@ -127,6 +126,7 @@ authcontainer {
   margin: 0 auto;
   background: #fff;
   padding: 100px;
+  position: relative;
 }
 
 authcontainer h1 {
@@ -164,6 +164,27 @@ authcontainer p {
   vertical-align: middle;
   display: block;
   margin-bottom: 20px;
+}
+
+authcontainer small {
+    display: inline-block;
+    padding-left: 105px;
+    text-align: right;
+    font-size: 12px;
+  }
+
+  authcontainer small:before {
+    display:block;
+    content: ""
+    }
+
+  authcontainer small:after {
+    display:block;
+    content: ""
+    }
+
+.alt-link {
+  color: blue;
 }
 
 .logged-in-ctn-main {
