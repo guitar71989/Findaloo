@@ -28638,10 +28638,15 @@
 	
 	var _greeting_container2 = _interopRequireDefault(_greeting_container);
 	
+	var _session_form_container = __webpack_require__(261);
+	
+	var _session_form_container2 = _interopRequireDefault(_session_form_container);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var App = function App(_ref) {
 	  var children = _ref.children;
+	
 	  return _react2.default.createElement(
 	    'div',
 	    null,
@@ -28899,14 +28904,12 @@
 	    _this.state = {
 	      username: '',
 	      password: '',
-	      showForm: false
+	      showForm: true
 	    };
 	
 	    _this.handleSubmit = _this.handleSubmit.bind(_this);
 	    _this.handleChange = _this.handleChange.bind(_this);
 	    _this.redirectIfLoggedIn = _this.redirectIfLoggedIn.bind(_this);
-	    _this.revealForm = _this.revealForm.bind(_this);
-	    _this.hideForm = _this.hideForm.bind(_this);
 	    return _this;
 	  }
 	
@@ -28914,18 +28917,8 @@
 	    key: 'redirectIfLoggedIn',
 	    value: function redirectIfLoggedIn() {
 	      if (this.props.loggedIn) {
-	        hashHistory.push("/");
+	        this.setState({ showForm: false });
 	      }
-	    }
-	  }, {
-	    key: 'revealForm',
-	    value: function revealForm() {
-	      this.setState({ showForm: true });
-	    }
-	  }, {
-	    key: 'hideForm',
-	    value: function hideForm() {
-	      this.setState({ showForm: false });
 	    }
 	  }, {
 	    key: 'handleChange',
@@ -28946,86 +28939,52 @@
 	    value: function handleSubmit(e) {
 	      e.preventDefault();
 	      var user = this.state;
-	      console.log({ user: user });
-	      console.log(user);
 	      this.props.processForm(user);
+	    }
+	  }, {
+	    key: 'form',
+	    value: function form() {
+	      var title = this.props.formType === 'login' ? 'Log In to Findaloo' : 'Sign Up for Finadaloo';
+	      return _react2.default.createElement(
+	        'form',
+	        { onSubmit: this.handleSubmit },
+	        _react2.default.createElement(
+	          'h1',
+	          null,
+	          title
+	        ),
+	        _react2.default.createElement(
+	          'p',
+	          null,
+	          'Connect with great local restrooms'
+	        ),
+	        _react2.default.createElement('input', { type: 'text', value: this.state.username,
+	          onChange: this.handleChange('username'),
+	          placeholder: 'username' }),
+	        _react2.default.createElement('input', { type: 'password', value: this.state.password,
+	          onChange: this.handleChange('password'),
+	          placeholder: 'password' }),
+	        _react2.default.createElement('input', { type: 'submit' })
+	      );
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	
-	      var title = this.props.formType === "signup" ? "Sign Up" : "Log In";
-	      var nontitle = this.props.formType === "signup" ? "Log In" : "Sign Up";
-	      var url = this.props.formType === "signup" ? "login" : "signup";
-	
-	      if (this.state.showForm) {
-	        return _react2.default.createElement(
-	          'div',
+	      return _react2.default.createElement(
+	        'authcontainer',
+	        { className: 'group' },
+	        _react2.default.createElement('div', { className: 'signup-logo' }),
+	        _react2.default.createElement(
+	          'ul',
 	          null,
 	          _react2.default.createElement(
 	            'li',
-	            null,
-	            _react2.default.createElement(
-	              _reactRouter.Link,
-	              { to: '/signup', onMouseEnter: this.revealForm, onMouseLeave: this.hideForm, className: 'nav signup' },
-	              'Sign Up'
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'li',
-	            null,
-	            _react2.default.createElement(
-	              _reactRouter.Link,
-	              { to: '/login', onMouseEnter: this.revealForm, onMouseLeave: this.hideForm, className: 'nav login' },
-	              'Log In'
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'h1',
-	            null,
-	            title
-	          ),
-	          _react2.default.createElement(
-	            'p',
 	            null,
 	            this.props.errors
-	          ),
-	          _react2.default.createElement(
-	            'form',
-	            { onSubmit: this.handleSubmit },
-	            _react2.default.createElement('input', { type: 'text', value: this.state.username,
-	              onChange: this.handleChange('username'),
-	              placeholder: 'username' }),
-	            _react2.default.createElement('input', { type: 'password', value: this.state.password,
-	              onChange: this.handleChange('password'),
-	              placeholder: 'password' }),
-	            _react2.default.createElement('input', { type: 'submit' })
 	          )
-	        );
-	      } else {
-	        return _react2.default.createElement(
-	          'div',
-	          null,
-	          _react2.default.createElement(
-	            'li',
-	            null,
-	            _react2.default.createElement(
-	              _reactRouter.Link,
-	              { to: '/signup', onMouseEnter: this.revealForm, onMouseLeave: this.hideForm, className: 'nav signup' },
-	              'Sign Up'
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'li',
-	            null,
-	            _react2.default.createElement(
-	              _reactRouter.Link,
-	              { to: '/login', onMouseEnter: this.revealForm, onMouseLeave: this.hideForm, className: 'nav login' },
-	              'Log In'
-	            )
-	          )
-	        );
-	      }
+	        ),
+	        this.form()
+	      );
 	    }
 	  }]);
 	

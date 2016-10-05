@@ -40,10 +40,9 @@
  body {
    box-sizing: content-box;
    font-family: sans-serif;
-   font-size: 16px;
+   font-size: 14px;
    background: #eee;
    color: #000;
-   line-height: 1.1666666666;
  }
 
  ul {
@@ -68,7 +67,7 @@
 
  .header {
    display: block;
-   background: blue;
+   background: #ff0000;
    width: 900px;
    margin: 0 auto;
    font-size: 20px;
@@ -77,18 +76,91 @@
 
  .header-logo {
    float: left;
+   display: block;
+   padding: 10px;
  }
 
  .header-list {
    float: right;
-   background: blue;
  }
 
  .header-list > li {
    float: left;
+   display: block;
+   padding: 20px 20px;
+   text-shadow: 2px 2px #000;
  }
 
-
- a:hover {
-     background-color: yellow;
+ .header-list > li:hover {
  }
+
+ form {
+   margin:0 auto;
+   float: left;
+ }
+
+  .signup-logo {
+    float: right;
+    height: 342px;
+    width: 390px;
+    background-image: url('signup_illustration.png');
+  }
+
+form > input:first-child {
+  margin-top: 80px;
+}
+
+form > input {
+  display: block;
+  padding: 9px;
+  width: 200px;
+  border: 1px solid #ccc;
+  text-align: center;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+
+authcontainer {
+  display: block;
+  width:700px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 100px;
+  color
+}
+
+authcontainer h1 {
+  display: block;
+  font-weight: bold;
+  text-align: center;
+  font-size: 24px;
+}
+
+input[type="submit"] {
+  color: #fff;
+  font-weight: bold;
+  background: #ff0000;
+}
+
+authcontainer li {
+  text-align: center;
+  font-style: italic;
+  font-size: 14px;
+  background: pink;
+  width: 400px;
+}
+
+authcontainer li:last-child {
+  margin-bottom: 20px;
+}
+
+input[type="submit"]:hover {
+    -webkit-filter: brightness(80%);
+}
+
+authcontainer p {
+  text-align: center;
+  vertical-align: middle;
+  display: block;
+  margin-bottom: 20px;
+}

@@ -1,7 +1,9 @@
 import React from 'react';
 import GreetingContainer from './greeting_container.jsx';
+import SessionFormContainer from './session_form_container.jsx';
 
-const App = ({ children }) => (
+const App = ({ children }) => {
+  return(
   <div>
 
   <header className="header">
@@ -12,8 +14,8 @@ const App = ({ children }) => (
       <GreetingContainer />
     </nav>
   </header>
-    {children}
+  {children}
   </div>
-);
+)};
 
 export default App;
