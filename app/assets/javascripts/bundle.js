@@ -28659,9 +28659,7 @@
 	        _react2.default.createElement(
 	          'h1',
 	          { className: 'header-logo' },
-	          'Findaloo is the best way to find ',
-	          _react2.default.createElement('br', null),
-	          'convenient, local restrooms.'
+	          'Findaloo is the best way to find convenient, local restrooms.'
 	        ),
 	        _react2.default.createElement(_greeting_container2.default, null)
 	      )

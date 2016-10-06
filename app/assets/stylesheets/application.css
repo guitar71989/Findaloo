@@ -78,6 +78,8 @@
    float: left;
    display: block;
    padding: 10px;
+   width: 300px;
+   font-size: 18px;
  }
 
  .header-list {
@@ -88,6 +90,11 @@
    float: left;
    display: block;
    padding: 20px 20px;
+   font-size: 16px;
+ }
+
+ .header-list > li:last-child {
+   padding: 20px 30px 20px 20px;
  }
 
  .header-list > li:hover {
@@ -119,9 +126,12 @@ form > input {
   margin-bottom: 20px;
 }
 
-form > input {
-  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+form > input:focus {
+  outline: none;
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
+
+
 
 authcontainer {
   display: block;
@@ -153,7 +163,6 @@ authcontainer li {
   font-size: 14px;
   color: #ff0000;
   width: 275px;
-
 }
 
 authcontainer li:last-child {
@@ -175,8 +184,9 @@ authcontainer li:last-child {
   width: 220px;
   border-radius: 3px;
   margin-bottom: 20px;
-  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
 }
+
+
 
 .loginguest-btn:hover {
   -webkit-filter: brightness(80%);
@@ -222,7 +232,6 @@ authcontainer small {
   float: right;
   padding: 10px 10px;
   font-size: 16px;
-   text-shadow: 2px 2px #000;
 }
 
 
