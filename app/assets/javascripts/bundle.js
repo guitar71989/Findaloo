@@ -62,9 +62,13 @@
 	
 	var _store2 = _interopRequireDefault(_store);
 	
+	var _loo_actions = __webpack_require__(272);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	document.addEventListener('DOMContentLoaded', function () {
+	
+	  window.requestLoos = _loo_actions.requestLoos;
 	
 	  var store = void 0;
 	
@@ -78,6 +82,7 @@
 	  } else {
 	    store = (0, _store2.default)();
 	  }
+	  window.store = store;
 	
 	  var root = document.getElementById('root');
 	  _reactDom2.default.render(_react2.default.createElement(_root2.default, { store: store }), root);
@@ -29113,10 +29118,15 @@
 	
 	var _session_reducer2 = _interopRequireDefault(_session_reducer);
 	
+	var _loos_reducer = __webpack_require__(274);
+	
+	var _loos_reducer2 = _interopRequireDefault(_loos_reducer);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var RootReducer = (0, _redux.combineReducers)({
-	    session: _session_reducer2.default
+	    session: _session_reducer2.default,
+	    loos: _loos_reducer2.default
 	});
 	
 	exports.default = RootReducer;
@@ -46170,13 +46180,17 @@
 	
 	var _session_middleware2 = _interopRequireDefault(_session_middleware);
 	
-	var _reduxLogger = __webpack_require__(271);
+	var _loos_middleware = __webpack_require__(271);
+	
+	var _loos_middleware2 = _interopRequireDefault(_loos_middleware);
+	
+	var _reduxLogger = __webpack_require__(273);
 	
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var RootMiddleware = (0, _redux.applyMiddleware)(_session_middleware2.default, (0, _reduxLogger2.default)());
+	var RootMiddleware = (0, _redux.applyMiddleware)(_session_middleware2.default, _loos_middleware2.default, (0, _reduxLogger2.default)());
 	
 	exports.default = RootMiddleware;
 
@@ -46270,6 +46284,64 @@
 
 /***/ },
 /* 271 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _loo_actions = __webpack_require__(272);
+	
+	var _loo_api_util = __webpack_require__(275);
+	
+	exports.default = function (_ref) {
+	  var getState = _ref.getState;
+	  var dispatch = _ref.dispatch;
+	  return function (next) {
+	    return function (action) {
+	      switch (action.type) {
+	        case _loo_actions.REQUEST_LOOS:
+	          var success = function success(data) {
+	            return dispatch((0, _loo_actions.receiveLoos)(data));
+	          };
+	          (0, _loo_api_util.fetchLoos)(success);
+	          return next(action);
+	        default:
+	          return next(action);
+	      }
+	    };
+	  };
+	};
+
+/***/ },
+/* 272 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var REQUEST_LOOS = exports.REQUEST_LOOS = "REQUEST_LOOS";
+	var RECEIVE_LOOS = exports.RECEIVE_LOOS = "RECEIVE_LOOS";
+	
+	var requestLoos = exports.requestLoos = function requestLoos() {
+	  return {
+	    type: REQUEST_LOOS
+	  };
+	};
+	
+	var receiveLoos = exports.receiveLoos = function receiveLoos(loos) {
+	  return {
+	    type: RECEIVE_LOOS,
+	    loos: loos
+	  };
+	};
+
+/***/ },
+/* 273 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -46500,6 +46572,56 @@
 	}
 	
 	module.exports = createLogger;
+
+/***/ },
+/* 274 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _lodash = __webpack_require__(266);
+	
+	var _loo_actions = __webpack_require__(272);
+	
+	var LoosReducer = function LoosReducer() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    case _loo_actions.RECEIVE_LOOS:
+	      {
+	        return action.loos;
+	      }
+	    default:
+	      return state;
+	  }
+	};
+	
+	exports.default = LoosReducer;
+
+/***/ },
+/* 275 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var fetchLoos = exports.fetchLoos = function fetchLoos(success) {
+	  $.ajax({
+	    method: 'GET',
+	    url: 'api/loos/',
+	    success: success,
+	    error: function error() {
+	      return console.log('error');
+	    }
+	  });
+	};
 
 /***/ }
 /******/ ]);
