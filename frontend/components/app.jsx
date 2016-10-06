@@ -1,6 +1,6 @@
 import React from 'react';
 import GreetingContainer from './greeting_container.jsx';
-import SessionFormContainer from './session_form_container.jsx';
+import SessionFormContainer from './session_form_container.js';
 
 const App = ({ children }) => {
   return(
