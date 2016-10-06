@@ -28913,13 +28913,13 @@
 	
 	    _this.state = {
 	      username: '',
-	      password: '',
-	      showForm: true
+	      password: ''
 	    };
 	
 	    _this.handleSubmit = _this.handleSubmit.bind(_this);
 	    _this.handleChange = _this.handleChange.bind(_this);
 	    _this.redirectIfLoggedIn = _this.redirectIfLoggedIn.bind(_this);
+	    _this.loginGuest = _this.loginGuest.bind(_this);
 	    return _this;
 	  }
 	
@@ -28943,7 +28943,6 @@
 	  }, {
 	    key: 'componentDidUpdate',
 	    value: function componentDidUpdate() {
-	      console.log("yo");
 	      this.redirectIfLoggedIn();
 	    }
 	  }, {
@@ -28981,11 +28980,18 @@
 	      }
 	    }
 	  }, {
+	    key: 'loginGuest',
+	    value: function loginGuest() {
+	      var user = { username: "sam", password: "password" };
+	      this.props.processForm(user);
+	    }
+	  }, {
 	    key: 'form',
 	    value: function form() {
 	      var title = this.props.formType === 'login' ? 'Log In to Findaloo' : 'Sign Up for Finadaloo';
 	
-	      var errors = void 0;
+	      var errors = void 0,
+	          guestLogin = void 0;
 	
 	      if (this.props.errors.length > 0) {
 	        errors = this.props.errors.map(function (error, idx) {
@@ -28997,31 +29003,53 @@
 	        });
 	      }
 	
+	      if (this.props.formType === 'login') {
+	        guestLogin = _react2.default.createElement(
+	          'div',
+	          { className: 'loginguest' },
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'OR'
+	          ),
+	          _react2.default.createElement(
+	            'button',
+	            { className: 'loginguest-btn', onClick: this.loginGuest },
+	            'Log In As Guest'
+	          )
+	        );
+	      }
+	
 	      return _react2.default.createElement(
-	        'form',
-	        { onSubmit: this.handleSubmit },
+	        'div',
+	        null,
 	        _react2.default.createElement(
-	          'h1',
-	          null,
-	          title
+	          'form',
+	          { onSubmit: this.handleSubmit },
+	          _react2.default.createElement(
+	            'h1',
+	            null,
+	            title
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Connect with great local restrooms'
+	          ),
+	          _react2.default.createElement(
+	            'ul',
+	            null,
+	            errors
+	          ),
+	          _react2.default.createElement('input', { type: 'text', value: this.state.username,
+	            onChange: this.handleChange('username'),
+	            placeholder: 'username' }),
+	          _react2.default.createElement('input', { type: 'password', value: this.state.password,
+	            onChange: this.handleChange('password'),
+	            placeholder: 'password' }),
+	          _react2.default.createElement('input', { type: 'submit' })
 	        ),
-	        _react2.default.createElement(
-	          'p',
-	          null,
-	          'Connect with great local restrooms'
-	        ),
-	        _react2.default.createElement(
-	          'ul',
-	          null,
-	          errors
-	        ),
-	        _react2.default.createElement('input', { type: 'text', value: this.state.username,
-	          onChange: this.handleChange('username'),
-	          placeholder: 'username' }),
-	        _react2.default.createElement('input', { type: 'password', value: this.state.password,
-	          onChange: this.handleChange('password'),
-	          placeholder: 'password' }),
-	        _react2.default.createElement('input', { type: 'submit' })
+	        guestLogin
 	      );
 	    }
 	  }, {

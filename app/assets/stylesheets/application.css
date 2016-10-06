@@ -88,7 +88,6 @@
    float: left;
    display: block;
    padding: 20px 20px;
-   text-shadow: 2px 2px #000;
  }
 
  .header-list > li:hover {
@@ -120,6 +119,10 @@ form > input {
   margin-bottom: 20px;
 }
 
+form > input {
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
 authcontainer {
   display: block;
   width:700px;
@@ -134,12 +137,14 @@ authcontainer h1 {
   font-weight: bold;
   text-align: center;
   font-size: 24px;
+  width: 275px;
 }
 
 input[type="submit"] {
   color: #fff;
   font-weight: bold;
   background: #ff0000;
+  border-radius: 3px;
 }
 
 authcontainer li {
@@ -147,12 +152,38 @@ authcontainer li {
   font-style: italic;
   font-size: 14px;
   color: #ff0000;
-  width: 300px;
+  width: 275px;
 
 }
 
 authcontainer li:last-child {
   margin-bottom: 20px;
+}
+
+.loginguest {
+  width: 270px;
+  display: block;
+  text-align: center;
+}
+
+.loginguest-btn {
+  color: #fff;
+  font-weight: bold;
+  font-size: 14px;
+  background: #ff0000;
+  padding: 9px 0px;
+  width: 220px;
+  border-radius: 3px;
+  margin-bottom: 20px;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+.loginguest-btn:hover {
+  -webkit-filter: brightness(80%);
+}
+
+.loginguest > p {
+  color: #ccc;
 }
 
 input[type="submit"]:hover {
@@ -168,7 +199,7 @@ authcontainer p {
 
 authcontainer small {
     display: inline-block;
-    padding-left: 105px;
+    padding-left: 80px;
     text-align: right;
     font-size: 12px;
   }
@@ -176,12 +207,12 @@ authcontainer small {
   authcontainer small:before {
     display:block;
     content: ""
-    }
+  }
 
   authcontainer small:after {
     display:block;
     content: ""
-    }
+  }
 
 .alt-link {
   color: blue;
@@ -189,10 +220,11 @@ authcontainer small {
 
 .logged-in-ctn-main {
   float: right;
-  padding: 10px 20px;
+  padding: 10px 10px;
   font-size: 16px;
    text-shadow: 2px 2px #000;
 }
+
 
 .logout-btn {
   float: left;
