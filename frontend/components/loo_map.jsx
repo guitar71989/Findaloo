@@ -2,8 +2,8 @@ import React from 'react';
 import MarkerManager from './../util/marker_manager.js';
 
 class LooMap extends React.Component {
-  componentDidMount() {
 
+  componentDidMount() {
     const mapDOMNode = this.refs.map;
 
     const mapOptions = {

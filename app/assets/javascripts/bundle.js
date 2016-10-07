@@ -58,11 +58,11 @@
 	
 	var _root2 = _interopRequireDefault(_root);
 	
-	var _store = __webpack_require__(266);
+	var _store = __webpack_require__(269);
 	
 	var _store2 = _interopRequireDefault(_store);
 	
-	var _loo_actions = __webpack_require__(272);
+	var _loo_actions = __webpack_require__(275);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -29207,7 +29207,7 @@
 	
 	var _reactRedux = __webpack_require__(236);
 	
-	var _search = __webpack_require__(279);
+	var _search = __webpack_require__(266);
 	
 	var _search2 = _interopRequireDefault(_search);
 	
@@ -29251,13 +29251,187 @@
 	  value: true
 	});
 	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _loo_map = __webpack_require__(267);
+	
+	var _loo_map2 = _interopRequireDefault(_loo_map);
+	
+	var _loo_index = __webpack_require__(264);
+	
+	var _loo_index2 = _interopRequireDefault(_loo_index);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Search = function Search(_ref) {
+	  var loos = _ref.loos;
+	  var requestLoos = _ref.requestLoos;
+	
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    _react2.default.createElement(_loo_map2.default, { loos: loos }),
+	    _react2.default.createElement(_loo_index2.default, { loos: loos, requestLoos: requestLoos })
+	  );
+	};
+	
+	exports.default = Search;
+
+/***/ },
+/* 267 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _marker_manager = __webpack_require__(268);
+	
+	var _marker_manager2 = _interopRequireDefault(_marker_manager);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var LooMap = function (_React$Component) {
+	  _inherits(LooMap, _React$Component);
+	
+	  function LooMap() {
+	    _classCallCheck(this, LooMap);
+	
+	    return _possibleConstructorReturn(this, (LooMap.__proto__ || Object.getPrototypeOf(LooMap)).apply(this, arguments));
+	  }
+	
+	  _createClass(LooMap, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var mapDOMNode = this.refs.map;
+	
+	      var mapOptions = {
+	        center: { lat: 40.7250279, lng: -73.998986 },
+	        zoom: 13
+	      };
+	
+	      this.map = new google.maps.Map(mapDOMNode, mapOptions);
+	
+	      this.MarkerManager = new _marker_manager2.default(this.map);
+	
+	      this.MarkerManager.updateMarkers(this.props.loos);
+	    }
+	  }, {
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate() {
+	      this.MarkerManager.updateMarkers(this.props.loos);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement('div', { id: 'map-container', ref: 'map' });
+	    }
+	  }]);
+	
+	  return LooMap;
+	}(_react2.default.Component);
+	
+	exports.default = LooMap;
+
+/***/ },
+/* 268 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var MarkerManager = function () {
+	  function MarkerManager(map) {
+	    _classCallCheck(this, MarkerManager);
+	
+	    this.map = map;
+	    this.markers = [];
+	  }
+	
+	  _createClass(MarkerManager, [{
+	    key: "updateMarkers",
+	    value: function updateMarkers(loos) {
+	      var _this = this;
+	
+	      this.loostoAdd(loos).forEach(function (loo) {
+	        return _this.createMarkerFromLoo(loo);
+	      });
+	    }
+	  }, {
+	    key: "loostoAdd",
+	    value: function loostoAdd(loos) {
+	      var currentLoos = this.markers.map(function (marker) {
+	        return marker.looId;
+	      });
+	      var something = loos.filter(function (loo) {
+	        return !currentLoos.includes(loo.id);
+	      });
+	      return something;
+	    }
+	  }, {
+	    key: "createMarkerFromLoo",
+	    value: function createMarkerFromLoo(loo) {
+	      var newMarkerPos = { lat: loo.latitude, lng: loo.longitude };
+	      var newMarkerTitle = loo.name;
+	      var icon = "http://s3.amazonaws.com/findaloo-dev/loos/images/000/000/004/original/toilet_illustration.png?1475809180";
+	
+	      var newMarker = new google.maps.Marker({
+	        position: newMarkerPos,
+	        map: this.map,
+	        title: newMarkerTitle,
+	        looId: loo.id,
+	        icon: icon
+	      });
+	
+	      this.markers.push(newMarker);
+	    }
+	  }]);
+	
+	  return MarkerManager;
+	}();
+	
+	exports.default = MarkerManager;
+
+/***/ },
+/* 269 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
 	var _redux = __webpack_require__(243);
 	
-	var _root_reducer = __webpack_require__(267);
+	var _root_reducer = __webpack_require__(270);
 	
 	var _root_reducer2 = _interopRequireDefault(_root_reducer);
 	
-	var _root_middleware = __webpack_require__(273);
+	var _root_middleware = __webpack_require__(276);
 	
 	var _root_middleware2 = _interopRequireDefault(_root_middleware);
 	
@@ -29271,7 +29445,7 @@
 	exports.default = configureStore;
 
 /***/ },
-/* 267 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29282,11 +29456,11 @@
 	
 	var _redux = __webpack_require__(243);
 	
-	var _session_reducer = __webpack_require__(268);
+	var _session_reducer = __webpack_require__(271);
 	
 	var _session_reducer2 = _interopRequireDefault(_session_reducer);
 	
-	var _loos_reducer = __webpack_require__(271);
+	var _loos_reducer = __webpack_require__(274);
 	
 	var _loos_reducer2 = _interopRequireDefault(_loos_reducer);
 	
@@ -29300,7 +29474,7 @@
 	exports.default = RootReducer;
 
 /***/ },
-/* 268 */
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29309,7 +29483,7 @@
 	  value: true
 	});
 	
-	var _lodash = __webpack_require__(269);
+	var _lodash = __webpack_require__(272);
 	
 	var _session_actions = __webpack_require__(259);
 	
@@ -29348,7 +29522,7 @@
 	exports.default = SessionReducer;
 
 /***/ },
-/* 269 */
+/* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global, module) {/**
@@ -46314,10 +46488,10 @@
 	  }
 	}.call(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(270)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(273)(module)))
 
 /***/ },
-/* 270 */
+/* 273 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -46333,7 +46507,7 @@
 
 
 /***/ },
-/* 271 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46342,12 +46516,12 @@
 	  value: true
 	});
 	
-	var _lodash = __webpack_require__(269);
+	var _lodash = __webpack_require__(272);
 	
-	var _loo_actions = __webpack_require__(272);
+	var _loo_actions = __webpack_require__(275);
 	
 	var LoosReducer = function LoosReducer() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	  var action = arguments[1];
 	
 	  switch (action.type) {
@@ -46363,7 +46537,7 @@
 	exports.default = LoosReducer;
 
 /***/ },
-/* 272 */
+/* 275 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -46388,7 +46562,7 @@
 	};
 
 /***/ },
-/* 273 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46399,15 +46573,15 @@
 	
 	var _redux = __webpack_require__(243);
 	
-	var _session_middleware = __webpack_require__(274);
+	var _session_middleware = __webpack_require__(277);
 	
 	var _session_middleware2 = _interopRequireDefault(_session_middleware);
 	
-	var _loos_middleware = __webpack_require__(276);
+	var _loos_middleware = __webpack_require__(279);
 	
 	var _loos_middleware2 = _interopRequireDefault(_loos_middleware);
 	
-	var _reduxLogger = __webpack_require__(278);
+	var _reduxLogger = __webpack_require__(281);
 	
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 	
@@ -46418,7 +46592,7 @@
 	exports.default = RootMiddleware;
 
 /***/ },
-/* 274 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46431,7 +46605,7 @@
 	
 	var ACTIONS = _interopRequireWildcard(_session_actions);
 	
-	var _session_api_util = __webpack_require__(275);
+	var _session_api_util = __webpack_require__(278);
 	
 	var API = _interopRequireWildcard(_session_api_util);
 	
@@ -46468,7 +46642,7 @@
 	};
 
 /***/ },
-/* 275 */
+/* 278 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -46506,7 +46680,7 @@
 	};
 
 /***/ },
-/* 276 */
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46515,9 +46689,9 @@
 	  value: true
 	});
 	
-	var _loo_actions = __webpack_require__(272);
+	var _loo_actions = __webpack_require__(275);
 	
-	var _loo_api_util = __webpack_require__(277);
+	var _loo_api_util = __webpack_require__(280);
 	
 	exports.default = function (_ref) {
 	  var getState = _ref.getState;
@@ -46539,7 +46713,7 @@
 	};
 
 /***/ },
-/* 277 */
+/* 280 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -46559,7 +46733,7 @@
 	};
 
 /***/ },
-/* 278 */
+/* 281 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -46790,169 +46964,6 @@
 	}
 	
 	module.exports = createLogger;
-
-/***/ },
-/* 279 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _loo_map = __webpack_require__(280);
-	
-	var _loo_map2 = _interopRequireDefault(_loo_map);
-	
-	var _loo_index = __webpack_require__(264);
-	
-	var _loo_index2 = _interopRequireDefault(_loo_index);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var Search = function Search(_ref) {
-	  var loos = _ref.loos;
-	  var requestLoos = _ref.requestLoos;
-	
-	  return _react2.default.createElement(
-	    'div',
-	    null,
-	    _react2.default.createElement(_loo_map2.default, { loos: loos }),
-	    _react2.default.createElement(_loo_index2.default, { loos: loos, requestLoos: requestLoos })
-	  );
-	};
-	
-	exports.default = Search;
-
-/***/ },
-/* 280 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _marker_manager = __webpack_require__(281);
-	
-	var _marker_manager2 = _interopRequireDefault(_marker_manager);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var LooMap = function (_React$Component) {
-	  _inherits(LooMap, _React$Component);
-	
-	  function LooMap() {
-	    _classCallCheck(this, LooMap);
-	
-	    return _possibleConstructorReturn(this, (LooMap.__proto__ || Object.getPrototypeOf(LooMap)).apply(this, arguments));
-	  }
-	
-	  _createClass(LooMap, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	
-	      var mapDOMNode = this.refs.map;
-	
-	      var mapOptions = {
-	        center: { lat: 40.7250279, lng: -73.998986 },
-	        zoom: 13
-	      };
-	
-	      this.map = new google.maps.Map(mapDOMNode, mapOptions);
-	
-	      this.MarkerManager = new _marker_manager2.default(this.map);
-	
-	      this.MarkerManager.updateMarkers(this.props.loos);
-	    }
-	  }, {
-	    key: 'componentDidUpdate',
-	    value: function componentDidUpdate() {
-	      this.MarkerManager.updateMarkers(this.props.loos);
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement('div', { id: 'map-container', ref: 'map' });
-	    }
-	  }]);
-	
-	  return LooMap;
-	}(_react2.default.Component);
-	
-	exports.default = LooMap;
-
-/***/ },
-/* 281 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var MarkerManager = function () {
-	  function MarkerManager(map) {
-	    _classCallCheck(this, MarkerManager);
-	
-	    this.map = map;
-	    this.markers = [];
-	  }
-	
-	  _createClass(MarkerManager, [{
-	    key: "updateMarkers",
-	    value: function updateMarkers(loos) {}
-	
-	    // _benchestoAdd(loos){
-	    //   loos.filter( (loo) =>  )
-	    // }
-	    //
-	
-	
-	    // 
-	    // _createMarkerFromBench(loo){
-	    //
-	    //   let newMarkerPos = loo.address
-	    //   let newMarkerTitle = loo.name
-	    //
-	    //   const marker = new google.maps.Marker({
-	    //     position: newMarkerPos,
-	    //     map: this.map,
-	    //     title: newMarkerTitle,
-	    //   });
-	    //
-	    //   this.markers.push(newMarker)
-	    // }
-	
-	  }]);
-	
-	  return MarkerManager;
-	}();
-	
-	exports.default = MarkerManager;
 
 /***/ }
 /******/ ]);
