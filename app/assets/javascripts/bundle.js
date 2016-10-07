@@ -29181,7 +29181,7 @@
 	        { className: 'loo-index' },
 	        _react2.default.createElement(
 	          'h1',
-	          null,
+	          { className: 'loo-index-title' },
 	          'Loos'
 	        ),
 	        loos
@@ -29234,12 +29234,7 @@
 	      return _react2.default.createElement(
 	        "div",
 	        { className: "index-item-info group" },
-	        _react2.default.createElement(
-	          "span",
-	          { className: "index-item-category" },
-	          " ",
-	          _react2.default.createElement("img", { src: "{loo.image_url}" })
-	        ),
+	        _react2.default.createElement("img", { className: "toilet", src: loo.image_url }),
 	        _react2.default.createElement(
 	          "span",
 	          { className: "index-item-category-title" },
@@ -29247,7 +29242,7 @@
 	        ),
 	        _react2.default.createElement(
 	          "span",
-	          { className: "index-item-category" },
+	          { className: "index-item-category-address" },
 	          loo.address
 	        )
 	      );

@@ -259,7 +259,7 @@ authcontainer small {
 
 #map-container {
   position: relative;
-  height: 500px;
+  height: 400px;
   width: 900px;
   margin: 0 auto;
   border-left: 1px solid #ccc;
@@ -281,30 +281,52 @@ authcontainer small {
 
  /* --- LOO INDEX ITEM --- */
 
+ .loo-index {
+   background: #fff;
+   width: 900px;
+   margin: 0 auto;
+   border-left: 1px solid #ccc;
+   border-right: 1px solid #ccc;
+   border-bottom: 1px solid #ccc;
+ }
+
+ .loo-index-title {
+   padding: 20px 20px 0 20px;
+   font-weight: bold;
+   font-size: 20px;
+   color: #ff0000;
+ }
+
 .index-item-info {
   display: block;
-  padding: 20px 10px;
+  margin: 20px;
+  padding: 10px 0px;
   border-bottom: 1px solid #ccc;
+  margin-top: 10px;
 }
 
-.loo-index {
-  background: #fff;
-  width: 900px;
-  margin: 0 auto;
-}
-
-
-.index-item-category {
-  float:left;
-  margin-left: 20px;
-  text-align: center;
+.index-item-info:last-child {
+  border-bottom: 0px solid #fff;
 }
 
 .index-item-category-title {
-  float:left;
+  color: #42bcf4;
+  display:block;
   margin-left: 20px;
-  text-align: center;
   font-weight: bold;
   margin-left: 20px;
+}
 
+
+.toilet {
+  float: left;
+  height: 50px;
+  width: 50px;
+  border: 1px solid #000;
+  margin-right: 20px;
+}
+
+.index-item-category-address {
+  display: block;
+  margin-left: 20px;
 }

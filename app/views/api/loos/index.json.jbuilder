@@ -4,5 +4,5 @@ json.array!(@loos) do |loo|
   json.address loo.address
   json.latitude loo.latitude
   json.longitude loo.longitude
-  json.image_url loo.image.url
+  json.image_url asset_path(loo.image.url)
 end

@@ -10,9 +10,9 @@ class LooIndexItem extends React.Component {
     const loo = this.props.loo;
     return(
     <div className="index-item-info group">
-      <span className="index-item-category"> <img src="{loo.image_url}"></img></span>
+      <img className="toilet" src={loo.image_url} />
       <span className="index-item-category-title">{loo.name}</span>
-      <span className="index-item-category">{loo.address}</span>
+      <span className="index-item-category-address">{loo.address}</span>
     </div>);
   }
 }

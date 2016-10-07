@@ -11,7 +11,7 @@ class LooIndex extends React.Component {
 
       return(
         <div className="loo-index">
-          <h1>Loos</h1>
+          <h1 className="loo-index-title">Loos</h1>
             {loos}
         </div>
       );
