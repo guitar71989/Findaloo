@@ -1,8 +1,12 @@
 class Api::LoosController < ApplicationController
 
   def index
-    @loos = Loo.all;
+    @loos = bounds ? Loo.in_bounds(bounds) : Loo.all
     render :index
+  end
+
+  def bounds
+    params[:bounds]
   end
 
 end

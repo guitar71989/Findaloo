@@ -1,4 +1,5 @@
 json.array!(@loos) do |loo|
+  json.id loo.id
   json.name loo.name
   json.address loo.address
   json.latitude loo.latitude

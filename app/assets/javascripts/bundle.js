@@ -58,11 +58,11 @@
 	
 	var _root2 = _interopRequireDefault(_root);
 	
-	var _store = __webpack_require__(269);
+	var _store = __webpack_require__(272);
 	
 	var _store2 = _interopRequireDefault(_store);
 	
-	var _loo_actions = __webpack_require__(275);
+	var _loo_actions = __webpack_require__(278);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -21485,7 +21485,7 @@
 	
 	var _loo_index_container2 = _interopRequireDefault(_loo_index_container);
 	
-	var _search_container = __webpack_require__(265);
+	var _search_container = __webpack_require__(266);
 	
 	var _search_container2 = _interopRequireDefault(_search_container);
 	
@@ -29144,6 +29144,10 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _loo_index_item = __webpack_require__(265);
+	
+	var _loo_index_item2 = _interopRequireDefault(_loo_index_item);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -29162,29 +29166,24 @@
 	  }
 	
 	  _createClass(LooIndex, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      this.props.requestLoos();
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
-	
 	      var loos = void 0;
 	
 	      if (this.props.loos.length > 0) {
 	        loos = this.props.loos.map(function (loo) {
-	          return _react2.default.createElement(
-	            'li',
-	            { key: loo.id },
-	            loo.name
-	          );
+	          return _react2.default.createElement(_loo_index_item2.default, { className: 'loo-index-item', loo: loo, key: loo.id });
 	        });
 	      }
 	
 	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        { className: 'loo-index' },
+	        _react2.default.createElement(
+	          'h1',
+	          null,
+	          'Loos'
+	        ),
 	        loos
 	      );
 	    }
@@ -29199,6 +29198,71 @@
 /* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var LooIndexItem = function (_React$Component) {
+	  _inherits(LooIndexItem, _React$Component);
+	
+	  function LooIndexItem(props) {
+	    _classCallCheck(this, LooIndexItem);
+	
+	    return _possibleConstructorReturn(this, (LooIndexItem.__proto__ || Object.getPrototypeOf(LooIndexItem)).call(this, props));
+	  }
+	
+	  _createClass(LooIndexItem, [{
+	    key: "render",
+	    value: function render() {
+	      var loo = this.props.loo;
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "index-item-info group" },
+	        _react2.default.createElement(
+	          "span",
+	          { className: "index-item-category" },
+	          " ",
+	          _react2.default.createElement("img", { src: "{loo.image_url}" })
+	        ),
+	        _react2.default.createElement(
+	          "span",
+	          { className: "index-item-category-title" },
+	          loo.name
+	        ),
+	        _react2.default.createElement(
+	          "span",
+	          { className: "index-item-category" },
+	          loo.address
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return LooIndexItem;
+	}(_react2.default.Component);
+	
+	exports.default = LooIndexItem;
+
+/***/ },
+/* 266 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
@@ -29207,9 +29271,11 @@
 	
 	var _reactRedux = __webpack_require__(236);
 	
-	var _search = __webpack_require__(266);
+	var _search = __webpack_require__(267);
 	
 	var _search2 = _interopRequireDefault(_search);
+	
+	var _filter_actions = __webpack_require__(271);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -29233,7 +29299,10 @@
 	      return requestLoos;
 	    }(function () {
 	      return dispatch(requestLoos());
-	    })
+	    }),
+	    updateBounds: function updateBounds(bounds) {
+	      dispatch((0, _filter_actions.updateBounds)(bounds));
+	    }
 	  };
 	};
 	
@@ -29242,7 +29311,7 @@
 	exports.default = SearchContainer;
 
 /***/ },
-/* 266 */
+/* 267 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29255,7 +29324,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _loo_map = __webpack_require__(267);
+	var _loo_map = __webpack_require__(268);
 	
 	var _loo_map2 = _interopRequireDefault(_loo_map);
 	
@@ -29263,16 +29332,25 @@
 	
 	var _loo_index2 = _interopRequireDefault(_loo_index);
 	
+	var _searchbar = __webpack_require__(270);
+	
+	var _searchbar2 = _interopRequireDefault(_searchbar);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var Search = function Search(_ref) {
 	  var loos = _ref.loos;
 	  var requestLoos = _ref.requestLoos;
+	  var updateBounds = _ref.updateBounds;
 	
 	  return _react2.default.createElement(
 	    'div',
 	    null,
-	    _react2.default.createElement(_loo_map2.default, { loos: loos }),
+	    _react2.default.createElement(
+	      _loo_map2.default,
+	      { loos: loos, updateBounds: updateBounds },
+	      _react2.default.createElement(_searchbar2.default, null)
+	    ),
 	    _react2.default.createElement(_loo_index2.default, { loos: loos, requestLoos: requestLoos })
 	  );
 	};
@@ -29280,7 +29358,7 @@
 	exports.default = Search;
 
 /***/ },
-/* 267 */
+/* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29295,7 +29373,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _marker_manager = __webpack_require__(268);
+	var _marker_manager = __webpack_require__(269);
 	
 	var _marker_manager2 = _interopRequireDefault(_marker_manager);
 	
@@ -29319,6 +29397,7 @@
 	  _createClass(LooMap, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
+	      var func = this;
 	      var mapDOMNode = this.refs.map;
 	
 	      var mapOptions = {
@@ -29330,12 +29409,26 @@
 	
 	      this.MarkerManager = new _marker_manager2.default(this.map);
 	
+	      google.maps.event.addListener(this.map, 'idle', function () {
+	        var _getBounds$toJSON = this.getBounds().toJSON();
+	
+	        var north = _getBounds$toJSON.north;
+	        var south = _getBounds$toJSON.south;
+	        var east = _getBounds$toJSON.east;
+	        var west = _getBounds$toJSON.west;
+	
+	        var bounds = {
+	          northEast: { lat: north, lng: east },
+	          southWest: { lat: south, lng: west } };
+	        func.props.updateBounds(bounds);
+	      });
+	
 	      this.MarkerManager.updateMarkers(this.props.loos);
 	    }
 	  }, {
-	    key: 'componentDidUpdate',
-	    value: function componentDidUpdate() {
-	      this.MarkerManager.updateMarkers(this.props.loos);
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(newProps) {
+	      this.MarkerManager.updateMarkers(newProps.loos);
 	    }
 	  }, {
 	    key: 'render',
@@ -29350,7 +29443,7 @@
 	exports.default = LooMap;
 
 /***/ },
-/* 268 */
+/* 269 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -29369,49 +29462,65 @@
 	
 	    this.map = map;
 	    this.markers = [];
+	    this._removeMarker = this._removeMarker.bind(this);
+	    this._markersToRemove = this._markersToRemove.bind(this);
 	  }
 	
 	  _createClass(MarkerManager, [{
 	    key: "updateMarkers",
 	    value: function updateMarkers(loos) {
-	      var _this = this;
-	
-	      this.loostoAdd(loos).forEach(function (loo) {
-	        return _this.createMarkerFromLoo(loo);
-	      });
+	      console.log(loos);
+	      this.loos = loos;
+	      this._loosToAdd().forEach(this._createMarkerFromLoo.bind(this));
+	      this._markersToRemove().forEach(this._removeMarker);
 	    }
 	  }, {
-	    key: "loostoAdd",
-	    value: function loostoAdd(loos) {
+	    key: "_loosToAdd",
+	    value: function _loosToAdd() {
 	      var currentLoos = this.markers.map(function (marker) {
 	        return marker.looId;
 	      });
-	      var something = loos.filter(function (loo) {
+	      return this.loos.filter(function (loo) {
 	        return !currentLoos.includes(loo.id);
 	      });
-	      return something;
 	    }
 	  }, {
-	    key: "createMarkerFromLoo",
-	    value: function createMarkerFromLoo(loo) {
+	    key: "_markersToRemove",
+	    value: function _markersToRemove() {
+	      var looIds = this.loos.map(function (loo) {
+	        return loo.id;
+	      });
+	      return this.markers.filter(function (marker) {
+	        return !looIds.includes(marker.looId);
+	      });
+	    }
+	  }, {
+	    key: "_removeMarker",
+	    value: function _removeMarker(marker) {
+	      var idx = this.markers.indexOf(marker);
+	      this.markers[idx].setMap(null);
+	      this.markers.splice(idx, 1);
+	    }
+	  }, {
+	    key: "_createMarkerFromLoo",
+	    value: function _createMarkerFromLoo(loo) {
 	      var newMarkerPos = { lat: loo.latitude, lng: loo.longitude };
 	      var newMarkerTitle = loo.name;
 	
 	      var icon = {
 	        url: "https://s3.amazonaws.com/findaloo-dev/toilet_illustration.png",
-	        scaledSize: new google.maps.Size(30, 30), // scaled size
+	        scaledSize: new google.maps.Size(25, 25), // scaled size
 	        origin: new google.maps.Point(0, 0), // origin
 	        anchor: new google.maps.Point(0, 0) // anchor
 	      };
-	
 	      var newMarker = new google.maps.Marker({
 	        position: newMarkerPos,
 	        map: this.map,
 	        title: newMarkerTitle,
-	        looId: loo.id,
 	        icon: icon
 	      });
 	
+	      newMarker.looId = loo.id;
 	      this.markers.push(newMarker);
 	    }
 	  }]);
@@ -29422,7 +29531,47 @@
 	exports.default = MarkerManager;
 
 /***/ },
-/* 269 */
+/* 270 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var SearchBar = function SearchBar() {
+	  return _react2.default.createElement("div", { className: "search-bar" });
+	};
+	
+	exports.default = SearchBar;
+
+/***/ },
+/* 271 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var UPDATE_BOUNDS = exports.UPDATE_BOUNDS = "UPDATE_BOUNDS";
+	
+	var updateBounds = exports.updateBounds = function updateBounds(bounds) {
+	  return {
+	    type: UPDATE_BOUNDS,
+	    bounds: bounds
+	  };
+	};
+
+/***/ },
+/* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29433,11 +29582,11 @@
 	
 	var _redux = __webpack_require__(243);
 	
-	var _root_reducer = __webpack_require__(270);
+	var _root_reducer = __webpack_require__(273);
 	
 	var _root_reducer2 = _interopRequireDefault(_root_reducer);
 	
-	var _root_middleware = __webpack_require__(276);
+	var _root_middleware = __webpack_require__(280);
 	
 	var _root_middleware2 = _interopRequireDefault(_root_middleware);
 	
@@ -29451,7 +29600,7 @@
 	exports.default = configureStore;
 
 /***/ },
-/* 270 */
+/* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29462,25 +29611,30 @@
 	
 	var _redux = __webpack_require__(243);
 	
-	var _session_reducer = __webpack_require__(271);
+	var _session_reducer = __webpack_require__(274);
 	
 	var _session_reducer2 = _interopRequireDefault(_session_reducer);
 	
-	var _loos_reducer = __webpack_require__(274);
+	var _loos_reducer = __webpack_require__(277);
 	
 	var _loos_reducer2 = _interopRequireDefault(_loos_reducer);
+	
+	var _filter_reducer = __webpack_require__(279);
+	
+	var _filter_reducer2 = _interopRequireDefault(_filter_reducer);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var RootReducer = (0, _redux.combineReducers)({
 	    session: _session_reducer2.default,
-	    loos: _loos_reducer2.default
+	    loos: _loos_reducer2.default,
+	    filters: _filter_reducer2.default
 	});
 	
 	exports.default = RootReducer;
 
 /***/ },
-/* 271 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29489,7 +29643,7 @@
 	  value: true
 	});
 	
-	var _lodash = __webpack_require__(272);
+	var _lodash = __webpack_require__(275);
 	
 	var _session_actions = __webpack_require__(259);
 	
@@ -29528,7 +29682,7 @@
 	exports.default = SessionReducer;
 
 /***/ },
-/* 272 */
+/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global, module) {/**
@@ -46494,10 +46648,10 @@
 	  }
 	}.call(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(273)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(276)(module)))
 
 /***/ },
-/* 273 */
+/* 276 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -46513,7 +46667,7 @@
 
 
 /***/ },
-/* 274 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46522,9 +46676,9 @@
 	  value: true
 	});
 	
-	var _lodash = __webpack_require__(272);
+	var _lodash = __webpack_require__(275);
 	
-	var _loo_actions = __webpack_require__(275);
+	var _loo_actions = __webpack_require__(278);
 	
 	var LoosReducer = function LoosReducer() {
 	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
@@ -46543,7 +46697,7 @@
 	exports.default = LoosReducer;
 
 /***/ },
-/* 275 */
+/* 278 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -46568,7 +46722,41 @@
 	};
 
 /***/ },
-/* 276 */
+/* 279 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _filter_actions = __webpack_require__(271);
+	
+	var _lodash = __webpack_require__(275);
+	
+	var update_bounds = _filter_actions.UPDATE_BOUNDS;
+	
+	var FilterReducer = function FilterReducer() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { bounds: {} };
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    case _filter_actions.UPDATE_BOUNDS:
+	      {
+	        var nextState = (0, _lodash.merge)({}, state);
+	        nextState.bounds = action.bounds;
+	        return nextState;
+	      }
+	    default:
+	      return state;
+	  }
+	};
+	
+	exports.default = FilterReducer;
+
+/***/ },
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46579,15 +46767,15 @@
 	
 	var _redux = __webpack_require__(243);
 	
-	var _session_middleware = __webpack_require__(277);
+	var _session_middleware = __webpack_require__(281);
 	
 	var _session_middleware2 = _interopRequireDefault(_session_middleware);
 	
-	var _loos_middleware = __webpack_require__(279);
+	var _loos_middleware = __webpack_require__(283);
 	
 	var _loos_middleware2 = _interopRequireDefault(_loos_middleware);
 	
-	var _reduxLogger = __webpack_require__(281);
+	var _reduxLogger = __webpack_require__(285);
 	
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 	
@@ -46598,7 +46786,7 @@
 	exports.default = RootMiddleware;
 
 /***/ },
-/* 277 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46611,7 +46799,7 @@
 	
 	var ACTIONS = _interopRequireWildcard(_session_actions);
 	
-	var _session_api_util = __webpack_require__(278);
+	var _session_api_util = __webpack_require__(282);
 	
 	var API = _interopRequireWildcard(_session_api_util);
 	
@@ -46648,7 +46836,7 @@
 	};
 
 /***/ },
-/* 278 */
+/* 282 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -46686,7 +46874,7 @@
 	};
 
 /***/ },
-/* 279 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46695,9 +46883,11 @@
 	  value: true
 	});
 	
-	var _loo_actions = __webpack_require__(275);
+	var _loo_actions = __webpack_require__(278);
 	
-	var _loo_api_util = __webpack_require__(280);
+	var _filter_actions = __webpack_require__(271);
+	
+	var _loo_api_util = __webpack_require__(284);
 	
 	exports.default = function (_ref) {
 	  var getState = _ref.getState;
@@ -46709,8 +46899,13 @@
 	          var success = function success(data) {
 	            return dispatch((0, _loo_actions.receiveLoos)(data));
 	          };
-	          (0, _loo_api_util.fetchLoos)(success);
-	          return next(action);
+	          var filters = getState().filters;
+	          (0, _loo_api_util.fetchLoos)(filters, success);
+	          break;
+	        case _filter_actions.UPDATE_BOUNDS:
+	          next(action);
+	          dispatch((0, _loo_actions.requestLoos)());
+	          break;
 	        default:
 	          return next(action);
 	      }
@@ -46719,7 +46914,7 @@
 	};
 
 /***/ },
-/* 280 */
+/* 284 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -46727,10 +46922,11 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var fetchLoos = exports.fetchLoos = function fetchLoos(success) {
+	var fetchLoos = exports.fetchLoos = function fetchLoos(filters, success) {
 	  $.ajax({
 	    method: 'GET',
 	    url: 'api/loos/',
+	    data: filters,
 	    success: success,
 	    error: function error() {
 	      return console.log('error');
@@ -46739,7 +46935,7 @@
 	};
 
 /***/ },
-/* 281 */
+/* 285 */
 /***/ function(module, exports) {
 
 	"use strict";

@@ -72,6 +72,9 @@
    margin: 0 auto;
    font-size: 20px;
    color: #fff;
+   border-left: 1px solid #ccc;
+   border-right: 1px solid #ccc;
+   border-bottom: 1px solid #ccc;
  }
 
  .header-logo {
@@ -255,7 +258,53 @@ authcontainer small {
  /* --- LOO MAP --- */
 
 #map-container {
+  position: relative;
   height: 500px;
   width: 900px;
   margin: 0 auto;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+}
+
+ /* --- SEARCH BAR --- */
+
+.search-bar {
+  position: absolute;
+  margin: 20px 20px;
+  background: #000;
+  opacity: .2;
+  width: 900px;
+  height: 200px;
+}
+
+
+
+ /* --- LOO INDEX ITEM --- */
+
+.index-item-info {
+  display: block;
+  padding: 20px 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.loo-index {
+  background: #fff;
+  width: 900px;
+  margin: 0 auto;
+}
+
+
+.index-item-category {
+  float:left;
+  margin-left: 20px;
+  text-align: center;
+}
+
+.index-item-category-title {
+  float:left;
+  margin-left: 20px;
+  text-align: center;
+  font-weight: bold;
+  margin-left: 20px;
+
 }

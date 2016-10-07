@@ -1,13 +1,17 @@
 import { connect } from 'react-redux';
 import Search from './search.jsx';
+import { updateBounds } from './../actions/filter_actions.js';
 
-const mapStateToProps = state => ({
+const mapStateToProps = state => {
+  return({
   loos: state.loos
-});
+});};
 
 
 const mapDispatchToProps = dispatch => ({
-  requestLoos: () => dispatch(requestLoos())
+  requestLoos: () => dispatch(requestLoos()),
+  updateBounds: (bounds) => {
+    dispatch(updateBounds(bounds));}
 });
 
 const SearchContainer = connect(

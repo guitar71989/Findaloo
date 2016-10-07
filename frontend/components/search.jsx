@@ -1,11 +1,14 @@
 import React from 'react';
 import LooMap from './loo_map.jsx';
 import LooIndex from './loo_index.jsx';
+import SearchBar from './searchbar.jsx';
 
-const Search = ({loos, requestLoos}) => {
+const Search = ({loos, requestLoos, updateBounds}) => {
   return (
     <div>
-      <LooMap loos={loos} />
+      <LooMap loos={loos} updateBounds={updateBounds}>
+      <SearchBar />
+      </LooMap>
       <LooIndex loos={loos} requestLoos ={requestLoos} />
     </div>
   );
