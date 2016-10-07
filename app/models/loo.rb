@@ -6,4 +6,5 @@ class Loo < ActiveRecord::Base
   geocoded_by :address
   after_initialize :geocode
 
+
 end
