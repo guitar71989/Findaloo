@@ -5,6 +5,11 @@ class Api::LoosController < ApplicationController
     render :index
   end
 
+  def show
+    @loo = Loo.find(params[:id])
+    render :show
+  end
+
   def bounds
     params[:bounds]
   end

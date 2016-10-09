@@ -257,7 +257,7 @@ authcontainer small {
 
  /* --- LOO MAP --- */
 
-#map-container {
+#map-container-index {
   position: relative;
   height: 400px;
   width: 900px;
@@ -329,4 +329,11 @@ authcontainer small {
 .index-item-category-address {
   display: block;
   margin-left: 20px;
+}
+
+#map-container-show {
+  margin-top: 20px;
+  height: 150px;
+  width: 150px;
+  border: 1px solid #000;
 }

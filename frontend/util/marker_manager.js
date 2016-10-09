@@ -7,7 +7,6 @@ class MarkerManager {
   }
 
   updateMarkers(loos){
-    console.log(loos);
     this.loos = loos;
     this._loosToAdd().forEach(this._createMarkerFromLoo.bind(this));
     this._markersToRemove().forEach(this._removeMarker);
@@ -32,13 +31,13 @@ class MarkerManager {
   _createMarkerFromLoo(loo){
     let newMarkerPos = {lat: loo.latitude, lng: loo.longitude};
     let newMarkerTitle = loo.name;
-
     var icon = {
       url: "https://s3.amazonaws.com/findaloo-dev/toilet_illustration.png",
       scaledSize: new google.maps.Size(25, 25), // scaled size
       origin: new google.maps.Point(0,0), // origin
       anchor: new google.maps.Point(0, 0) // anchor
     };
+
     const newMarker = new google.maps.Marker({
       position: newMarkerPos,
       map: this.map,

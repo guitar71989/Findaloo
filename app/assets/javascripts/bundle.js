@@ -58,11 +58,11 @@
 	
 	var _root2 = _interopRequireDefault(_root);
 	
-	var _store = __webpack_require__(272);
+	var _store = __webpack_require__(275);
 	
 	var _store2 = _interopRequireDefault(_store);
 	
-	var _loo_actions = __webpack_require__(278);
+	var _loo_actions = __webpack_require__(274);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -21489,6 +21489,10 @@
 	
 	var _search_container2 = _interopRequireDefault(_search_container);
 	
+	var _loo_show_container = __webpack_require__(272);
+	
+	var _loo_show_container2 = _interopRequireDefault(_loo_show_container);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var Root = function Root(_ref) {
@@ -21513,7 +21517,8 @@
 	        { path: '/', component: _app2.default },
 	        _react2.default.createElement(_reactRouter.IndexRoute, { component: _search_container2.default }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/login', onEnter: _redirectIfLoggedIn, component: _session_form_container2.default }),
-	        _react2.default.createElement(_reactRouter.Route, { path: '/signup', onEnter: _redirectIfLoggedIn, component: _session_form_container2.default })
+	        _react2.default.createElement(_reactRouter.Route, { path: '/signup', onEnter: _redirectIfLoggedIn, component: _session_form_container2.default }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/loos/:looId', component: _loo_show_container2.default })
 	      )
 	    )
 	  );
@@ -28994,7 +28999,7 @@
 	  }, {
 	    key: 'loginGuest',
 	    value: function loginGuest() {
-	      var user = { username: "sam", password: "password" };
+	      var user = { username: "Guest User", password: "password" };
 	      this.props.processForm(user);
 	    }
 	  }, {
@@ -29198,7 +29203,7 @@
 /* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -29209,6 +29214,8 @@
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(173);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -29224,25 +29231,34 @@
 	  function LooIndexItem(props) {
 	    _classCallCheck(this, LooIndexItem);
 	
-	    return _possibleConstructorReturn(this, (LooIndexItem.__proto__ || Object.getPrototypeOf(LooIndexItem)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (LooIndexItem.__proto__ || Object.getPrototypeOf(LooIndexItem)).call(this, props));
+	
+	    _this.handleClick = _this.handleClick.bind(_this);
+	    return _this;
 	  }
 	
 	  _createClass(LooIndexItem, [{
-	    key: "render",
+	    key: 'handleClick',
+	    value: function handleClick() {
+	      var looId = this.props.loo.id;
+	      _reactRouter.hashHistory.push("loos/" + looId);
+	    }
+	  }, {
+	    key: 'render',
 	    value: function render() {
 	      var loo = this.props.loo;
 	      return _react2.default.createElement(
-	        "div",
-	        { className: "index-item-info group" },
-	        _react2.default.createElement("img", { className: "toilet", src: loo.image_url }),
+	        'div',
+	        { className: 'index-item-info group' },
+	        _react2.default.createElement('img', { className: 'toilet', src: loo.image_url }),
 	        _react2.default.createElement(
-	          "span",
-	          { className: "index-item-category-title" },
+	          'span',
+	          { className: 'index-item-category-title', onClick: this.handleClick },
 	          loo.name
 	        ),
 	        _react2.default.createElement(
-	          "span",
-	          { className: "index-item-category-address" },
+	          'span',
+	          { className: 'index-item-category-address' },
 	          loo.address
 	        )
 	      );
@@ -29395,15 +29411,35 @@
 	      var func = this;
 	      var mapDOMNode = this.refs.map;
 	
-	      var mapOptions = {
-	        center: { lat: 40.7250279, lng: -73.998986 },
-	        zoom: 13
-	      };
+	      var mapOptions = void 0;
+	
+	      if (this.props.singleLoo) {
+	        debugger;
+	        mapOptions = {
+	          center: { lat: this.props.loos.latitude, lng: this.props.loos.longitutude },
+	          zoom: 13,
+	          draggable: false,
+	          zoomControl: false,
+	          scrollwheel: false,
+	          disableDoubleClickZoom: true
+	        };
+	      } else {
+	        mapOptions = {
+	          center: { lat: 40.7250279, lng: -73.998986 },
+	          zoom: 13,
+	          draggable: true,
+	          zoomControl: true,
+	          scrollwheel: true,
+	          disableDoubleClickZoom: false
+	        };
+	      }
 	
 	      this.map = new google.maps.Map(mapDOMNode, mapOptions);
 	
 	      this.MarkerManager = new _marker_manager2.default(this.map);
-	
+	      // if (this.props.singleLoo){
+	      //   this.props.requestLoo(this.props.looId);
+	      // } else {
 	      google.maps.event.addListener(this.map, 'idle', function () {
 	        var _getBounds$toJSON = this.getBounds().toJSON();
 	
@@ -29414,21 +29450,31 @@
 	
 	        var bounds = {
 	          northEast: { lat: north, lng: east },
-	          southWest: { lat: south, lng: west } };
+	          southWest: { lat: south, lng: west }
+	        };
 	        func.props.updateBounds(bounds);
 	      });
-	
-	      this.MarkerManager.updateMarkers(this.props.loos);
+	      var loos = this.props.singleLoo ? [this.props.loos] : this.props.loos;
+	      this.MarkerManager.updateMarkers(loos);
+	      // }
 	    }
 	  }, {
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(newProps) {
-	      this.MarkerManager.updateMarkers(newProps.loos);
+	      if (this.props.singleLoo) {
+	        this.MarkerManager.updateMarkers(newProps.loos);
+	      } else {
+	        this.MarkerManager.updateMarkers(newProps.loos);
+	      }
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      return _react2.default.createElement('div', { id: 'map-container', ref: 'map' });
+	      if (this.props.singleLoo) {
+	        return _react2.default.createElement('div', { id: 'map-container-show', ref: 'map' });
+	      } else {
+	        return _react2.default.createElement('div', { id: 'map-container-index', ref: 'map' });
+	      }
 	    }
 	  }]);
 	
@@ -29464,7 +29510,6 @@
 	  _createClass(MarkerManager, [{
 	    key: "updateMarkers",
 	    value: function updateMarkers(loos) {
-	      console.log(loos);
 	      this.loos = loos;
 	      this._loosToAdd().forEach(this._createMarkerFromLoo.bind(this));
 	      this._markersToRemove().forEach(this._removeMarker);
@@ -29501,13 +29546,13 @@
 	    value: function _createMarkerFromLoo(loo) {
 	      var newMarkerPos = { lat: loo.latitude, lng: loo.longitude };
 	      var newMarkerTitle = loo.name;
-	
 	      var icon = {
 	        url: "https://s3.amazonaws.com/findaloo-dev/toilet_illustration.png",
 	        scaledSize: new google.maps.Size(25, 25), // scaled size
 	        origin: new google.maps.Point(0, 0), // origin
 	        anchor: new google.maps.Point(0, 0) // anchor
 	      };
+	
 	      var newMarker = new google.maps.Marker({
 	        position: newMarkerPos,
 	        map: this.map,
@@ -29575,13 +29620,165 @@
 	  value: true
 	});
 	
+	var _reactRedux = __webpack_require__(236);
+	
+	var _loo_show = __webpack_require__(273);
+	
+	var _loo_show2 = _interopRequireDefault(_loo_show);
+	
+	var _loo_actions = __webpack_require__(274);
+	
+	var _selectors = __webpack_require__(288);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	  var looId = parseInt(ownProps.params.looId);
+	  var loo = (0, _selectors.selectLoo)(state.loos, looId);
+	  return {
+	    looId: looId,
+	    loo: loo
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    requestLoo: function requestLoo(id) {
+	      return dispatch((0, _loo_actions.requestLoo)(id));
+	    }
+	  };
+	};
+	
+	var LooShowContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_loo_show2.default);
+	
+	exports.default = LooShowContainer;
+
+/***/ },
+/* 273 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _loo_map = __webpack_require__(268);
+	
+	var _loo_map2 = _interopRequireDefault(_loo_map);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var LooShow = function (_React$Component) {
+	  _inherits(LooShow, _React$Component);
+	
+	  function LooShow() {
+	    _classCallCheck(this, LooShow);
+	
+	    return _possibleConstructorReturn(this, (LooShow.__proto__ || Object.getPrototypeOf(LooShow)).apply(this, arguments));
+	  }
+	
+	  _createClass(LooShow, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.props.requestLoos(this.props.looId);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      if (this.props.loos) {
+	        return _react2.default.createElement(
+	          'div',
+	          { className: 'loo-index' },
+	          _react2.default.createElement(
+	            'h1',
+	            { className: 'loo-index-title' },
+	            'Loo Show Page'
+	          ),
+	          _react2.default.createElement(_loo_map2.default, { looId: this.props.looId, requestLoo: this.props.requestLoo, singleLoo: true, loos: this.props.loos })
+	        );
+	      } else {
+	        return _react2.default.createElement('div', null);
+	      }
+	    }
+	  }]);
+	
+	  return LooShow;
+	}(_react2.default.Component);
+	
+	exports.default = LooShow;
+
+/***/ },
+/* 274 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var REQUEST_LOOS = exports.REQUEST_LOOS = "REQUEST_LOOS";
+	var RECEIVE_LOOS = exports.RECEIVE_LOOS = "RECEIVE_LOOS";
+	
+	var REQUEST_LOO = exports.REQUEST_LOO = "REQUEST_LOO";
+	var RECEIVE_LOO = exports.RECEIVE_LOO = "RECEIVE_LOO";
+	
+	var requestLoos = exports.requestLoos = function requestLoos() {
+	  return {
+	    type: REQUEST_LOOS
+	  };
+	};
+	
+	var requestLoo = exports.requestLoo = function requestLoo(id) {
+	  return {
+	    type: REQUEST_LOO,
+	    id: id
+	  };
+	};
+	
+	var receiveLoos = exports.receiveLoos = function receiveLoos(loos) {
+	  return {
+	    type: RECEIVE_LOOS,
+	    loos: loos
+	  };
+	};
+	
+	var receiveLoo = exports.receiveLoo = function receiveLoo(loo) {
+	  return {
+	    type: RECEIVE_LOO,
+	    loo: loo
+	  };
+	};
+
+/***/ },
+/* 275 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
 	var _redux = __webpack_require__(243);
 	
-	var _root_reducer = __webpack_require__(273);
+	var _root_reducer = __webpack_require__(276);
 	
 	var _root_reducer2 = _interopRequireDefault(_root_reducer);
 	
-	var _root_middleware = __webpack_require__(280);
+	var _root_middleware = __webpack_require__(282);
 	
 	var _root_middleware2 = _interopRequireDefault(_root_middleware);
 	
@@ -29595,7 +29792,7 @@
 	exports.default = configureStore;
 
 /***/ },
-/* 273 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29606,15 +29803,15 @@
 	
 	var _redux = __webpack_require__(243);
 	
-	var _session_reducer = __webpack_require__(274);
+	var _session_reducer = __webpack_require__(277);
 	
 	var _session_reducer2 = _interopRequireDefault(_session_reducer);
 	
-	var _loos_reducer = __webpack_require__(277);
+	var _loos_reducer = __webpack_require__(280);
 	
 	var _loos_reducer2 = _interopRequireDefault(_loos_reducer);
 	
-	var _filter_reducer = __webpack_require__(279);
+	var _filter_reducer = __webpack_require__(281);
 	
 	var _filter_reducer2 = _interopRequireDefault(_filter_reducer);
 	
@@ -29629,7 +29826,7 @@
 	exports.default = RootReducer;
 
 /***/ },
-/* 274 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29638,7 +29835,7 @@
 	  value: true
 	});
 	
-	var _lodash = __webpack_require__(275);
+	var _lodash = __webpack_require__(278);
 	
 	var _session_actions = __webpack_require__(259);
 	
@@ -29677,7 +29874,7 @@
 	exports.default = SessionReducer;
 
 /***/ },
-/* 275 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global, module) {/**
@@ -46643,10 +46840,10 @@
 	  }
 	}.call(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(276)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(279)(module)))
 
 /***/ },
-/* 276 */
+/* 279 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -46662,7 +46859,7 @@
 
 
 /***/ },
-/* 277 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46671,9 +46868,9 @@
 	  value: true
 	});
 	
-	var _lodash = __webpack_require__(275);
+	var _lodash = __webpack_require__(278);
 	
-	var _loo_actions = __webpack_require__(278);
+	var _loo_actions = __webpack_require__(274);
 	
 	var LoosReducer = function LoosReducer() {
 	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
@@ -46684,6 +46881,10 @@
 	      {
 	        return action.loos;
 	      }
+	    case _loo_actions.RECEIVE_LOO:
+	      {
+	        return action.loo;
+	      }
 	    default:
 	      return state;
 	  }
@@ -46692,32 +46893,7 @@
 	exports.default = LoosReducer;
 
 /***/ },
-/* 278 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var REQUEST_LOOS = exports.REQUEST_LOOS = "REQUEST_LOOS";
-	var RECEIVE_LOOS = exports.RECEIVE_LOOS = "RECEIVE_LOOS";
-	
-	var requestLoos = exports.requestLoos = function requestLoos() {
-	  return {
-	    type: REQUEST_LOOS
-	  };
-	};
-	
-	var receiveLoos = exports.receiveLoos = function receiveLoos(loos) {
-	  return {
-	    type: RECEIVE_LOOS,
-	    loos: loos
-	  };
-	};
-
-/***/ },
-/* 279 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46728,7 +46904,7 @@
 	
 	var _filter_actions = __webpack_require__(271);
 	
-	var _lodash = __webpack_require__(275);
+	var _lodash = __webpack_require__(278);
 	
 	var update_bounds = _filter_actions.UPDATE_BOUNDS;
 	
@@ -46751,7 +46927,7 @@
 	exports.default = FilterReducer;
 
 /***/ },
-/* 280 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46762,15 +46938,15 @@
 	
 	var _redux = __webpack_require__(243);
 	
-	var _session_middleware = __webpack_require__(281);
+	var _session_middleware = __webpack_require__(283);
 	
 	var _session_middleware2 = _interopRequireDefault(_session_middleware);
 	
-	var _loos_middleware = __webpack_require__(283);
+	var _loos_middleware = __webpack_require__(285);
 	
 	var _loos_middleware2 = _interopRequireDefault(_loos_middleware);
 	
-	var _reduxLogger = __webpack_require__(285);
+	var _reduxLogger = __webpack_require__(287);
 	
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 	
@@ -46781,7 +46957,7 @@
 	exports.default = RootMiddleware;
 
 /***/ },
-/* 281 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46794,7 +46970,7 @@
 	
 	var ACTIONS = _interopRequireWildcard(_session_actions);
 	
-	var _session_api_util = __webpack_require__(282);
+	var _session_api_util = __webpack_require__(284);
 	
 	var API = _interopRequireWildcard(_session_api_util);
 	
@@ -46831,7 +47007,7 @@
 	};
 
 /***/ },
-/* 282 */
+/* 284 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -46869,7 +47045,7 @@
 	};
 
 /***/ },
-/* 283 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46878,11 +47054,11 @@
 	  value: true
 	});
 	
-	var _loo_actions = __webpack_require__(278);
+	var _loo_actions = __webpack_require__(274);
+	
+	var _loo_api_util = __webpack_require__(286);
 	
 	var _filter_actions = __webpack_require__(271);
-	
-	var _loo_api_util = __webpack_require__(284);
 	
 	exports.default = function (_ref) {
 	  var getState = _ref.getState;
@@ -46891,16 +47067,28 @@
 	    return function (action) {
 	      switch (action.type) {
 	        case _loo_actions.REQUEST_LOOS:
-	          var success = function success(data) {
-	            return dispatch((0, _loo_actions.receiveLoos)(data));
-	          };
-	          var filters = getState().filters;
-	          (0, _loo_api_util.fetchLoos)(filters, success);
-	          break;
+	          {
+	            var success = function success(data) {
+	              return dispatch((0, _loo_actions.receiveLoos)(data));
+	            };
+	            var filters = getState().filters;
+	            (0, _loo_api_util.fetchLoos)(filters, success);
+	            break;
+	          }
+	        case _loo_actions.REQUEST_LOO:
+	          {
+	            var _success = function _success(data) {
+	              return dispatch((0, _loo_actions.receiveLoo)(data));
+	            };
+	            (0, _loo_api_util.fetchLoo)(action.id, _success);
+	            break;
+	          }
 	        case _filter_actions.UPDATE_BOUNDS:
-	          next(action);
-	          dispatch((0, _loo_actions.requestLoos)());
-	          break;
+	          {
+	            next(action);
+	            dispatch(requestLoos());
+	            break;
+	          }
 	        default:
 	          return next(action);
 	      }
@@ -46909,7 +47097,7 @@
 	};
 
 /***/ },
-/* 284 */
+/* 286 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -46928,9 +47116,20 @@
 	    }
 	  });
 	};
+	
+	var fetchLoo = exports.fetchLoo = function fetchLoo(id, success) {
+	  $.ajax({
+	    method: 'GET',
+	    url: 'api/loos/' + id,
+	    success: success,
+	    error: function error() {
+	      return console.log('error');
+	    }
+	  });
+	};
 
 /***/ },
-/* 285 */
+/* 287 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -47161,6 +47360,19 @@
 	}
 	
 	module.exports = createLogger;
+
+/***/ },
+/* 288 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var selectLoos = exports.selectLoos = function selectLoos(loos, id) {
+	  return loos[id] || {};
+	};
 
 /***/ }
 /******/ ]);

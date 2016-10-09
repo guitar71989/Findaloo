@@ -50,7 +50,7 @@ class SessionForm extends React.Component {
   }
 
   loginGuest(){
-    const user = {username: "sam", password: "password"}
+    const user = {username: "Guest User", password: "password"}
     this.props.processForm(user);
   }
 

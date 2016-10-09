@@ -4,7 +4,8 @@ import { Provider } from 'react-redux';
 import App from './app.jsx'
 import SessionFormContainer from './session_form_container.js';
 import LooIndexContainer from './loo_index_container.js';
-import SearchContainer from './search_container.js'
+import SearchContainer from './search_container.js';
+import LooShowContainer from './loo_show_container';
 
 const Root = ({ store }) => {
 
@@ -22,6 +23,7 @@ const Root = ({ store }) => {
         <IndexRoute component={SearchContainer} />
         <Route path="/login" onEnter={_redirectIfLoggedIn} component={SessionFormContainer} />
         <Route path="/signup" onEnter={_redirectIfLoggedIn} component={SessionFormContainer} />
+        <Route path="/loos/:looId" component={LooShowContainer} />
       </Route>
     </Router>
   </Provider>

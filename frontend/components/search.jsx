@@ -9,7 +9,7 @@ const Search = ({loos, requestLoos, updateBounds}) => {
       <LooMap loos={loos} updateBounds={updateBounds}>
       <SearchBar />
       </LooMap>
-      <LooIndex loos={loos} requestLoos ={requestLoos} />
+      <LooIndex loos={loos} requestLoos={requestLoos} />
     </div>
   );
 
