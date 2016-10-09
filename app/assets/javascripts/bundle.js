@@ -58,15 +58,27 @@
 	
 	var _root2 = _interopRequireDefault(_root);
 	
-	var _store = __webpack_require__(276);
+	var _store = __webpack_require__(280);
 	
 	var _store2 = _interopRequireDefault(_store);
 	
-	var _loo_actions = __webpack_require__(274);
+	var _loo_actions = __webpack_require__(275);
+	
+	var _review_api_util = __webpack_require__(294);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	document.addEventListener('DOMContentLoaded', function () {
+	
+	  window.review = { loo_id: 18, body: "this is review numero uno", rating: 5 };
+	  window.success = function (data) {
+	    console.log(data);
+	  };
+	  window.error = function (data) {
+	    console.log(data);
+	  };
+	
+	  window.createReview = _review_api_util.createReview;
 	
 	  window.requestLoos = _loo_actions.requestLoos;
 	
@@ -21493,6 +21505,10 @@
 	
 	var _loo_show_container2 = _interopRequireDefault(_loo_show_container);
 	
+	var _review_form_container = __webpack_require__(277);
+	
+	var _review_form_container2 = _interopRequireDefault(_review_form_container);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var Root = function Root(_ref) {
@@ -21518,7 +21534,11 @@
 	        _react2.default.createElement(_reactRouter.IndexRoute, { component: _search_container2.default }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/login', onEnter: _redirectIfLoggedIn, component: _session_form_container2.default }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/signup', onEnter: _redirectIfLoggedIn, component: _session_form_container2.default }),
-	        _react2.default.createElement(_reactRouter.Route, { path: '/loos/:looId', component: _loo_show_container2.default })
+	        _react2.default.createElement(
+	          _reactRouter.Route,
+	          { path: '/loos/:looId', component: _loo_show_container2.default },
+	          _react2.default.createElement(_reactRouter.Route, { path: '/review', component: _review_form_container2.default, onEnter: _redirectIfLoggedIn })
+	        )
 	      )
 	    )
 	  );
@@ -29425,7 +29445,9 @@
 	      var func = this;
 	      var mapDOMNode = this.refs.map;
 	
-	      this.map = new google.maps.Map(mapDOMNode, mapOptions);
+	      this.map = new google.maps.Map(mapDOMNode);
+	
+	      this.map.setOptions(mapOptions);
 	
 	      this.MarkerManager = new _marker_manager2.default(this.map);
 	
@@ -29433,7 +29455,7 @@
 	        this.props.requestLoo(this.props.looId);
 	      } else {
 	        this._registerListeners();
-	        this.MarkerManager.updateMarkers(this.props.loos);
+	        // this.MarkerManager.updateMarkers(this.props.loos);
 	      }
 	    }
 	  }, {
@@ -29625,9 +29647,9 @@
 	
 	var _loo_show2 = _interopRequireDefault(_loo_show);
 	
-	var _loo_actions = __webpack_require__(274);
+	var _loo_actions = __webpack_require__(275);
 	
-	var _selectors = __webpack_require__(275);
+	var _selectors = __webpack_require__(276);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -29672,17 +29694,28 @@
 	
 	var _reactRouter = __webpack_require__(173);
 	
+	var _review_show = __webpack_require__(274);
+	
+	var _review_show2 = _interopRequireDefault(_review_show);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	
+	var reviewList = function reviewList() {
+	  var reviews = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	  return reviews.map(function (review) {
+	    return _react2.default.createElement(_review_show2.default, { rating: review.rating, body: review.body, key: review.id });
+	  });
+	};
 	
 	var LooShow = function LooShow(_ref) {
 	  var loo = _ref.loo;
 	  var looId = _ref.looId;
 	  var requestLoo = _ref.requestLoo;
 	
+	  debugger;
 	  var loos = _defineProperty({}, looId, loo);
-	
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'single-loo-show' },
@@ -29710,6 +29743,16 @@
 	        ),
 	        _react2.default.createElement('img', { className: 'single-loo-picture', src: loo.image_url })
 	      )
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'reviews' },
+	      _react2.default.createElement(
+	        'h3',
+	        null,
+	        'Reviews'
+	      ),
+	      reviewList(loo.reviews)
 	    )
 	  );
 	};
@@ -29718,6 +29761,48 @@
 
 /***/ },
 /* 274 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Review = function Review(_ref) {
+	  var rating = _ref.rating;
+	  var body = _ref.body;
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    _react2.default.createElement(
+	      'ul',
+	      null,
+	      _react2.default.createElement(
+	        'li',
+	        null,
+	        'Rating: ',
+	        rating
+	      ),
+	      _react2.default.createElement(
+	        'li',
+	        null,
+	        body
+	      )
+	    )
+	  );
+	};
+	
+	exports.default = Review;
+
+/***/ },
+/* 275 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -29759,7 +29844,7 @@
 	};
 
 /***/ },
-/* 275 */
+/* 276 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -29772,7 +29857,174 @@
 	};
 
 /***/ },
-/* 276 */
+/* 277 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _review_form = __webpack_require__(278);
+	
+	var _review_form2 = _interopRequireDefault(_review_form);
+	
+	var _reactRedux = __webpack_require__(236);
+	
+	var _review_actions = __webpack_require__(279);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {};
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    createReview: function createReview(review) {
+	      return dispatch((0, _review_actions.createReview)(review));
+	    }
+	  };
+	};
+	
+	var ReviewFormContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_review_form2.default);
+	
+	exports.default = ReviewFormContainer;
+
+/***/ },
+/* 278 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var ReviewForm = function (_React$Component) {
+	  _inherits(ReviewForm, _React$Component);
+	
+	  function ReviewForm(props) {
+	    _classCallCheck(this, ReviewForm);
+	
+	    var _this = _possibleConstructorReturn(this, (ReviewForm.__proto__ || Object.getPrototypeOf(ReviewForm)).call(this, props));
+	
+	    _this.state = {
+	      body: "",
+	      rating: null
+	    };
+	    _this.handleSubmit = _this.handleSubmit.bind(_this);
+	    _this.navigateToSearch = _this.navigateToSearch.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(ReviewForm, [{
+	    key: "navigatetoLooShow",
+	    value: function navigatetoLooShow() {
+	      this.props.router.replace("/" + this.props.loo.id);
+	    }
+	  }, {
+	    key: "handleSubmit",
+	    value: function handleSubmit(e) {
+	      e.preventDefault();
+	      this.props.createReview(this.state);
+	      this.navigateTooLooShow();
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "single-loo-show" },
+	        _react2.default.createElement(
+	          "div",
+	          { className: "single-loo-map" },
+	          _react2.default.createElement(
+	            "main",
+	            { className: "single-loo-show-main-container group" },
+	            _react2.default.createElement(LooMap, { className: "single-loo-map",
+	              looId: looId,
+	              requestLoo: requestLoo,
+	              singleLoo: true,
+	              loos: loos
+	            }),
+	            _react2.default.createElement(
+	              "span",
+	              { className: "single-loo-title" },
+	              loo.name
+	            ),
+	            _react2.default.createElement(
+	              "span",
+	              { className: "single-loo-address" },
+	              loo.address
+	            ),
+	            _react2.default.createElement("img", { className: "single-loo-picture", src: loo.image_url })
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return ReviewForm;
+	}(_react2.default.Component);
+	
+	exports.default = ReviewForm;
+
+/***/ },
+/* 279 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var CREATE_REVIEW = exports.CREATE_REVIEW = "CREATE_REVIEW";
+	var REQUEST_REVIEWS = exports.REQUEST_REVIEWS = "REQUEST_REVIEWS";
+	var RECEIVE_REVIEWS = exports.RECEIVE_REVIEWS = "RECEIVE_REVIEWS";
+	
+	var createReview = exports.createReview = function createReview(review) {
+	  return {
+	    type: CREATE_REVIEW,
+	    review: review
+	  };
+	};
+	
+	var requestReviews = exports.requestReviews = function requestReviews(looId) {
+	  return {
+	    type: REQUEST_REVIEWS,
+	    looID: looID
+	  };
+	};
+	
+	var receiveReviews = exports.receiveReviews = function receiveReviews(reviews) {
+	  return {
+	    type: RECEIVE_REVIEWS,
+	    reviews: reviews
+	  };
+	};
+
+/***/ },
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29783,11 +30035,11 @@
 	
 	var _redux = __webpack_require__(243);
 	
-	var _root_reducer = __webpack_require__(277);
+	var _root_reducer = __webpack_require__(281);
 	
 	var _root_reducer2 = _interopRequireDefault(_root_reducer);
 	
-	var _root_middleware = __webpack_require__(283);
+	var _root_middleware = __webpack_require__(288);
 	
 	var _root_middleware2 = _interopRequireDefault(_root_middleware);
 	
@@ -29801,7 +30053,7 @@
 	exports.default = configureStore;
 
 /***/ },
-/* 277 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29812,30 +30064,35 @@
 	
 	var _redux = __webpack_require__(243);
 	
-	var _session_reducer = __webpack_require__(278);
+	var _session_reducer = __webpack_require__(282);
 	
 	var _session_reducer2 = _interopRequireDefault(_session_reducer);
 	
-	var _loos_reducer = __webpack_require__(281);
+	var _loos_reducer = __webpack_require__(285);
 	
 	var _loos_reducer2 = _interopRequireDefault(_loos_reducer);
 	
-	var _filter_reducer = __webpack_require__(282);
+	var _filter_reducer = __webpack_require__(286);
 	
 	var _filter_reducer2 = _interopRequireDefault(_filter_reducer);
+	
+	var _reviews_reducer = __webpack_require__(287);
+	
+	var _reviews_reducer2 = _interopRequireDefault(_reviews_reducer);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var RootReducer = (0, _redux.combineReducers)({
 	    session: _session_reducer2.default,
 	    loos: _loos_reducer2.default,
+	    reviews: _reviews_reducer2.default,
 	    filters: _filter_reducer2.default
 	});
 	
 	exports.default = RootReducer;
 
 /***/ },
-/* 278 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29844,7 +30101,7 @@
 	  value: true
 	});
 	
-	var _lodash = __webpack_require__(279);
+	var _lodash = __webpack_require__(283);
 	
 	var _session_actions = __webpack_require__(259);
 	
@@ -29883,7 +30140,7 @@
 	exports.default = SessionReducer;
 
 /***/ },
-/* 279 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global, module) {/**
@@ -46849,10 +47106,10 @@
 	  }
 	}.call(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(280)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(284)(module)))
 
 /***/ },
-/* 280 */
+/* 284 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -46868,7 +47125,7 @@
 
 
 /***/ },
-/* 281 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46877,9 +47134,9 @@
 	  value: true
 	});
 	
-	var _lodash = __webpack_require__(279);
+	var _lodash = __webpack_require__(283);
 	
-	var _loo_actions = __webpack_require__(274);
+	var _loo_actions = __webpack_require__(275);
 	
 	var LoosReducer = function LoosReducer() {
 	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
@@ -46902,7 +47159,7 @@
 	exports.default = LoosReducer;
 
 /***/ },
-/* 282 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46913,7 +47170,7 @@
 	
 	var _filter_actions = __webpack_require__(271);
 	
-	var _lodash = __webpack_require__(279);
+	var _lodash = __webpack_require__(283);
 	
 	var update_bounds = _filter_actions.UPDATE_BOUNDS;
 	
@@ -46936,7 +47193,33 @@
 	exports.default = FilterReducer;
 
 /***/ },
-/* 283 */
+/* 287 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _lodash = __webpack_require__(283);
+	
+	// import {  } from './../actions/review_actions.js';
+	
+	var ReviewsReducer = function ReviewsReducer() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    default:
+	      return state;
+	  }
+	};
+	
+	exports.default = ReviewsReducer;
+
+/***/ },
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46947,15 +47230,15 @@
 	
 	var _redux = __webpack_require__(243);
 	
-	var _session_middleware = __webpack_require__(284);
+	var _session_middleware = __webpack_require__(289);
 	
 	var _session_middleware2 = _interopRequireDefault(_session_middleware);
 	
-	var _loos_middleware = __webpack_require__(286);
+	var _loos_middleware = __webpack_require__(291);
 	
 	var _loos_middleware2 = _interopRequireDefault(_loos_middleware);
 	
-	var _reduxLogger = __webpack_require__(288);
+	var _reduxLogger = __webpack_require__(293);
 	
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 	
@@ -46966,7 +47249,7 @@
 	exports.default = RootMiddleware;
 
 /***/ },
-/* 284 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46979,7 +47262,7 @@
 	
 	var ACTIONS = _interopRequireWildcard(_session_actions);
 	
-	var _session_api_util = __webpack_require__(285);
+	var _session_api_util = __webpack_require__(290);
 	
 	var API = _interopRequireWildcard(_session_api_util);
 	
@@ -47016,7 +47299,7 @@
 	};
 
 /***/ },
-/* 285 */
+/* 290 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -47054,7 +47337,7 @@
 	};
 
 /***/ },
-/* 286 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47063,9 +47346,9 @@
 	  value: true
 	});
 	
-	var _loo_actions = __webpack_require__(274);
+	var _loo_actions = __webpack_require__(275);
 	
-	var _loo_api_util = __webpack_require__(287);
+	var _loo_api_util = __webpack_require__(292);
 	
 	var _filter_actions = __webpack_require__(271);
 	
@@ -47106,7 +47389,7 @@
 	};
 
 /***/ },
-/* 287 */
+/* 292 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -47138,7 +47421,7 @@
 	};
 
 /***/ },
-/* 288 */
+/* 293 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -47369,6 +47652,47 @@
 	}
 	
 	module.exports = createLogger;
+
+/***/ },
+/* 294 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var createReview = exports.createReview = function createReview(review, success, error) {
+	  return $.ajax({
+	    url: 'api/reviews/',
+	    method: 'POST',
+	    data: { review: review },
+	    success: success,
+	    error: error
+	  });
+	};
+	
+	var fetchReviews = exports.fetchReviews = function fetchReviews(id, success) {
+	  $.ajax({
+	    method: 'GET',
+	    url: 'api/reviews/' + id,
+	    success: success,
+	    error: function error() {
+	      return console.log('error');
+	    }
+	  });
+	};
+	
+	var destroyReview = exports.destroyReview = function destroyReview(id, success) {
+	  $.ajax({
+	    method: 'DELETE',
+	    url: 'api/reviews/' + id,
+	    success: success,
+	    error: function error() {
+	      return console.log('error');
+	    }
+	  });
+	};
 
 /***/ }
 /******/ ]);

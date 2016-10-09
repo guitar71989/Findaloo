@@ -1,20 +1,30 @@
 import React from 'react';
-import LooMap from './loo_map.jsx';
-import { Link } from 'react-router';
-import ReviewShow from './review_show.jsx';
 
-const reviewList = (reviews=[]) => (
-  reviews.map( (review) => (
-    <ReviewShow rating={review.rating} body={review.body} key={review.id}/>
-  ))
-);
 
-const LooShow = ({ loo, looId, requestLoo }) => {
-  debugger
-  const loos = {
-    [looId]: loo
-  };
-  return(
+class ReviewForm extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      body: "",
+      rating: null,
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.navigateToSearch = this.navigateToSearch.bind(this);
+  }
+
+
+  navigatetoLooShow() {
+    this.props.router.replace(`/${this.props.loo.id}`);
+  }
+
+  handleSubmit(e){
+    e.preventDefault();
+    this.props.createReview(this.state);
+    this.navigateTooLooShow();
+  }
+
+  render(){
+    return(
     <div className="single-loo-show">
       <div className="single-loo-map">
         <main className="single-loo-show-main-container group">
@@ -29,13 +39,8 @@ const LooShow = ({ loo, looId, requestLoo }) => {
           <img className="single-loo-picture" src={loo.image_url} />
         </main>
       </div>
-
-      <div className="reviews">
-        <h3>Reviews</h3>
-          { reviewList(loo.reviews) }
-      </div>
     </div>
-  )
-}
+  );}
+  }
 
-export default LooShow;
+  export default ReviewForm;

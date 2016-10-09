@@ -3,6 +3,9 @@ class Loo < ActiveRecord::Base
   has_attached_file :image, default_url: "toilet_illustration.png"
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
 
+
+  has_many :reviews
+  
   geocoded_by :address
   after_initialize :geocode
 

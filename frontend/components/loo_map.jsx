@@ -18,7 +18,9 @@ class LooMap extends React.Component {
     let func = this;
     const mapDOMNode = this.refs.map;
 
-    this.map = new google.maps.Map(mapDOMNode, mapOptions);
+    this.map = new google.maps.Map(mapDOMNode);
+
+    this.map.setOptions(mapOptions);
 
     this.MarkerManager = new MarkerManager(this.map);
 
@@ -26,7 +28,7 @@ class LooMap extends React.Component {
       this.props.requestLoo(this.props.looId);
     } else {
       this._registerListeners();
-      this.MarkerManager.updateMarkers(this.props.loos);
+      // this.MarkerManager.updateMarkers(this.props.loos);
     }
   }
 
