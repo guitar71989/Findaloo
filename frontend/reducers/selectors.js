@@ -1,1 +1,1 @@
-export const selectLoos = (loos, id) => loos[id] || {};
+export const selectLoo = (loos, id) => loos[id] || {};

@@ -2,13 +2,14 @@ class MarkerManager {
   constructor(map) {
     this.map = map;
     this.markers = [];
+    this._createMarkerFromLoo = this._createMarkerFromLoo.bind(this);
     this._removeMarker = this._removeMarker.bind(this);
     this._markersToRemove = this._markersToRemove.bind(this);
   }
 
   updateMarkers(loos){
     this.loos = loos;
-    this._loosToAdd().forEach(this._createMarkerFromLoo.bind(this));
+    this._loosToAdd().forEach(this._createMarkerFromLoo);
     this._markersToRemove().forEach(this._removeMarker);
   }
 
@@ -22,16 +23,11 @@ class MarkerManager {
     return this.markers.filter( marker => !looIds.includes(marker.looId));
   }
 
-  _removeMarker(marker) {
-    const idx = this.markers.indexOf( marker );
-    this.markers[idx].setMap(null);
-    this.markers.splice(idx, 1);
-  }
 
   _createMarkerFromLoo(loo){
-    let newMarkerPos = {lat: loo.latitude, lng: loo.longitude};
-    let newMarkerTitle = loo.name;
-    var icon = {
+    const newMarkerPos = {lat: loo.latitude, lng: loo.longitude};
+    const newMarkerTitle = loo.name;
+    const icon = {
       url: "https://s3.amazonaws.com/findaloo-dev/toilet_illustration.png",
       scaledSize: new google.maps.Size(25, 25), // scaled size
       origin: new google.maps.Point(0,0), // origin
@@ -49,6 +45,11 @@ class MarkerManager {
     this.markers.push(newMarker);
   }
 
+  _removeMarker(marker) {
+    const idx = this.markers.indexOf( marker );
+    this.markers[idx].setMap(null);
+    this.markers.splice(idx, 1);
+  }
 }
 
 export default MarkerManager;

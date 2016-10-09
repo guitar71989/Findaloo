@@ -58,7 +58,7 @@
 	
 	var _root2 = _interopRequireDefault(_root);
 	
-	var _store = __webpack_require__(275);
+	var _store = __webpack_require__(276);
 	
 	var _store2 = _interopRequireDefault(_store);
 	
@@ -29171,6 +29171,11 @@
 	  }
 	
 	  _createClass(LooIndex, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.props.requestLoos();
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var loos = void 0;
@@ -29408,64 +29413,57 @@
 	  _createClass(LooMap, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
+	      var mapOptions = {
+	        center: { lat: 40.7250279, lng: -73.998986 },
+	        zoom: 13,
+	        draggable: true,
+	        zoomControl: true,
+	        scrollwheel: true,
+	        disableDoubleClickZoom: false
+	      };
+	
 	      var func = this;
 	      var mapDOMNode = this.refs.map;
-	
-	      var mapOptions = void 0;
-	
-	      if (this.props.singleLoo) {
-	        debugger;
-	        mapOptions = {
-	          center: { lat: this.props.loos.latitude, lng: this.props.loos.longitutude },
-	          zoom: 13,
-	          draggable: false,
-	          zoomControl: false,
-	          scrollwheel: false,
-	          disableDoubleClickZoom: true
-	        };
-	      } else {
-	        mapOptions = {
-	          center: { lat: 40.7250279, lng: -73.998986 },
-	          zoom: 13,
-	          draggable: true,
-	          zoomControl: true,
-	          scrollwheel: true,
-	          disableDoubleClickZoom: false
-	        };
-	      }
 	
 	      this.map = new google.maps.Map(mapDOMNode, mapOptions);
 	
 	      this.MarkerManager = new _marker_manager2.default(this.map);
-	      // if (this.props.singleLoo){
-	      //   this.props.requestLoo(this.props.looId);
-	      // } else {
-	      google.maps.event.addListener(this.map, 'idle', function () {
-	        var _getBounds$toJSON = this.getBounds().toJSON();
 	
-	        var north = _getBounds$toJSON.north;
-	        var south = _getBounds$toJSON.south;
-	        var east = _getBounds$toJSON.east;
-	        var west = _getBounds$toJSON.west;
+	      if (this.props.singleLoo) {
+	        this.props.requestLoo(this.props.looId);
+	      } else {
+	        this._registerListeners();
+	        this.MarkerManager.updateMarkers(this.props.loos);
+	      }
+	    }
+	  }, {
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate() {
+	      if (this.props.singleLoo) {
+	        this.MarkerManager.updateMarkers([this.props.loos[Object.keys(this.props.loos)[0]]]);
+	        this.map.setOptions({ center: { lat: this.props.loos[this.props.looId].latitude, lng: this.props.loos[this.props.looId].longitude } });
+	      } else {
+	        this.MarkerManager.updateMarkers(this.props.loos);
+	      }
+	    }
+	  }, {
+	    key: '_registerListeners',
+	    value: function _registerListeners() {
+	      var _this2 = this;
+	
+	      google.maps.event.addListener(this.map, 'idle', function () {
+	        var _map$getBounds$toJSON = _this2.map.getBounds().toJSON();
+	
+	        var north = _map$getBounds$toJSON.north;
+	        var south = _map$getBounds$toJSON.south;
+	        var east = _map$getBounds$toJSON.east;
+	        var west = _map$getBounds$toJSON.west;
 	
 	        var bounds = {
 	          northEast: { lat: north, lng: east },
-	          southWest: { lat: south, lng: west }
-	        };
-	        func.props.updateBounds(bounds);
+	          southWest: { lat: south, lng: west } };
+	        _this2.props.updateBounds(bounds);
 	      });
-	      var loos = this.props.singleLoo ? [this.props.loos] : this.props.loos;
-	      this.MarkerManager.updateMarkers(loos);
-	      // }
-	    }
-	  }, {
-	    key: 'componentWillReceiveProps',
-	    value: function componentWillReceiveProps(newProps) {
-	      if (this.props.singleLoo) {
-	        this.MarkerManager.updateMarkers(newProps.loos);
-	      } else {
-	        this.MarkerManager.updateMarkers(newProps.loos);
-	      }
 	    }
 	  }, {
 	    key: 'render',
@@ -29503,6 +29501,7 @@
 	
 	    this.map = map;
 	    this.markers = [];
+	    this._createMarkerFromLoo = this._createMarkerFromLoo.bind(this);
 	    this._removeMarker = this._removeMarker.bind(this);
 	    this._markersToRemove = this._markersToRemove.bind(this);
 	  }
@@ -29511,7 +29510,7 @@
 	    key: "updateMarkers",
 	    value: function updateMarkers(loos) {
 	      this.loos = loos;
-	      this._loosToAdd().forEach(this._createMarkerFromLoo.bind(this));
+	      this._loosToAdd().forEach(this._createMarkerFromLoo);
 	      this._markersToRemove().forEach(this._removeMarker);
 	    }
 	  }, {
@@ -29535,13 +29534,6 @@
 	      });
 	    }
 	  }, {
-	    key: "_removeMarker",
-	    value: function _removeMarker(marker) {
-	      var idx = this.markers.indexOf(marker);
-	      this.markers[idx].setMap(null);
-	      this.markers.splice(idx, 1);
-	    }
-	  }, {
 	    key: "_createMarkerFromLoo",
 	    value: function _createMarkerFromLoo(loo) {
 	      var newMarkerPos = { lat: loo.latitude, lng: loo.longitude };
@@ -29562,6 +29554,13 @@
 	
 	      newMarker.looId = loo.id;
 	      this.markers.push(newMarker);
+	    }
+	  }, {
+	    key: "_removeMarker",
+	    value: function _removeMarker(marker) {
+	      var idx = this.markers.indexOf(marker);
+	      this.markers[idx].setMap(null);
+	      this.markers.splice(idx, 1);
 	    }
 	  }]);
 	
@@ -29628,13 +29627,13 @@
 	
 	var _loo_actions = __webpack_require__(274);
 	
-	var _selectors = __webpack_require__(288);
+	var _selectors = __webpack_require__(275);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var mapStateToProps = function mapStateToProps(state, ownProps) {
 	  var looId = parseInt(ownProps.params.looId);
-	  var loo = (0, _selectors.selectLoo)(state.loos, looId);
+	  var loo = state.loos;
 	  return {
 	    looId: looId,
 	    loo: loo
@@ -29663,8 +29662,6 @@
 	  value: true
 	});
 	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
@@ -29673,50 +29670,49 @@
 	
 	var _loo_map2 = _interopRequireDefault(_loo_map);
 	
+	var _reactRouter = __webpack_require__(173);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	var LooShow = function LooShow(_ref) {
+	  var loo = _ref.loo;
+	  var looId = _ref.looId;
+	  var requestLoo = _ref.requestLoo;
 	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	  var loos = _defineProperty({}, looId, loo);
 	
-	var LooShow = function (_React$Component) {
-	  _inherits(LooShow, _React$Component);
-	
-	  function LooShow() {
-	    _classCallCheck(this, LooShow);
-	
-	    return _possibleConstructorReturn(this, (LooShow.__proto__ || Object.getPrototypeOf(LooShow)).apply(this, arguments));
-	  }
-	
-	  _createClass(LooShow, [{
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
-	      this.props.requestLoos(this.props.looId);
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      if (this.props.loos) {
-	        return _react2.default.createElement(
-	          'div',
-	          { className: 'loo-index' },
-	          _react2.default.createElement(
-	            'h1',
-	            { className: 'loo-index-title' },
-	            'Loo Show Page'
-	          ),
-	          _react2.default.createElement(_loo_map2.default, { looId: this.props.looId, requestLoo: this.props.requestLoo, singleLoo: true, loos: this.props.loos })
-	        );
-	      } else {
-	        return _react2.default.createElement('div', null);
-	      }
-	    }
-	  }]);
-	
-	  return LooShow;
-	}(_react2.default.Component);
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'single-loo-show' },
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'single-loo-map' },
+	      _react2.default.createElement(
+	        'main',
+	        { className: 'single-loo-show-main-container group' },
+	        _react2.default.createElement(_loo_map2.default, { className: 'single-loo-map',
+	          looId: looId,
+	          requestLoo: requestLoo,
+	          singleLoo: true,
+	          loos: loos
+	        }),
+	        _react2.default.createElement(
+	          'span',
+	          { className: 'single-loo-title' },
+	          loo.name
+	        ),
+	        _react2.default.createElement(
+	          'span',
+	          { className: 'single-loo-address' },
+	          loo.address
+	        ),
+	        _react2.default.createElement('img', { className: 'single-loo-picture', src: loo.image_url })
+	      )
+	    )
+	  );
+	};
 	
 	exports.default = LooShow;
 
@@ -29764,6 +29760,19 @@
 
 /***/ },
 /* 275 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var selectLoo = exports.selectLoo = function selectLoo(loos, id) {
+	  return loos[id] || {};
+	};
+
+/***/ },
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29774,11 +29783,11 @@
 	
 	var _redux = __webpack_require__(243);
 	
-	var _root_reducer = __webpack_require__(276);
+	var _root_reducer = __webpack_require__(277);
 	
 	var _root_reducer2 = _interopRequireDefault(_root_reducer);
 	
-	var _root_middleware = __webpack_require__(282);
+	var _root_middleware = __webpack_require__(283);
 	
 	var _root_middleware2 = _interopRequireDefault(_root_middleware);
 	
@@ -29792,7 +29801,7 @@
 	exports.default = configureStore;
 
 /***/ },
-/* 276 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29803,15 +29812,15 @@
 	
 	var _redux = __webpack_require__(243);
 	
-	var _session_reducer = __webpack_require__(277);
+	var _session_reducer = __webpack_require__(278);
 	
 	var _session_reducer2 = _interopRequireDefault(_session_reducer);
 	
-	var _loos_reducer = __webpack_require__(280);
+	var _loos_reducer = __webpack_require__(281);
 	
 	var _loos_reducer2 = _interopRequireDefault(_loos_reducer);
 	
-	var _filter_reducer = __webpack_require__(281);
+	var _filter_reducer = __webpack_require__(282);
 	
 	var _filter_reducer2 = _interopRequireDefault(_filter_reducer);
 	
@@ -29826,7 +29835,7 @@
 	exports.default = RootReducer;
 
 /***/ },
-/* 277 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29835,7 +29844,7 @@
 	  value: true
 	});
 	
-	var _lodash = __webpack_require__(278);
+	var _lodash = __webpack_require__(279);
 	
 	var _session_actions = __webpack_require__(259);
 	
@@ -29874,7 +29883,7 @@
 	exports.default = SessionReducer;
 
 /***/ },
-/* 278 */
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global, module) {/**
@@ -46840,10 +46849,10 @@
 	  }
 	}.call(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(279)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(280)(module)))
 
 /***/ },
-/* 279 */
+/* 280 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -46859,7 +46868,7 @@
 
 
 /***/ },
-/* 280 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46868,7 +46877,7 @@
 	  value: true
 	});
 	
-	var _lodash = __webpack_require__(278);
+	var _lodash = __webpack_require__(279);
 	
 	var _loo_actions = __webpack_require__(274);
 	
@@ -46893,7 +46902,7 @@
 	exports.default = LoosReducer;
 
 /***/ },
-/* 281 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46904,7 +46913,7 @@
 	
 	var _filter_actions = __webpack_require__(271);
 	
-	var _lodash = __webpack_require__(278);
+	var _lodash = __webpack_require__(279);
 	
 	var update_bounds = _filter_actions.UPDATE_BOUNDS;
 	
@@ -46927,7 +46936,7 @@
 	exports.default = FilterReducer;
 
 /***/ },
-/* 282 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46938,15 +46947,15 @@
 	
 	var _redux = __webpack_require__(243);
 	
-	var _session_middleware = __webpack_require__(283);
+	var _session_middleware = __webpack_require__(284);
 	
 	var _session_middleware2 = _interopRequireDefault(_session_middleware);
 	
-	var _loos_middleware = __webpack_require__(285);
+	var _loos_middleware = __webpack_require__(286);
 	
 	var _loos_middleware2 = _interopRequireDefault(_loos_middleware);
 	
-	var _reduxLogger = __webpack_require__(287);
+	var _reduxLogger = __webpack_require__(288);
 	
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 	
@@ -46957,7 +46966,7 @@
 	exports.default = RootMiddleware;
 
 /***/ },
-/* 283 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46970,7 +46979,7 @@
 	
 	var ACTIONS = _interopRequireWildcard(_session_actions);
 	
-	var _session_api_util = __webpack_require__(284);
+	var _session_api_util = __webpack_require__(285);
 	
 	var API = _interopRequireWildcard(_session_api_util);
 	
@@ -47007,7 +47016,7 @@
 	};
 
 /***/ },
-/* 284 */
+/* 285 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -47045,7 +47054,7 @@
 	};
 
 /***/ },
-/* 285 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47056,7 +47065,7 @@
 	
 	var _loo_actions = __webpack_require__(274);
 	
-	var _loo_api_util = __webpack_require__(286);
+	var _loo_api_util = __webpack_require__(287);
 	
 	var _filter_actions = __webpack_require__(271);
 	
@@ -47097,7 +47106,7 @@
 	};
 
 /***/ },
-/* 286 */
+/* 287 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -47129,7 +47138,7 @@
 	};
 
 /***/ },
-/* 287 */
+/* 288 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -47360,19 +47369,6 @@
 	}
 	
 	module.exports = createLogger;
-
-/***/ },
-/* 288 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var selectLoos = exports.selectLoos = function selectLoos(loos, id) {
-	  return loos[id] || {};
-	};
 
 /***/ }
 /******/ ]);

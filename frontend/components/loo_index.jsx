@@ -2,6 +2,11 @@ import React from 'react';
 import LooIndexItem from './loo_index_item.jsx';
 
 class LooIndex extends React.Component {
+
+    componentDidMount(){
+      this.props.requestLoos();
+    }
+
     render() {
       let loos;
 

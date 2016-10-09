@@ -1,29 +1,30 @@
 import React from 'react';
 import LooMap from './loo_map.jsx';
+import { Link } from 'react-router';
 
 
-class LooShow extends React.Component {
+const LooShow = ({ loo, looId, requestLoo }) => {
+  const loos = {
+    [looId]: loo
+  };
 
-  componentWillMount(){
-    this.props.requestLoos(this.props.looId);
-  }
-
-  render() {
-    if (this.props.loos) {
-      return(
-        <div className="loo-index">
-          <h1 className="loo-index-title">Loo Show Page</h1>
-          <LooMap looId = {this.props.looId} requestLoo={this.props.requestLoo} singleLoo={true} loos={this.props.loos}></LooMap>
-        </div>
-      );
-    } else {
-      return(
-        <div>
-
-        </div>
-      );
-    }
-  }
+  return(
+    <div className="single-loo-show">
+      <div className="single-loo-map">
+        <main className="single-loo-show-main-container group">
+          <LooMap className="single-loo-map"
+            looId = {looId}
+            requestLoo={requestLoo}
+            singleLoo={true}
+            loos={loos}
+            />
+          <span className="single-loo-title">{loo.name}</span>
+          <span className="single-loo-address">{loo.address}</span>
+          <img className="single-loo-picture" src={loo.image_url} />
+        </main>
+      </div>
+    </div>
+  )
 }
 
 export default LooShow;

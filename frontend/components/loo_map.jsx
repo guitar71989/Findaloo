@@ -1,26 +1,12 @@
 import React from 'react';
 import MarkerManager from './../util/marker_manager.js';
 
+
 class LooMap extends React.Component {
 
+
   componentDidMount() {
-    let func = this;
-    const mapDOMNode = this.refs.map;
-
-    let mapOptions;
-
-    if (this.props.singleLoo){
-      debugger
-      mapOptions = {
-        center: {lat: this.props.loos.latitude, lng: this.props.loos.longitutude},
-        zoom: 13,
-        draggable: false,
-        zoomControl: false,
-        scrollwheel: false,
-        disableDoubleClickZoom: true
-      };
-    } else {
-      mapOptions = {
+    const mapOptions = {
         center: {lat: 40.7250279, lng: -73.998986},
         zoom: 13,
         draggable: true,
@@ -28,34 +14,39 @@ class LooMap extends React.Component {
         scrollwheel: true,
         disableDoubleClickZoom: false
       };
-    }
+
+    let func = this;
+    const mapDOMNode = this.refs.map;
 
     this.map = new google.maps.Map(mapDOMNode, mapOptions);
 
     this.MarkerManager = new MarkerManager(this.map);
-    // if (this.props.singleLoo){
-    //   this.props.requestLoo(this.props.looId);
-    // } else {
-      google.maps.event.addListener(this.map, 'idle', function() {
-        const { north, south, east, west } = this.getBounds().toJSON();
-        const bounds = {
-          northEast: { lat:north, lng: east },
-          southWest: { lat: south, lng: west }
-        };
-          func.props.updateBounds(bounds);
-        }
-      );
-      let loos = (this.props.singleLoo) ? [this.props.loos] : this.props.loos;
-      this.MarkerManager.updateMarkers(loos);
-    // }
+
+    if (this.props.singleLoo){
+      this.props.requestLoo(this.props.looId);
+    } else {
+      this._registerListeners();
+      this.MarkerManager.updateMarkers(this.props.loos);
+    }
   }
 
-  componentWillReceiveProps(newProps) {
+  componentDidUpdate() {
     if(this.props.singleLoo){
-     this.MarkerManager.updateMarkers(newProps.loos);
-    } else {
-     this.MarkerManager.updateMarkers(newProps.loos);
+     this.MarkerManager.updateMarkers([this.props.loos[Object.keys(this.props.loos)[0]]]);
+     this.map.setOptions({center: {lat: this.props.loos[this.props.looId].latitude, lng: this.props.loos[this.props.looId].longitude}});
+   } else {
+     this.MarkerManager.updateMarkers(this.props.loos);
     }
+  }
+
+  _registerListeners() {
+    google.maps.event.addListener(this.map, 'idle', () => {
+      const { north, south, east, west } = this.map.getBounds().toJSON();
+      const bounds = {
+        northEast: { lat:north, lng: east },
+        southWest: { lat: south, lng: west } };
+      this.props.updateBounds(bounds);
+    });
   }
 
   render(){

@@ -5,11 +5,11 @@ import { selectLoo } from './../reducers/selectors.js';
 
 const mapStateToProps = (state, ownProps) => {
   const looId = parseInt(ownProps.params.looId);
-  const loo = selectLoo(state.loos, looId);
-  return({
+  const loo = state.loos;
+  return{
     looId,
     loo
-});};
+};};
 
 
 const mapDispatchToProps = dispatch => ({
