@@ -6,6 +6,7 @@ import { selectLoo } from './../reducers/selectors.js';
 const mapStateToProps = (state, ownProps) => {
   const looId = parseInt(ownProps.params.looId);
   const loo = state.loos;
+  debugger
   const currentUser = state.session.currentUser;
   return{
     looId,

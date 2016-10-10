@@ -29655,6 +29655,7 @@
 	var mapStateToProps = function mapStateToProps(state, ownProps) {
 	  var looId = parseInt(ownProps.params.looId);
 	  var loo = state.loos;
+	  debugger;
 	  var currentUser = state.session.currentUser;
 	  return {
 	    looId: looId,
@@ -30369,6 +30370,23 @@
 	      this.setState({ body: event.target.value });
 	    }
 	  }, {
+	    key: 'reviewFormUser',
+	    value: function reviewFormUser() {
+	      if (this.props.currentUser) {
+	        return _react2.default.createElement(
+	          'p',
+	          { className: 'review-loo-form-username' },
+	          this.props.currentUser.username
+	        );
+	      } else {
+	        return _react2.default.createElement(
+	          'p',
+	          null,
+	          ' Sign up for Findaloo and review this loo!'
+	        );
+	      }
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -30377,11 +30395,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'review-loo-form-user' },
-	          _react2.default.createElement(
-	            'p',
-	            { className: 'review-loo-form-username' },
-	            this.props.currentUser.username
-	          )
+	          this.reviewFormUser()
 	        ),
 	        _react2.default.createElement('input', { className: 'review-loo-form-submit',
 	          type: 'submit',

@@ -16,7 +16,23 @@ class Loo < ActiveRecord::Base
   end
 
   def other_users_reviews(user)
-    reviews.where.not(user_id: user.id)
+    (user.nil?) ? reviews.all : reviews.where.not(user_id: user.id)
   end
+
+  # def review_avg
+  # end
+  #
+  # def review_count
+  #   Review.all.
+  # end
+  #
+  # SELECT
+  #   loos.*, COUNT(reviews.id) as num_reviews
+  # FROM
+  #   loos
+  # LEFT OUTER JOIN
+  #   reviews ON loos.id = reviews.loo_id
+  # GROUP BY
+  #   loos.id
 
 end

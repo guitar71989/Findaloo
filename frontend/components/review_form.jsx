@@ -31,12 +31,24 @@ class ReviewForm extends React.Component {
     this.setState({body: event.target.value});
   }
 
+  reviewFormUser(){
+    if (this.props.currentUser) {
+      return(
+        <p className="review-loo-form-username">{this.props.currentUser.username}</p>
+      );
+    } else {
+      return(
+        <p> Sign up for Findaloo and review this loo!</p>
+      );
+
+    }
+  }
 
   render(){
     return(
       <form className="group">
         <div className="review-loo-form-user">
-          <p className="review-loo-form-username">{this.props.currentUser.username}</p>
+          {this.reviewFormUser()}
         </div>
 
         <input className="review-loo-form-submit"
