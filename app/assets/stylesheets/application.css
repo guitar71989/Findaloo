@@ -398,7 +398,7 @@ authcontainer small {
  }
 
 .review-loo-form {
-  margin: 20px;
+  margin: 0 20px 20px 20px;
 }
 
 .loo-show-review-item-username {
@@ -442,8 +442,11 @@ fieldset {
 }
 
 .star {
-
   display: block;
-  font-size: 36px;
+  font-size: 24px;
   vertical-align: center;
+}
+
+.your-review {
+  margin-top: -20px;
 }

@@ -7,7 +7,7 @@ class ReviewForm extends React.Component {
   constructor(props){
     super(props);
     const loo_id = this.props.looId;
-    this.state = {loo_id, rating: 5, body: "" };
+    this.state = {loo_id, rating: 0, body: "" };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.navigateToLooShow = this.navigateToLooShow.bind(this);
   }
@@ -21,7 +21,6 @@ class ReviewForm extends React.Component {
     e.preventDefault();
     this.state.loo_id = this.props.looId;
     this.props.createReview(this.state);
-    // this.navigateToLooShow();
   }
 
   onStarClick(newValue){
@@ -51,7 +50,6 @@ class ReviewForm extends React.Component {
 
           <StarRatingComponent className="star"
             name="rate1"
-            size={1}
             emptyStarColor={'#ccc'}
             starColor={'#ffd700'}
             starCount={5}

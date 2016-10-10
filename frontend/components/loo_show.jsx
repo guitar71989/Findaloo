@@ -2,21 +2,35 @@ import React from 'react';
 import LooMap from './loo_map.jsx';
 import { Link } from 'react-router';
 import ReviewShow from './review_show.jsx';
-import StarRating from 'react-star-rating';
 import ReviewFormContainer from './review_form_container.js';
 
 
-const reviewList = (reviews=[]) => (
-  reviews.map( (review) => (
-    <ReviewShow author={review.author} rating={review.rating} body={review.body} key={review.id}/>
-    )
-  )
-)
+const reviewList = (reviews=[]) => {
+  return(reviews.map( (review) => (
+  <ReviewShow author={review.author} rating={review.rating} body={review.body} key={review.id}/>
+  )))
+}
 
-const LooShow = ({ loo, looId, requestLoo }) => {
+const LooShow = ({ loo, looId, requestLoo, currentUser }) => {
   const loos = {
     [looId]: loo
   };
+
+  const renderCurrentUserForm = () => {
+    if (loo.current_user_review) {
+      return(
+          <ReviewShow author={currentUser.username}
+            rating={loo.current_user_review.rating}
+            body={loo.current_user_review.body}
+            key={loo.current_user_review.id}/>
+      )
+    } else {
+      return(
+        <ReviewFormContainer />
+      )
+    }
+  }
+
 
   return(
     <div className="single-loo-show">
@@ -36,8 +50,9 @@ const LooShow = ({ loo, looId, requestLoo }) => {
 
       <div className="reviews-container">
         <div className="reviews">
+          <h3 className="your-review">Your Review</h3>
+          { renderCurrentUserForm() }
           <h3>Recommended Reviews for {loo.name}</h3>
-          <ReviewFormContainer />
           { reviewList(loo.reviews) }
         </div>
       </div>
