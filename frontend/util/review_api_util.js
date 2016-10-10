@@ -6,16 +6,6 @@ export const createReview = (review, success, error) => $.ajax({
   error
 });
 
-
-export const fetchReviews = function(id, success){
-  $.ajax({
-    method: 'GET',
-    url: `api/reviews/${id}`,
-    success,
-    error: () => console.log('error')
-  });
-};
-
 export const destroyReview = function(id, success){
   $.ajax({
     method: 'DELETE',

@@ -6,13 +6,3 @@ export const createReview = (review) => ({
   type: CREATE_REVIEW,
   review
 });
-
-export const requestReviews = (looId) => ({
-  type: REQUEST_REVIEWS,
-  looId
-});
-
-export const receiveReviews = (reviews) => ({
-  type: RECEIVE_REVIEWS,
-  reviews
-});

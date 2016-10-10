@@ -28986,7 +28986,6 @@
 	    key: 'handleSubmit',
 	    value: function handleSubmit(e) {
 	      e.preventDefault();
-	      debugger;
 	      var user = this.state;
 	      this.props.processForm(user);
 	    }
@@ -49771,20 +49770,6 @@
 	    review: review
 	  };
 	};
-	
-	var requestReviews = exports.requestReviews = function requestReviews(looId) {
-	  return {
-	    type: REQUEST_REVIEWS,
-	    looId: looId
-	  };
-	};
-	
-	var receiveReviews = exports.receiveReviews = function receiveReviews(reviews) {
-	  return {
-	    type: RECEIVE_REVIEWS,
-	    reviews: reviews
-	  };
-	};
 
 /***/ },
 /* 438 */
@@ -49894,16 +49879,11 @@
 	
 	var _filter_reducer2 = _interopRequireDefault(_filter_reducer);
 	
-	var _reviews_reducer = __webpack_require__(447);
-	
-	var _reviews_reducer2 = _interopRequireDefault(_reviews_reducer);
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var RootReducer = (0, _redux.combineReducers)({
 	    session: _session_reducer2.default,
 	    loos: _loos_reducer2.default,
-	    reviews: _reviews_reducer2.default,
 	    filters: _filter_reducer2.default
 	});
 	
@@ -67011,32 +66991,7 @@
 	exports.default = FilterReducer;
 
 /***/ },
-/* 447 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _lodash = __webpack_require__(443);
-	
-	// import {  } from './../actions/review_actions.js';
-	
-	var ReviewsReducer = function ReviewsReducer() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-	  var action = arguments[1];
-	
-	  switch (action.type) {
-	    default:
-	      return state;
-	  }
-	};
-	
-	exports.default = ReviewsReducer;
-
-/***/ },
+/* 447 */,
 /* 448 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -67056,17 +67011,13 @@
 	
 	var _loos_middleware2 = _interopRequireDefault(_loos_middleware);
 	
-	var _review_middleware = __webpack_require__(453);
-	
-	var _review_middleware2 = _interopRequireDefault(_review_middleware);
-	
 	var _reduxLogger = __webpack_require__(455);
 	
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var RootMiddleware = (0, _redux.applyMiddleware)(_session_middleware2.default, _loos_middleware2.default, _review_middleware2.default, (0, _reduxLogger2.default)());
+	var RootMiddleware = (0, _redux.applyMiddleware)(_session_middleware2.default, _loos_middleware2.default, (0, _reduxLogger2.default)());
 	
 	exports.default = RootMiddleware;
 
@@ -67170,6 +67121,10 @@
 	
 	var _loo_actions = __webpack_require__(438);
 	
+	var _review_actions = __webpack_require__(437);
+	
+	var _review_api_util = __webpack_require__(454);
+	
 	var _loo_api_util = __webpack_require__(452);
 	
 	var _filter_actions = __webpack_require__(271);
@@ -67201,6 +67156,18 @@
 	          {
 	            next(action);
 	            dispatch(requestLoos());
+	            break;
+	          }
+	        case _review_actions.CREATE_REVIEW:
+	          {
+	            var review = action.review;
+	            var _success2 = function _success2(data) {
+	              return dispatch((0, _loo_actions.requestLoo)(data.loo_id));
+	            };
+	            var error = function error(_error) {
+	              return console.log(_error);
+	            };
+	            (0, _review_api_util.createReview)(review, _success2, error);
 	            break;
 	          }
 	        default:
@@ -67243,52 +67210,7 @@
 	};
 
 /***/ },
-/* 453 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _review_actions = __webpack_require__(437);
-	
-	var _review_api_util = __webpack_require__(454);
-	
-	exports.default = function (_ref) {
-	  var getState = _ref.getState;
-	  var dispatch = _ref.dispatch;
-	  return function (next) {
-	    return function (action) {
-	      switch (action.type) {
-	        // case REQUEST_REVIEWS: {
-	        //   const success = data => dispatch(receiveReviews(data))
-	        //   const looId = action.looId
-	        //   fetchReviews(looId, success);
-	        //   break;
-	        // }
-	        case _review_actions.CREATE_REVIEW:
-	          {
-	            debugger;
-	            var review = action.review;
-	            var looId = action.review.loo_id;
-	            var success = function success(looId) {
-	              return dispatch((0, _review_actions.requestReviews)(looId));
-	            };
-	            var error = function error(_error) {
-	              return console.log(_error);
-	            };
-	            (0, _review_api_util.createReview)(review, success, error);
-	          }
-	        default:
-	          return next(action);
-	      }
-	    };
-	  };
-	};
-
-/***/ },
+/* 453 */,
 /* 454 */
 /***/ function(module, exports) {
 
@@ -67304,17 +67226,6 @@
 	    data: { review: review },
 	    success: success,
 	    error: error
-	  });
-	};
-	
-	var fetchReviews = exports.fetchReviews = function fetchReviews(id, success) {
-	  $.ajax({
-	    method: 'GET',
-	    url: 'api/reviews/' + id,
-	    success: success,
-	    error: function error() {
-	      return console.log('error');
-	    }
 	  });
 	};
 	
