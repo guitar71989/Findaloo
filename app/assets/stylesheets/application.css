@@ -104,22 +104,22 @@
   color: #eee;
  }
 
- form {
+ authcontainer form {
    margin:0 auto;
    float: left;
  }
 
-  .signup-logo {
+.signup-logo {
     float: right;
     height: 342px;
     width: 390px;
   }
 
-form > input:first-child {
-  margin-top: 80px;
-}
+  authcontainer form > input:first-child {
+    margin-top: 80px;
+  }
 
-form > input {
+authcontainer form > input {
   display: block;
   padding: 9px;
   width: 200px;
@@ -129,7 +129,7 @@ form > input {
   margin-bottom: 20px;
 }
 
-form > input:focus {
+authcontainer form > input:focus {
   outline: none;
   box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
@@ -153,7 +153,7 @@ authcontainer h1 {
   width: 275px;
 }
 
-input[type="submit"] {
+authcontainer input[type="submit"] {
   color: #fff;
   font-weight: bold;
   background: #ff0000;
@@ -199,7 +199,7 @@ authcontainer li:last-child {
   color: #ccc;
 }
 
-input[type="submit"]:hover {
+authcontainer input[type="submit"]:hover {
     -webkit-filter: brightness(80%);
 }
 
@@ -377,8 +377,8 @@ authcontainer small {
 }
 
 .reviews {
+  padding-top: 20px;
   margin: 0 20px;
-  border-top: 1px solid #ccc;
 }
 
 .loo-show-review-item-reponses {
@@ -387,8 +387,19 @@ authcontainer small {
 
  .loo-show-review-item {
    background: #fff;
+   display: block;
+   padding-top: 20px;
+   border-top: 1px solid #ccc;
+ }
+
+ .loo-show-review-item {
+   background: #fff;
    margin-bottom: 20px;
  }
+
+.review-loo-form {
+  margin: 20px;
+}
 
 .loo-show-review-item-username {
   float: left;
@@ -397,5 +408,20 @@ authcontainer small {
   margin-right: 20px;
 }
 
-.loo-show-review-item-rating {
+.review-loo-form-submit {
+  float: right;
+  background: #ff0000;
+  color: #fff;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 5%
+}
+
+
+.review-loo-form-body {
+  padding: 10px;
+  vertical-align: text-top;
+  border: 1px solid #ccc;
+  width: 275px;
+  height: 75px;
 }

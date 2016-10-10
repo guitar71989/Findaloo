@@ -32,6 +32,8 @@
     "react-dom": "^15.3.2",
     "react-redux": "^4.4.5",
     "react-router": "^2.8.1",
+    "react-star-rating": "^1.4.2",
+    "react-star-rating-component": "^1.2.2",
     "redux": "^3.6.0",
     "redux-logger": "^2.6.1",
     "webpack": "^1.13.2"
