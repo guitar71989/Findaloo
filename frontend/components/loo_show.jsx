@@ -9,8 +9,9 @@ import ReviewFormContainer from './review_form_container.js';
 const reviewList = (reviews=[]) => (
   reviews.map( (review) => (
     <ReviewShow author={review.author} rating={review.rating} body={review.body} key={review.id}/>
-  ))
-);
+    )
+  )
+)
 
 const LooShow = ({ loo, looId, requestLoo }) => {
   const loos = {

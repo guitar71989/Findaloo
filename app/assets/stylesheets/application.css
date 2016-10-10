@@ -408,7 +408,17 @@ authcontainer small {
   margin-right: 20px;
 }
 
+.review-loo-form-user {
+  float: left;
+  margin-top: 55px;
+  margin-left: 20px;
+  margin-right: 80px;
+  display: block;
+}
+
 .review-loo-form-submit {
+  margin-top: 40px;
+  margin-right: 60px;
   float: right;
   background: #ff0000;
   color: #fff;
@@ -420,8 +430,20 @@ authcontainer small {
 
 .review-loo-form-body {
   padding: 10px;
+  display: block;
   vertical-align: text-top;
   border: 1px solid #ccc;
   width: 275px;
   height: 75px;
+}
+
+fieldset {
+  float: left;
+}
+
+.star {
+
+  display: block;
+  font-size: 36px;
+  vertical-align: center;
 }

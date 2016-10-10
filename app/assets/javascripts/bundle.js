@@ -58,13 +58,13 @@
 	
 	var _root2 = _interopRequireDefault(_root);
 	
-	var _store = __webpack_require__(439);
+	var _store = __webpack_require__(440);
 	
 	var _store2 = _interopRequireDefault(_store);
 	
-	var _loo_actions = __webpack_require__(434);
+	var _loo_actions = __webpack_require__(438);
 	
-	var _review_api_util = __webpack_require__(453);
+	var _review_api_util = __webpack_require__(454);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -21505,7 +21505,7 @@
 	
 	var _loo_show_container2 = _interopRequireDefault(_loo_show_container);
 	
-	var _review_form_container = __webpack_require__(436);
+	var _review_form_container = __webpack_require__(434);
 	
 	var _review_form_container2 = _interopRequireDefault(_review_form_container);
 	
@@ -28986,6 +28986,7 @@
 	    key: 'handleSubmit',
 	    value: function handleSubmit(e) {
 	      e.preventDefault();
+	      debugger;
 	      var user = this.state;
 	      this.props.processForm(user);
 	    }
@@ -29025,11 +29026,10 @@
 	  }, {
 	    key: 'form',
 	    value: function form() {
-	      var title = this.props.formType === 'login' ? 'Log In to Findaloo' : 'Sign Up for Finadaloo';
+	      var title = this.props.formType === 'login' ? 'Log In to Findaloo' : 'Sign Up for Findaloo';
 	
 	      var errors = void 0,
 	          guestLogin = void 0;
-	
 	      if (this.props.errors.length > 0) {
 	        errors = this.props.errors.map(function (error, idx) {
 	          return _react2.default.createElement(
@@ -29647,9 +29647,9 @@
 	
 	var _loo_show2 = _interopRequireDefault(_loo_show);
 	
-	var _loo_actions = __webpack_require__(434);
+	var _loo_actions = __webpack_require__(438);
 	
-	var _selectors = __webpack_require__(435);
+	var _selectors = __webpack_require__(439);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -29702,7 +29702,7 @@
 	
 	var _reactStarRating2 = _interopRequireDefault(_reactStarRating);
 	
-	var _review_form_container = __webpack_require__(436);
+	var _review_form_container = __webpack_require__(434);
 	
 	var _review_form_container2 = _interopRequireDefault(_review_form_container);
 	
@@ -49394,6 +49394,400 @@
 
 /***/ },
 /* 434 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _review_form = __webpack_require__(435);
+	
+	var _review_form2 = _interopRequireDefault(_review_form);
+	
+	var _reactRedux = __webpack_require__(236);
+	
+	var _review_actions = __webpack_require__(437);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	  return {
+	    currentUser: state.session.currentUser,
+	    looId: state.loos.id
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    createReview: function createReview(review) {
+	      return dispatch((0, _review_actions.createReview)(review));
+	    }
+	  };
+	};
+	
+	var ReviewFormContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_review_form2.default);
+	
+	exports.default = ReviewFormContainer;
+
+/***/ },
+/* 435 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactStarRatingComponent = __webpack_require__(436);
+	
+	var _reactStarRatingComponent2 = _interopRequireDefault(_reactStarRatingComponent);
+	
+	var _reactRouter = __webpack_require__(173);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var ReviewForm = function (_React$Component) {
+	  _inherits(ReviewForm, _React$Component);
+	
+	  function ReviewForm(props) {
+	    _classCallCheck(this, ReviewForm);
+	
+	    var _this = _possibleConstructorReturn(this, (ReviewForm.__proto__ || Object.getPrototypeOf(ReviewForm)).call(this, props));
+	
+	    var loo_id = _this.props.looId;
+	    _this.state = { loo_id: loo_id, rating: 5, body: "" };
+	    _this.handleSubmit = _this.handleSubmit.bind(_this);
+	    _this.navigateToLooShow = _this.navigateToLooShow.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(ReviewForm, [{
+	    key: 'navigateToLooShow',
+	    value: function navigateToLooShow() {
+	      this.props.router.replace('/' + this.props.params.looId);
+	    }
+	  }, {
+	    key: 'handleSubmit',
+	    value: function handleSubmit(e) {
+	      e.preventDefault();
+	      this.state.loo_id = this.props.looId;
+	      this.props.createReview(this.state);
+	      // this.navigateToLooShow();
+	    }
+	  }, {
+	    key: 'onStarClick',
+	    value: function onStarClick(newValue) {
+	      this.setState({ rating: newValue });
+	    }
+	  }, {
+	    key: 'inputChange',
+	    value: function inputChange(event) {
+	      this.setState({ body: event.target.value });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'form',
+	        { className: 'group' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'review-loo-form-user' },
+	          _react2.default.createElement(
+	            'p',
+	            { className: 'review-loo-form-username' },
+	            this.props.currentUser.username
+	          )
+	        ),
+	        _react2.default.createElement('input', { className: 'review-loo-form-submit',
+	          type: 'submit',
+	          onClick: this.handleSubmit,
+	          value: 'Review this loo'
+	        }),
+	        _react2.default.createElement(
+	          'fieldset',
+	          { className: 'review-loo-form group' },
+	          _react2.default.createElement(_reactStarRatingComponent2.default, { className: 'star',
+	            name: 'rate1',
+	            size: 1,
+	            emptyStarColor: '#ccc',
+	            starColor: '#ffd700',
+	            starCount: 5,
+	            value: this.state.rating,
+	            onStarClick: this.onStarClick.bind(this)
+	          }),
+	          _react2.default.createElement('textarea', { className: 'review-loo-form-body',
+	            value: this.state.body,
+	            type: 'text',
+	            placeholder: 'Please write a comment here...',
+	            onChange: this.inputChange.bind(this)
+	          })
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return ReviewForm;
+	}(_react2.default.Component);
+	
+	exports.default = ReviewForm;
+
+/***/ },
+/* 436 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _classnames = __webpack_require__(433);
+	
+	var _classnames2 = _interopRequireDefault(_classnames);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var StarRatingComponent = function (_Component) {
+	  _inherits(StarRatingComponent, _Component);
+	
+	  function StarRatingComponent(props) {
+	    _classCallCheck(this, StarRatingComponent);
+	
+	    var _this = _possibleConstructorReturn(this, (StarRatingComponent.__proto__ || Object.getPrototypeOf(StarRatingComponent)).call(this));
+	
+	    _this.state = {
+	      value: props.value
+	    };
+	    return _this;
+	  }
+	
+	  _createClass(StarRatingComponent, [{
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      var value = nextProps.value;
+	
+	
+	      if (value != null && value !== this.state.value) {
+	        this.setState({ value: value });
+	      }
+	    }
+	  }, {
+	    key: 'onChange',
+	    value: function onChange(value) {
+	      var editing = this.props.editing;
+	
+	
+	      if (!editing) {
+	        return;
+	      }
+	
+	      this.setState({ value: value });
+	    }
+	  }, {
+	    key: 'onStarClick',
+	    value: function onStarClick(index, value, name) {
+	      var _props = this.props;
+	      var onStarClick = _props.onStarClick;
+	      var editing = _props.editing;
+	
+	
+	      if (!editing) {
+	        return;
+	      }
+	
+	      onStarClick && onStarClick(index, value, name);
+	    }
+	  }, {
+	    key: 'renderStars',
+	    value: function renderStars() {
+	      var _props2 = this.props;
+	      var name = _props2.name;
+	      var starCount = _props2.starCount;
+	      var starColor = _props2.starColor;
+	      var emptyStarColor = _props2.emptyStarColor;
+	      var editing = _props2.editing;
+	      var value = this.state.value;
+	
+	      var starStyles = function starStyles(i, value) {
+	        return {
+	          float: 'right',
+	          cursor: editing ? 'pointer' : 'default',
+	          color: value >= i ? starColor : emptyStarColor
+	        };
+	      };
+	      var radioStyles = {
+	        display: 'none',
+	        position: 'absolute',
+	        marginLeft: -9999
+	      };
+	
+	      // populate stars
+	      var starNodes = [];
+	
+	      for (var i = starCount; i > 0; i--) {
+	        var id = name + '_' + i;
+	        var starNodeInput = _react2.default.createElement('input', {
+	          key: 'input_' + id,
+	          style: radioStyles,
+	          className: 'dv-star-rating-input',
+	          type: 'radio',
+	          name: name,
+	          id: id,
+	          value: i,
+	          checked: value === i,
+	          onChange: this.onChange.bind(this, i, name)
+	        });
+	        var starNodeLabel = _react2.default.createElement(
+	          'label',
+	          {
+	            key: 'label_' + id,
+	            style: starStyles(i, value),
+	            className: 'dv-star-rating-star',
+	            htmlFor: id,
+	            onClick: this.onStarClick.bind(this, i, value, name)
+	          },
+	          this.renderIcon(i, value, name)
+	        );
+	
+	        starNodes.push(starNodeInput);
+	        starNodes.push(starNodeLabel);
+	      }
+	
+	      return starNodes;
+	    }
+	  }, {
+	    key: 'renderIcon',
+	    value: function renderIcon(index, value, name) {
+	      var _props3 = this.props;
+	      var renderStarIcon = _props3.renderStarIcon;
+	      var renderStarIconHalf = _props3.renderStarIconHalf;
+	
+	
+	      if (typeof renderStarIconHalf === 'function' && Math.floor(value) === index && value % 1 !== 0) {
+	        return renderStarIconHalf(index, value, name);
+	      }
+	
+	      if (typeof renderStarIcon === 'function') {
+	        return renderStarIcon(index, value, name);
+	      }
+	
+	      return _react2.default.createElement(
+	        'i',
+	        { style: { fontStyle: 'normal' } },
+	        '★'
+	      );
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _props4 = this.props;
+	      var editing = _props4.editing;
+	      var className = _props4.className;
+	
+	      var classes = (0, _classnames2.default)('dv-star-rating', {
+	        'dv-star-rating-non-editable': !editing
+	      }, className);
+	
+	      return _react2.default.createElement(
+	        'div',
+	        { style: { display: 'inline-block', position: 'relative' }, className: classes },
+	        this.renderStars()
+	      );
+	    }
+	  }]);
+	
+	  return StarRatingComponent;
+	}(_react.Component);
+	
+	StarRatingComponent.propTypes = {
+	  name: _react.PropTypes.string.isRequired,
+	  value: _react.PropTypes.number,
+	  editing: _react.PropTypes.bool,
+	  starCount: _react.PropTypes.number,
+	  starColor: _react.PropTypes.string,
+	  onStarClick: _react.PropTypes.func,
+	  renderStarIcon: _react.PropTypes.func,
+	  renderStarIconHalf: _react.PropTypes.func
+	};
+	StarRatingComponent.defaultProps = {
+	  starCount: 5,
+	  value: 0,
+	  editing: true,
+	  starColor: '#ffb400',
+	  emptyStarColor: '#333'
+	};
+	exports.default = StarRatingComponent;
+	module.exports = exports['default'];
+
+
+/***/ },
+/* 437 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var CREATE_REVIEW = exports.CREATE_REVIEW = "CREATE_REVIEW";
+	var REQUEST_REVIEWS = exports.REQUEST_REVIEWS = "REQUEST_REVIEWS";
+	var RECEIVE_REVIEWS = exports.RECEIVE_REVIEWS = "RECEIVE_REVIEWS";
+	
+	var createReview = exports.createReview = function createReview(review) {
+	  return {
+	    type: CREATE_REVIEW,
+	    review: review
+	  };
+	};
+	
+	var requestReviews = exports.requestReviews = function requestReviews(looId) {
+	  return {
+	    type: REQUEST_REVIEWS,
+	    looId: looId
+	  };
+	};
+	
+	var receiveReviews = exports.receiveReviews = function receiveReviews(reviews) {
+	  return {
+	    type: RECEIVE_REVIEWS,
+	    reviews: reviews
+	  };
+	};
+
+/***/ },
+/* 438 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -49435,7 +49829,7 @@
 	};
 
 /***/ },
-/* 435 */
+/* 439 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -49448,176 +49842,7 @@
 	};
 
 /***/ },
-/* 436 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _review_form = __webpack_require__(437);
-	
-	var _review_form2 = _interopRequireDefault(_review_form);
-	
-	var _reactRedux = __webpack_require__(236);
-	
-	var _review_actions = __webpack_require__(438);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var mapStateToProps = function mapStateToProps(state) {
-	  return {};
-	};
-	
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	  return {
-	    createReview: function createReview(review) {
-	      return dispatch((0, _review_actions.createReview)(review));
-	    }
-	  };
-	};
-	
-	var ReviewFormContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_review_form2.default);
-	
-	exports.default = ReviewFormContainer;
-
-/***/ },
-/* 437 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactStarRatingComponent = __webpack_require__(454);
-	
-	var _reactStarRatingComponent2 = _interopRequireDefault(_reactStarRatingComponent);
-	
-	var _reactRouter = __webpack_require__(173);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var ReviewForm = function (_React$Component) {
-	  _inherits(ReviewForm, _React$Component);
-	
-	  function ReviewForm(props) {
-	    _classCallCheck(this, ReviewForm);
-	
-	    var _this = _possibleConstructorReturn(this, (ReviewForm.__proto__ || Object.getPrototypeOf(ReviewForm)).call(this, props));
-	
-	    _this.state = { rating: 5, body: "" };
-	    _this.handleSubmit = _this.handleSubmit.bind(_this);
-	    _this.navigateToLooShow = _this.navigateToLooShow.bind(_this);
-	    return _this;
-	  }
-	
-	  _createClass(ReviewForm, [{
-	    key: 'navigateToLooShow',
-	    value: function navigateToLooShow() {
-	      this.props.router.replace('/' + this.props.loo.id);
-	    }
-	  }, {
-	    key: 'handleSubmit',
-	    value: function handleSubmit(e) {
-	      e.preventDefault();
-	      this.props.createReview(this.state);
-	      this.navigateToLooShow();
-	    }
-	  }, {
-	    key: 'onStarClick',
-	    value: function onStarClick(e) {
-	      console.log("hello");
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'form',
-	        { className: 'review-loo-form' },
-	        _react2.default.createElement('textarea', { className: 'review-loo-form-body',
-	          value: this.state.body,
-	          type: 'text',
-	          placeholder: 'Please write a comment here...'
-	        }),
-	        _react2.default.createElement(_reactStarRatingComponent2.default, { className: 'star',
-	          name: 'rate1',
-	          size: 10000,
-	          emptyStarColor: '#ccc',
-	          starColor: '#ffd700',
-	          starCount: 5,
-	          value: this.state.rating,
-	          onStarClick: this.onStarClick.bind(this)
-	        }),
-	        _react2.default.createElement('input', { className: 'review-loo-form-submit',
-	          type: 'submit',
-	          onClick: this.handleSubmit,
-	          placeholder: 'Please write a comment here...'
-	        })
-	      );
-	    }
-	  }]);
-	
-	  return ReviewForm;
-	}(_react2.default.Component);
-	
-	exports.default = ReviewForm;
-
-/***/ },
-/* 438 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var CREATE_REVIEW = exports.CREATE_REVIEW = "CREATE_REVIEW";
-	var REQUEST_REVIEWS = exports.REQUEST_REVIEWS = "REQUEST_REVIEWS";
-	var RECEIVE_REVIEWS = exports.RECEIVE_REVIEWS = "RECEIVE_REVIEWS";
-	
-	var createReview = exports.createReview = function createReview(review) {
-	  return {
-	    type: CREATE_REVIEW,
-	    review: review
-	  };
-	};
-	
-	var requestReviews = exports.requestReviews = function requestReviews(looId) {
-	  return {
-	    type: REQUEST_REVIEWS,
-	    looID: looID
-	  };
-	};
-	
-	var receiveReviews = exports.receiveReviews = function receiveReviews(reviews) {
-	  return {
-	    type: RECEIVE_REVIEWS,
-	    reviews: reviews
-	  };
-	};
-
-/***/ },
-/* 439 */
+/* 440 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49628,11 +49853,11 @@
 	
 	var _redux = __webpack_require__(243);
 	
-	var _root_reducer = __webpack_require__(440);
+	var _root_reducer = __webpack_require__(441);
 	
 	var _root_reducer2 = _interopRequireDefault(_root_reducer);
 	
-	var _root_middleware = __webpack_require__(447);
+	var _root_middleware = __webpack_require__(448);
 	
 	var _root_middleware2 = _interopRequireDefault(_root_middleware);
 	
@@ -49646,7 +49871,7 @@
 	exports.default = configureStore;
 
 /***/ },
-/* 440 */
+/* 441 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49657,19 +49882,19 @@
 	
 	var _redux = __webpack_require__(243);
 	
-	var _session_reducer = __webpack_require__(441);
+	var _session_reducer = __webpack_require__(442);
 	
 	var _session_reducer2 = _interopRequireDefault(_session_reducer);
 	
-	var _loos_reducer = __webpack_require__(444);
+	var _loos_reducer = __webpack_require__(445);
 	
 	var _loos_reducer2 = _interopRequireDefault(_loos_reducer);
 	
-	var _filter_reducer = __webpack_require__(445);
+	var _filter_reducer = __webpack_require__(446);
 	
 	var _filter_reducer2 = _interopRequireDefault(_filter_reducer);
 	
-	var _reviews_reducer = __webpack_require__(446);
+	var _reviews_reducer = __webpack_require__(447);
 	
 	var _reviews_reducer2 = _interopRequireDefault(_reviews_reducer);
 	
@@ -49685,7 +49910,7 @@
 	exports.default = RootReducer;
 
 /***/ },
-/* 441 */
+/* 442 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49694,7 +49919,7 @@
 	  value: true
 	});
 	
-	var _lodash = __webpack_require__(442);
+	var _lodash = __webpack_require__(443);
 	
 	var _session_actions = __webpack_require__(259);
 	
@@ -49733,7 +49958,7 @@
 	exports.default = SessionReducer;
 
 /***/ },
-/* 442 */
+/* 443 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global, module) {/**
@@ -66699,10 +66924,10 @@
 	  }
 	}.call(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(443)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(444)(module)))
 
 /***/ },
-/* 443 */
+/* 444 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -66718,7 +66943,7 @@
 
 
 /***/ },
-/* 444 */
+/* 445 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -66727,9 +66952,9 @@
 	  value: true
 	});
 	
-	var _lodash = __webpack_require__(442);
+	var _lodash = __webpack_require__(443);
 	
-	var _loo_actions = __webpack_require__(434);
+	var _loo_actions = __webpack_require__(438);
 	
 	var LoosReducer = function LoosReducer() {
 	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
@@ -66752,7 +66977,7 @@
 	exports.default = LoosReducer;
 
 /***/ },
-/* 445 */
+/* 446 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -66763,7 +66988,7 @@
 	
 	var _filter_actions = __webpack_require__(271);
 	
-	var _lodash = __webpack_require__(442);
+	var _lodash = __webpack_require__(443);
 	
 	var update_bounds = _filter_actions.UPDATE_BOUNDS;
 	
@@ -66786,7 +67011,7 @@
 	exports.default = FilterReducer;
 
 /***/ },
-/* 446 */
+/* 447 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -66795,7 +67020,7 @@
 	  value: true
 	});
 	
-	var _lodash = __webpack_require__(442);
+	var _lodash = __webpack_require__(443);
 	
 	// import {  } from './../actions/review_actions.js';
 	
@@ -66812,7 +67037,7 @@
 	exports.default = ReviewsReducer;
 
 /***/ },
-/* 447 */
+/* 448 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -66823,26 +67048,30 @@
 	
 	var _redux = __webpack_require__(243);
 	
-	var _session_middleware = __webpack_require__(448);
+	var _session_middleware = __webpack_require__(449);
 	
 	var _session_middleware2 = _interopRequireDefault(_session_middleware);
 	
-	var _loos_middleware = __webpack_require__(450);
+	var _loos_middleware = __webpack_require__(451);
 	
 	var _loos_middleware2 = _interopRequireDefault(_loos_middleware);
 	
-	var _reduxLogger = __webpack_require__(452);
+	var _review_middleware = __webpack_require__(453);
+	
+	var _review_middleware2 = _interopRequireDefault(_review_middleware);
+	
+	var _reduxLogger = __webpack_require__(455);
 	
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var RootMiddleware = (0, _redux.applyMiddleware)(_session_middleware2.default, _loos_middleware2.default, (0, _reduxLogger2.default)());
+	var RootMiddleware = (0, _redux.applyMiddleware)(_session_middleware2.default, _loos_middleware2.default, _review_middleware2.default, (0, _reduxLogger2.default)());
 	
 	exports.default = RootMiddleware;
 
 /***/ },
-/* 448 */
+/* 449 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -66855,7 +67084,7 @@
 	
 	var ACTIONS = _interopRequireWildcard(_session_actions);
 	
-	var _session_api_util = __webpack_require__(449);
+	var _session_api_util = __webpack_require__(450);
 	
 	var API = _interopRequireWildcard(_session_api_util);
 	
@@ -66892,7 +67121,7 @@
 	};
 
 /***/ },
-/* 449 */
+/* 450 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -66930,7 +67159,7 @@
 	};
 
 /***/ },
-/* 450 */
+/* 451 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -66939,9 +67168,9 @@
 	  value: true
 	});
 	
-	var _loo_actions = __webpack_require__(434);
+	var _loo_actions = __webpack_require__(438);
 	
-	var _loo_api_util = __webpack_require__(451);
+	var _loo_api_util = __webpack_require__(452);
 	
 	var _filter_actions = __webpack_require__(271);
 	
@@ -66982,7 +67211,7 @@
 	};
 
 /***/ },
-/* 451 */
+/* 452 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -67014,7 +67243,94 @@
 	};
 
 /***/ },
-/* 452 */
+/* 453 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _review_actions = __webpack_require__(437);
+	
+	var _review_api_util = __webpack_require__(454);
+	
+	exports.default = function (_ref) {
+	  var getState = _ref.getState;
+	  var dispatch = _ref.dispatch;
+	  return function (next) {
+	    return function (action) {
+	      switch (action.type) {
+	        // case REQUEST_REVIEWS: {
+	        //   const success = data => dispatch(receiveReviews(data))
+	        //   const looId = action.looId
+	        //   fetchReviews(looId, success);
+	        //   break;
+	        // }
+	        case _review_actions.CREATE_REVIEW:
+	          {
+	            debugger;
+	            var review = action.review;
+	            var looId = action.review.loo_id;
+	            var success = function success(looId) {
+	              return dispatch((0, _review_actions.requestReviews)(looId));
+	            };
+	            var error = function error(_error) {
+	              return console.log(_error);
+	            };
+	            (0, _review_api_util.createReview)(review, success, error);
+	          }
+	        default:
+	          return next(action);
+	      }
+	    };
+	  };
+	};
+
+/***/ },
+/* 454 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var createReview = exports.createReview = function createReview(review, success, error) {
+	  return $.ajax({
+	    url: 'api/reviews/',
+	    method: 'POST',
+	    data: { review: review },
+	    success: success,
+	    error: error
+	  });
+	};
+	
+	var fetchReviews = exports.fetchReviews = function fetchReviews(id, success) {
+	  $.ajax({
+	    method: 'GET',
+	    url: 'api/reviews/' + id,
+	    success: success,
+	    error: function error() {
+	      return console.log('error');
+	    }
+	  });
+	};
+	
+	var destroyReview = exports.destroyReview = function destroyReview(id, success) {
+	  $.ajax({
+	    method: 'DELETE',
+	    url: 'api/reviews/' + id,
+	    success: success,
+	    error: function error() {
+	      return console.log('error');
+	    }
+	  });
+	};
+
+/***/ },
+/* 455 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -67245,248 +67561,6 @@
 	}
 	
 	module.exports = createLogger;
-
-/***/ },
-/* 453 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var createReview = exports.createReview = function createReview(review, success, error) {
-	  return $.ajax({
-	    url: 'api/reviews/',
-	    method: 'POST',
-	    data: { review: review },
-	    success: success,
-	    error: error
-	  });
-	};
-	
-	var fetchReviews = exports.fetchReviews = function fetchReviews(id, success) {
-	  $.ajax({
-	    method: 'GET',
-	    url: 'api/reviews/' + id,
-	    success: success,
-	    error: function error() {
-	      return console.log('error');
-	    }
-	  });
-	};
-	
-	var destroyReview = exports.destroyReview = function destroyReview(id, success) {
-	  $.ajax({
-	    method: 'DELETE',
-	    url: 'api/reviews/' + id,
-	    success: success,
-	    error: function error() {
-	      return console.log('error');
-	    }
-	  });
-	};
-
-/***/ },
-/* 454 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _classnames = __webpack_require__(433);
-	
-	var _classnames2 = _interopRequireDefault(_classnames);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var StarRatingComponent = function (_Component) {
-	  _inherits(StarRatingComponent, _Component);
-	
-	  function StarRatingComponent(props) {
-	    _classCallCheck(this, StarRatingComponent);
-	
-	    var _this = _possibleConstructorReturn(this, (StarRatingComponent.__proto__ || Object.getPrototypeOf(StarRatingComponent)).call(this));
-	
-	    _this.state = {
-	      value: props.value
-	    };
-	    return _this;
-	  }
-	
-	  _createClass(StarRatingComponent, [{
-	    key: 'componentWillReceiveProps',
-	    value: function componentWillReceiveProps(nextProps) {
-	      var value = nextProps.value;
-	
-	
-	      if (value != null && value !== this.state.value) {
-	        this.setState({ value: value });
-	      }
-	    }
-	  }, {
-	    key: 'onChange',
-	    value: function onChange(value) {
-	      var editing = this.props.editing;
-	
-	
-	      if (!editing) {
-	        return;
-	      }
-	
-	      this.setState({ value: value });
-	    }
-	  }, {
-	    key: 'onStarClick',
-	    value: function onStarClick(index, value, name) {
-	      var _props = this.props;
-	      var onStarClick = _props.onStarClick;
-	      var editing = _props.editing;
-	
-	
-	      if (!editing) {
-	        return;
-	      }
-	
-	      onStarClick && onStarClick(index, value, name);
-	    }
-	  }, {
-	    key: 'renderStars',
-	    value: function renderStars() {
-	      var _props2 = this.props;
-	      var name = _props2.name;
-	      var starCount = _props2.starCount;
-	      var starColor = _props2.starColor;
-	      var emptyStarColor = _props2.emptyStarColor;
-	      var editing = _props2.editing;
-	      var value = this.state.value;
-	
-	      var starStyles = function starStyles(i, value) {
-	        return {
-	          float: 'right',
-	          cursor: editing ? 'pointer' : 'default',
-	          color: value >= i ? starColor : emptyStarColor
-	        };
-	      };
-	      var radioStyles = {
-	        display: 'none',
-	        position: 'absolute',
-	        marginLeft: -9999
-	      };
-	
-	      // populate stars
-	      var starNodes = [];
-	
-	      for (var i = starCount; i > 0; i--) {
-	        var id = name + '_' + i;
-	        var starNodeInput = _react2.default.createElement('input', {
-	          key: 'input_' + id,
-	          style: radioStyles,
-	          className: 'dv-star-rating-input',
-	          type: 'radio',
-	          name: name,
-	          id: id,
-	          value: i,
-	          checked: value === i,
-	          onChange: this.onChange.bind(this, i, name)
-	        });
-	        var starNodeLabel = _react2.default.createElement(
-	          'label',
-	          {
-	            key: 'label_' + id,
-	            style: starStyles(i, value),
-	            className: 'dv-star-rating-star',
-	            htmlFor: id,
-	            onClick: this.onStarClick.bind(this, i, value, name)
-	          },
-	          this.renderIcon(i, value, name)
-	        );
-	
-	        starNodes.push(starNodeInput);
-	        starNodes.push(starNodeLabel);
-	      }
-	
-	      return starNodes;
-	    }
-	  }, {
-	    key: 'renderIcon',
-	    value: function renderIcon(index, value, name) {
-	      var _props3 = this.props;
-	      var renderStarIcon = _props3.renderStarIcon;
-	      var renderStarIconHalf = _props3.renderStarIconHalf;
-	
-	
-	      if (typeof renderStarIconHalf === 'function' && Math.floor(value) === index && value % 1 !== 0) {
-	        return renderStarIconHalf(index, value, name);
-	      }
-	
-	      if (typeof renderStarIcon === 'function') {
-	        return renderStarIcon(index, value, name);
-	      }
-	
-	      return _react2.default.createElement(
-	        'i',
-	        { style: { fontStyle: 'normal' } },
-	        '★'
-	      );
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var _props4 = this.props;
-	      var editing = _props4.editing;
-	      var className = _props4.className;
-	
-	      var classes = (0, _classnames2.default)('dv-star-rating', {
-	        'dv-star-rating-non-editable': !editing
-	      }, className);
-	
-	      return _react2.default.createElement(
-	        'div',
-	        { style: { display: 'inline-block', position: 'relative' }, className: classes },
-	        this.renderStars()
-	      );
-	    }
-	  }]);
-	
-	  return StarRatingComponent;
-	}(_react.Component);
-	
-	StarRatingComponent.propTypes = {
-	  name: _react.PropTypes.string.isRequired,
-	  value: _react.PropTypes.number,
-	  editing: _react.PropTypes.bool,
-	  starCount: _react.PropTypes.number,
-	  starColor: _react.PropTypes.string,
-	  onStarClick: _react.PropTypes.func,
-	  renderStarIcon: _react.PropTypes.func,
-	  renderStarIconHalf: _react.PropTypes.func
-	};
-	StarRatingComponent.defaultProps = {
-	  starCount: 5,
-	  value: 0,
-	  editing: true,
-	  starColor: '#ffb400',
-	  emptyStarColor: '#333'
-	};
-	exports.default = StarRatingComponent;
-	module.exports = exports['default'];
-
 
 /***/ }
 /******/ ]);

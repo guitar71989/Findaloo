@@ -6,10 +6,10 @@ class Api::ReviewsController < ApplicationController
     @review = Review.new(review_params)
     @review.user_id = current_user.id
     if @review.save
-      @loo = review.loo
-      render 'api/reviews/show'
+      @loo = @review.loo
+      render json: @review
     else
-      render json: review, status: 422
+      render json: @review, status: 422
     end
   end
 

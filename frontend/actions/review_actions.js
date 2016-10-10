@@ -9,7 +9,7 @@ export const createReview = (review) => ({
 
 export const requestReviews = (looId) => ({
   type: REQUEST_REVIEWS,
-  looID
+  looId
 });
 
 export const receiveReviews = (reviews) => ({

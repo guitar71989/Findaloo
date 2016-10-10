@@ -33,6 +33,7 @@ class SessionForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    debugger
     const user = this.state;
     this.props.processForm(user);
   }
@@ -56,10 +57,9 @@ class SessionForm extends React.Component {
 
 
   form(){
-    let title = (this.props.formType === 'login') ? 'Log In to Findaloo' : 'Sign Up for Finadaloo';
+    let title = (this.props.formType === 'login') ? 'Log In to Findaloo' : 'Sign Up for Findaloo';
 
     let errors, guestLogin
-
     if (this.props.errors.length > 0) {
       errors = this.props.errors.map((error, idx) => (<li key={idx}>{error}</li>))
     }
