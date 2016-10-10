@@ -5,15 +5,15 @@ import ReviewShow from './review_show.jsx';
 
 const reviewList = (reviews=[]) => (
   reviews.map( (review) => (
-    <ReviewShow rating={review.rating} body={review.body} key={review.id}/>
+    <ReviewShow author={review.author} rating={review.rating} body={review.body} key={review.id}/>
   ))
 );
 
 const LooShow = ({ loo, looId, requestLoo }) => {
-  debugger
   const loos = {
     [looId]: loo
   };
+
   return(
     <div className="single-loo-show">
       <div className="single-loo-map">
@@ -30,9 +30,11 @@ const LooShow = ({ loo, looId, requestLoo }) => {
         </main>
       </div>
 
-      <div className="reviews">
-        <h3>Reviews</h3>
+      <div className="reviews-container">
+        <div className="reviews">
+          <h3>Recommended Reviews for {loo.name}</h3>
           { reviewList(loo.reviews) }
+        </div>
       </div>
     </div>
   )

@@ -365,3 +365,37 @@ authcontainer small {
   width: 150px;
   border: 1px solid #000;
 }
+
+
+ /* --- REVIEWS ON SHOW PAGE --- */
+
+.reviews-container {
+  background: #fff;
+  margin: 0px auto;
+  width: 900px;
+  padding-bottom: 20px;
+}
+
+.reviews {
+  margin: 0 20px;
+  border-top: 1px solid #ccc;
+}
+
+.loo-show-review-item-reponses {
+  float: left;
+}
+
+ .loo-show-review-item {
+   background: #fff;
+   margin-bottom: 20px;
+ }
+
+.loo-show-review-item-username {
+  float: left;
+  margin-left: 20px;
+  width: 150px;
+  margin-right: 20px;
+}
+
+.loo-show-review-item-rating {
+}

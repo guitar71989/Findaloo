@@ -29705,7 +29705,7 @@
 	var reviewList = function reviewList() {
 	  var reviews = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	  return reviews.map(function (review) {
-	    return _react2.default.createElement(_review_show2.default, { rating: review.rating, body: review.body, key: review.id });
+	    return _react2.default.createElement(_review_show2.default, { author: review.author, rating: review.rating, body: review.body, key: review.id });
 	  });
 	};
 	
@@ -29714,8 +29714,8 @@
 	  var looId = _ref.looId;
 	  var requestLoo = _ref.requestLoo;
 	
-	  debugger;
 	  var loos = _defineProperty({}, looId, loo);
+	
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'single-loo-show' },
@@ -29746,13 +29746,18 @@
 	    ),
 	    _react2.default.createElement(
 	      'div',
-	      { className: 'reviews' },
+	      { className: 'reviews-container' },
 	      _react2.default.createElement(
-	        'h3',
-	        null,
-	        'Reviews'
-	      ),
-	      reviewList(loo.reviews)
+	        'div',
+	        { className: 'reviews' },
+	        _react2.default.createElement(
+	          'h3',
+	          null,
+	          'Recommended Reviews for ',
+	          loo.name
+	        ),
+	        reviewList(loo.reviews)
+	      )
 	    )
 	  );
 	};
@@ -29763,7 +29768,7 @@
 /* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -29775,31 +29780,40 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var Review = function Review(_ref) {
+	var ReviewShow = function ReviewShow(_ref) {
+	  var author = _ref.author;
 	  var rating = _ref.rating;
 	  var body = _ref.body;
+	  var username = _ref.username;
 	  return _react2.default.createElement(
-	    'div',
-	    null,
+	    "div",
+	    { className: "loo-show-review-item group" },
 	    _react2.default.createElement(
-	      'ul',
-	      null,
+	      "p",
+	      { className: "loo-show-review-item-username" },
+	      author
+	    ),
+	    _react2.default.createElement(
+	      "ul",
+	      { className: "loo-show-review-item-reponses" },
 	      _react2.default.createElement(
-	        'li',
-	        null,
-	        'Rating: ',
+	        "li",
+	        { className: "loo-show-review-item-rating" },
+	        "Rating: ",
 	        rating
 	      ),
 	      _react2.default.createElement(
-	        'li',
-	        null,
-	        body
+	        "li",
+	        { className: "loo-show-review-item-body" },
+	        "\"",
+	        body,
+	        "\""
 	      )
 	    )
 	  );
 	};
 	
-	exports.default = Review;
+	exports.default = ReviewShow;
 
 /***/ },
 /* 275 */
