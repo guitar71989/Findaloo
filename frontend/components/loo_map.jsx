@@ -30,6 +30,7 @@ class LooMap extends React.Component {
       this._registerListeners();
       // this.MarkerManager.updateMarkers(this.props.loos);
     }
+
   }
 
   componentDidUpdate() {

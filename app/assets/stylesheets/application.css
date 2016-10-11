@@ -81,8 +81,16 @@
    float: left;
    display: block;
    padding: 10px;
-   width: 300px;
+   width: 350px;
    font-size: 18px;
+   cursor: pointer;
+ }
+
+ .header-logo-image {
+   float: left;
+   height: 50px;
+   width: 50px;
+   margin-right: 10px;
  }
 
  .header-list {
@@ -264,6 +272,7 @@ authcontainer small {
   margin: 0 auto;
   border-left: 1px solid #ccc;
   border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
 }
 
  /* --- SEARCH BAR --- */
@@ -298,11 +307,18 @@ authcontainer small {
  }
 
 .index-item-info {
+  cursor: pointer;
   display: block;
   margin: 20px;
-  padding: 10px 0px;
+  padding: 20px 0px;
   border-bottom: 1px solid #ccc;
-  margin-top: 10px;
+  transition: background-color 0.3s ease-in-out;
+  background-color: #fff;
+}
+
+.index-item-info.group:hover {
+  background: #a3c6ff;
+  color: #fff;
 }
 
 .index-item-info:last-child {
@@ -315,6 +331,10 @@ authcontainer small {
   margin-left: 20px;
   font-weight: bold;
   margin-left: 20px;
+}
+
+.index-item-info:hover .index-item-category-title{
+  color: #ffffff;
 }
 
 
@@ -449,4 +469,7 @@ fieldset {
 
 .your-review {
   margin-top: -20px;
+}
+input[type="submit"][disabled] {
+  background: #eee;
 }

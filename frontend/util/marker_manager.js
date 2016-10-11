@@ -1,3 +1,5 @@
+import React from 'react';
+
 class MarkerManager {
   constructor(map) {
     this.map = map;
@@ -34,14 +36,24 @@ class MarkerManager {
       anchor: new google.maps.Point(0, 0) // anchor
     };
 
-    const newMarker = new google.maps.Marker({
+    var newMarker = new google.maps.Marker({
       position: newMarkerPos,
       map: this.map,
       title: newMarkerTitle,
       icon: icon
     });
 
+    var infoWindow = new google.maps.InfoWindow({
+      content: ('<div><a style="color:#82abed" href="#/loos/' + loo.id + ' "><b>' + loo.name + '</b></a></div>' +
+                '<div>' + loo.address + '</div>')
+    });
+
+    google.maps.event.addListener(newMarker,'click', function(){
+      infoWindow.open(this.map, newMarker);
+    });
+
     newMarker.looId = loo.id;
+
     this.markers.push(newMarker);
   }
 

@@ -28681,6 +28681,8 @@
 	
 	var _session_form_container2 = _interopRequireDefault(_session_form_container);
 	
+	var _reactRouter = __webpack_require__(173);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var App = function App(_ref) {
@@ -28696,9 +28698,16 @@
 	        'nav',
 	        { className: 'header-nav group' },
 	        _react2.default.createElement(
-	          'h1',
-	          { className: 'header-logo' },
-	          'Findaloo is the best way to find convenient, local restrooms.'
+	          'div',
+	          { onClick: function onClick() {
+	              return _reactRouter.hashHistory.push("/");
+	            }, className: 'header-logo' },
+	          _react2.default.createElement('img', { className: 'header-logo-image', src: findalooAssets.logo_illustration }),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Findaloo is the best way to find convenient, local restrooms.'
+	          )
 	        ),
 	        _react2.default.createElement(_greeting_container2.default, null)
 	      )
@@ -29273,11 +29282,11 @@
 	      var loo = this.props.loo;
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'index-item-info group' },
+	        { className: 'index-item-info group', onClick: this.handleClick },
 	        _react2.default.createElement('img', { className: 'toilet', src: loo.image_url }),
 	        _react2.default.createElement(
 	          'span',
-	          { className: 'index-item-category-title', onClick: this.handleClick },
+	          { className: 'index-item-category-title' },
 	          loo.name
 	        ),
 	        _react2.default.createElement(
@@ -29504,15 +29513,21 @@
 
 /***/ },
 /* 269 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -29528,14 +29543,14 @@
 	  }
 	
 	  _createClass(MarkerManager, [{
-	    key: "updateMarkers",
+	    key: 'updateMarkers',
 	    value: function updateMarkers(loos) {
 	      this.loos = loos;
 	      this._loosToAdd().forEach(this._createMarkerFromLoo);
 	      this._markersToRemove().forEach(this._removeMarker);
 	    }
 	  }, {
-	    key: "_loosToAdd",
+	    key: '_loosToAdd',
 	    value: function _loosToAdd() {
 	      var currentLoos = this.markers.map(function (marker) {
 	        return marker.looId;
@@ -29545,7 +29560,7 @@
 	      });
 	    }
 	  }, {
-	    key: "_markersToRemove",
+	    key: '_markersToRemove',
 	    value: function _markersToRemove() {
 	      var looIds = this.loos.map(function (loo) {
 	        return loo.id;
@@ -29555,7 +29570,7 @@
 	      });
 	    }
 	  }, {
-	    key: "_createMarkerFromLoo",
+	    key: '_createMarkerFromLoo',
 	    value: function _createMarkerFromLoo(loo) {
 	      var newMarkerPos = { lat: loo.latitude, lng: loo.longitude };
 	      var newMarkerTitle = loo.name;
@@ -29573,11 +29588,20 @@
 	        icon: icon
 	      });
 	
+	      var infoWindow = new google.maps.InfoWindow({
+	        content: '<div><a style="color:#82abed" href="#/loos/' + loo.id + ' "><b>' + loo.name + '</b></a></div>' + '<div>' + loo.address + '</div>'
+	      });
+	
+	      google.maps.event.addListener(newMarker, 'click', function () {
+	        infoWindow.open(this.map, newMarker);
+	      });
+	
 	      newMarker.looId = loo.id;
+	
 	      this.markers.push(newMarker);
 	    }
 	  }, {
-	    key: "_removeMarker",
+	    key: '_removeMarker',
 	    value: function _removeMarker(marker) {
 	      var idx = this.markers.indexOf(marker);
 	      this.markers[idx].setMap(null);
@@ -29655,7 +29679,6 @@
 	var mapStateToProps = function mapStateToProps(state, ownProps) {
 	  var looId = parseInt(ownProps.params.looId);
 	  var loo = state.loos;
-	  debugger;
 	  var currentUser = state.session.currentUser;
 	  return {
 	    looId: looId,
@@ -30389,6 +30412,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var disabled = this.props.currentUser ? false : true;
 	      return _react2.default.createElement(
 	        'form',
 	        { className: 'group' },
@@ -30400,7 +30424,8 @@
 	        _react2.default.createElement('input', { className: 'review-loo-form-submit',
 	          type: 'submit',
 	          onClick: this.handleSubmit,
-	          value: 'Review this loo'
+	          value: 'Review this loo',
+	          disabled: disabled
 	        }),
 	        _react2.default.createElement(
 	          'fieldset',
@@ -30460,7 +30485,6 @@
 	});
 	var REQUEST_LOOS = exports.REQUEST_LOOS = "REQUEST_LOOS";
 	var RECEIVE_LOOS = exports.RECEIVE_LOOS = "RECEIVE_LOOS";
-	
 	var REQUEST_LOO = exports.REQUEST_LOO = "REQUEST_LOO";
 	var RECEIVE_LOO = exports.RECEIVE_LOO = "RECEIVE_LOO";
 	

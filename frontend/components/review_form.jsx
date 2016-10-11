@@ -45,6 +45,7 @@ class ReviewForm extends React.Component {
   }
 
   render(){
+    let disabled = this.props.currentUser ? false : true;
     return(
       <form className="group">
         <div className="review-loo-form-user">
@@ -55,6 +56,7 @@ class ReviewForm extends React.Component {
           type="submit"
           onClick={this.handleSubmit}
           value="Review this loo"
+          disabled = {disabled}
           />
 
         <fieldset className="review-loo-form group">

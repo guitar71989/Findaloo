@@ -2,7 +2,7 @@ import { requestLoo,
          REQUEST_LOOS,
          receiveLoos,
          REQUEST_LOO,
-         receiveLoo
+         receiveLoo,
        } from './../actions/loo_actions.js';
 import { CREATE_REVIEW } from './../actions/review_actions.js';
 import { createReview } from './../util/review_api_util.js';

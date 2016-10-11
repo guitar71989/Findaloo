@@ -1,6 +1,7 @@
 import React from 'react';
 import GreetingContainer from './greeting_container.jsx';
 import SessionFormContainer from './session_form_container.js';
+import { hashHistory } from 'react-router';
 
 const App = ({ children }) => {
   return(
@@ -8,9 +9,10 @@ const App = ({ children }) => {
 
   <header className="header">
     <nav className="header-nav group">
-      <h1 className="header-logo">
-        Findaloo is the best way to find convenient, local restrooms.
-      </h1>
+      <div onClick={() => hashHistory.push("/")} className="header-logo">
+        <img className="header-logo-image" src={findalooAssets.logo_illustration}></img>
+        <p>Findaloo is the best way to find convenient, local restrooms.</p>
+      </div>
       <GreetingContainer />
     </nav>
   </header>
