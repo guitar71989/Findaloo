@@ -325,18 +325,25 @@ authcontainer small {
   border-bottom: 0px solid #fff;
 }
 
+
+.index-item-info-copy {
+  margin-left: 20px;
+}
+
 .index-item-category-title {
   color: #42bcf4;
   display:block;
   margin-left: 20px;
   font-weight: bold;
-  margin-left: 20px;
 }
 
 .index-item-info:hover .index-item-category-title{
   color: #ffffff;
 }
 
+.index-item-info:hover .index-item-category-review_count{
+  color: #ffffff;
+}
 
 .toilet {
   float: left;
@@ -348,8 +355,22 @@ authcontainer small {
 
 .index-item-category-address {
   display: block;
-  margin-left: 20px;
 }
+
+.index-item-category-review_avg {
+  display: block;
+  float: left;
+  margin-right: 5px;
+}
+
+.index-item-category-review_count {
+  display: block;
+  color: #ccc;
+  margin-top: 2px;
+  height: 20px;
+  text-align: left;
+}
+
 
 .single-loo-show-main-container{
   width: 860px;
@@ -447,6 +468,28 @@ authcontainer small {
   border-radius: 5%
 }
 
+.redo-loo-button {
+  margin-right: 60px;
+  float: right;
+  background: #ff0000;
+  color: #fff;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 5%;
+  cursor: pointer;
+}
+
+.undo-loo-button {
+  margin-right: 60px;
+  float: right;
+  background: #ff0000;
+  color: #fff;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 5%;
+  cursor: pointer;
+}
+
 
 .review-loo-form-body {
   padding: 10px;
@@ -468,8 +511,13 @@ fieldset {
 }
 
 .your-review {
-  margin-top: -20px;
+  margin-top: 20px;
 }
+
+.other-reviews {
+  margin-top: 100px;
+}
+
 input[type="submit"][disabled] {
   background: #eee;
 }

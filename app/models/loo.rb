@@ -19,20 +19,12 @@ class Loo < ActiveRecord::Base
     (user.nil?) ? reviews.all : reviews.where.not(user_id: user.id)
   end
 
-  # def review_avg
-  # end
-  #
-  # def review_count
-  #   Review.all.
-  # end
-  #
-  # SELECT
-  #   loos.*, COUNT(reviews.id) as num_reviews
-  # FROM
-  #   loos
-  # LEFT OUTER JOIN
-  #   reviews ON loos.id = reviews.loo_id
-  # GROUP BY
-  #   loos.id
+  def review_avg
+    (reviews.count === 0) ? 0 : reviews.sum(:rating) / reviews.count
+  end
+
+  def review_count
+    (reviews.count == 1) ? "1 review" : "#{reviews.count} reviews"
+  end
 
 end

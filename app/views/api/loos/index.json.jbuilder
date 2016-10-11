@@ -5,6 +5,6 @@ json.array!(@loos) do |loo|
   json.latitude loo.latitude
   json.longitude loo.longitude
   json.image_url asset_path(loo.image.url)
-  # json.review_avg
-  # json.review_sum
+  json.review_avg loo.review_avg
+  json.review_count loo.review_count
 end

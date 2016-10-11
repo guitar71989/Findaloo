@@ -4,8 +4,8 @@ import { requestLoo,
          REQUEST_LOO,
          receiveLoo,
        } from './../actions/loo_actions.js';
-import { CREATE_REVIEW } from './../actions/review_actions.js';
-import { createReview } from './../util/review_api_util.js';
+import { CREATE_REVIEW, DESTROY_REVIEW } from './../actions/review_actions.js';
+import { createReview, destroyReview } from './../util/review_api_util.js';
 import { fetchLoos, fetchLoo } from './../util/loo_api_util.js';
 import { UPDATE_BOUNDS } from './../actions/filter_actions.js';
 
@@ -32,6 +32,13 @@ export default ({ getState, dispatch }) => next => action => {
       const success = (data) => dispatch(requestLoo(data.loo_id))
       const error = (error) => console.log(error)
       createReview(review, success, error)
+      break;
+    }
+    case DESTROY_REVIEW: {
+      const reviewId = action.reviewId
+      const success = (loo_id) => dispatch(requestLoo(loo_id))
+      const error = (error) => console.log(error)
+      destroyReview(reviewId, success, error)
       break;
     }
     default:

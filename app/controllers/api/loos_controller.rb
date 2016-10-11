@@ -2,7 +2,7 @@ class Api::LoosController < ApplicationController
 
   def index
     @loos = bounds ? Loo.in_bounds(bounds) : Loo.all
-    @review_count = @loo
+    @loos = @loos.includes(:reviews)
     render :index
   end
 

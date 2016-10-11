@@ -58,13 +58,13 @@
 	
 	var _root2 = _interopRequireDefault(_root);
 	
-	var _store = __webpack_require__(440);
+	var _store = __webpack_require__(282);
 	
 	var _store2 = _interopRequireDefault(_store);
 	
-	var _loo_actions = __webpack_require__(438);
+	var _loo_actions = __webpack_require__(280);
 	
-	var _review_api_util = __webpack_require__(451);
+	var _review_api_util = __webpack_require__(293);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -21505,7 +21505,7 @@
 	
 	var _loo_show_container2 = _interopRequireDefault(_loo_show_container);
 	
-	var _review_form_container = __webpack_require__(435);
+	var _review_form_container = __webpack_require__(277);
 	
 	var _review_form_container2 = _interopRequireDefault(_review_form_container);
 	
@@ -29250,6 +29250,10 @@
 	
 	var _reactRouter = __webpack_require__(173);
 	
+	var _reactStarRatingComponent = __webpack_require__(275);
+	
+	var _reactStarRatingComponent2 = _interopRequireDefault(_reactStarRatingComponent);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -29285,14 +29289,32 @@
 	        { className: 'index-item-info group', onClick: this.handleClick },
 	        _react2.default.createElement('img', { className: 'toilet', src: loo.image_url }),
 	        _react2.default.createElement(
-	          'span',
-	          { className: 'index-item-category-title' },
-	          loo.name
-	        ),
-	        _react2.default.createElement(
-	          'span',
-	          { className: 'index-item-category-address' },
-	          loo.address
+	          'div',
+	          { className: 'index-item-info-copy' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'index-item-category-title' },
+	            loo.name
+	          ),
+	          _react2.default.createElement(_reactStarRatingComponent2.default, {
+	            className: 'index-item-category-review_avg',
+	            editing: false,
+	            starCount: 5,
+	            emptyStarColor: '#ccc',
+	            starColor: '#ffd700',
+	            value: loo.review_avg
+	          }),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'index-item-category-review_count' },
+	            loo.review_count,
+	            ' '
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'index-item-category-address' },
+	            loo.address
+	          )
 	        )
 	      );
 	    }
@@ -29515,7 +29537,7 @@
 /* 269 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -29543,14 +29565,14 @@
 	  }
 	
 	  _createClass(MarkerManager, [{
-	    key: 'updateMarkers',
+	    key: "updateMarkers",
 	    value: function updateMarkers(loos) {
 	      this.loos = loos;
 	      this._loosToAdd().forEach(this._createMarkerFromLoo);
 	      this._markersToRemove().forEach(this._removeMarker);
 	    }
 	  }, {
-	    key: '_loosToAdd',
+	    key: "_loosToAdd",
 	    value: function _loosToAdd() {
 	      var currentLoos = this.markers.map(function (marker) {
 	        return marker.looId;
@@ -29560,7 +29582,7 @@
 	      });
 	    }
 	  }, {
-	    key: '_markersToRemove',
+	    key: "_markersToRemove",
 	    value: function _markersToRemove() {
 	      var looIds = this.loos.map(function (loo) {
 	        return loo.id;
@@ -29570,7 +29592,7 @@
 	      });
 	    }
 	  }, {
-	    key: '_createMarkerFromLoo',
+	    key: "_createMarkerFromLoo",
 	    value: function _createMarkerFromLoo(loo) {
 	      var newMarkerPos = { lat: loo.latitude, lng: loo.longitude };
 	      var newMarkerTitle = loo.name;
@@ -29588,8 +29610,12 @@
 	        icon: icon
 	      });
 	
+	      var reviews = function reviews(loo) {
+	        return loo.review_count === 1 ? "review" : "reviews";
+	      };
+	
 	      var infoWindow = new google.maps.InfoWindow({
-	        content: '<div><a style="color:#82abed" href="#/loos/' + loo.id + ' "><b>' + loo.name + '</b></a></div>' + '<div>' + loo.address + '</div>'
+	        content: '<div><a style="color:#82abed" href="#/loos/' + loo.id + ' "><b>' + loo.name + '</b></a></div>' + '<div style="color:#808080">' + loo.address + '</div>' + '★'.repeat(Math.round(loo.review_avg)) + '</br>' + '<p style="color:#808080">' + loo.review_count + '</p>'
 	      });
 	
 	      google.maps.event.addListener(newMarker, 'click', function () {
@@ -29601,7 +29627,7 @@
 	      this.markers.push(newMarker);
 	    }
 	  }, {
-	    key: '_removeMarker',
+	    key: "_removeMarker",
 	    value: function _removeMarker(marker) {
 	      var idx = this.markers.indexOf(marker);
 	      this.markers[idx].setMap(null);
@@ -29670,9 +29696,9 @@
 	
 	var _loo_show2 = _interopRequireDefault(_loo_show);
 	
-	var _loo_actions = __webpack_require__(438);
+	var _loo_actions = __webpack_require__(280);
 	
-	var _selectors = __webpack_require__(439);
+	var _selectors = __webpack_require__(281);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -29719,11 +29745,11 @@
 	
 	var _reactRouter = __webpack_require__(173);
 	
-	var _review_show = __webpack_require__(274);
+	var _review_show_container = __webpack_require__(296);
 	
-	var _review_show2 = _interopRequireDefault(_review_show);
+	var _review_show_container2 = _interopRequireDefault(_review_show_container);
 	
-	var _review_form_container = __webpack_require__(435);
+	var _review_form_container = __webpack_require__(277);
 	
 	var _review_form_container2 = _interopRequireDefault(_review_form_container);
 	
@@ -29735,7 +29761,7 @@
 	  var reviews = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	
 	  return reviews.map(function (review) {
-	    return _react2.default.createElement(_review_show2.default, { author: review.author, rating: review.rating, body: review.body, key: review.id });
+	    return _react2.default.createElement(_review_show_container2.default, { reviewId: review.id, author: review.author, rating: review.rating, body: review.body, key: review.id });
 	  });
 	};
 	
@@ -29749,10 +29775,13 @@
 	
 	  var renderCurrentUserForm = function renderCurrentUserForm() {
 	    if (loo.current_user_review) {
-	      return _react2.default.createElement(_review_show2.default, { author: currentUser.username,
+	      return _react2.default.createElement(_review_show_container2.default, _defineProperty({ author: currentUser.username,
+	        reviewId: loo.current_user_review.id,
+	        key: loo.current_user_review.id,
 	        rating: loo.current_user_review.rating,
 	        body: loo.current_user_review.body,
-	        key: loo.current_user_review.id });
+	        currentUserReview: true
+	      }, 'key', loo.current_user_review.id));
 	    } else {
 	      return _react2.default.createElement(_review_form_container2.default, null);
 	    }
@@ -29783,6 +29812,16 @@
 	          { className: 'single-loo-address' },
 	          loo.address
 	        ),
+	        _react2.default.createElement(
+	          'span',
+	          { className: 'single-loo-review_avg' },
+	          loo.review_avg
+	        ),
+	        _react2.default.createElement(
+	          'span',
+	          { className: 'single-loo-review_count' },
+	          loo.review_count
+	        ),
 	        _react2.default.createElement('img', { className: 'single-loo-picture', src: loo.image_url })
 	      )
 	    ),
@@ -29800,7 +29839,7 @@
 	        renderCurrentUserForm(),
 	        _react2.default.createElement(
 	          'h3',
-	          null,
+	          { className: 'other-reviews' },
 	          'Recommended Reviews for ',
 	          loo.name
 	        ),
@@ -29822,6 +29861,8 @@
 	  value: true
 	});
 	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
@@ -29832,42 +29873,88 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var ReviewShow = function ReviewShow(_ref) {
-	  var author = _ref.author;
-	  var rating = _ref.rating;
-	  var body = _ref.body;
-	  var username = _ref.username;
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'loo-show-review-item group' },
-	    _react2.default.createElement(
-	      'p',
-	      { className: 'loo-show-review-item-username' },
-	      author
-	    ),
-	    _react2.default.createElement(
-	      'ul',
-	      { className: 'loo-show-review-item-reponses' },
-	      _react2.default.createElement(_reactStarRatingComponent2.default, {
-	        className: 'star',
-	        editing: false,
-	        starCount: 5,
-	        emptyStarColor: '#ccc',
-	        starColor: '#ffd700',
-	        value: rating
-	      }),
-	      _react2.default.createElement(
-	        'li',
-	        { className: 'loo-show-review-item-body' },
-	        '"',
-	        body,
-	        '"'
-	      )
-	    )
-	  );
-	};
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var ReviewShow = function (_React$Component) {
+	  _inherits(ReviewShow, _React$Component);
+	
+	  function ReviewShow(props) {
+	    _classCallCheck(this, ReviewShow);
+	
+	    var _this = _possibleConstructorReturn(this, (ReviewShow.__proto__ || Object.getPrototypeOf(ReviewShow)).call(this, props));
+	
+	    _this.destroyReview = _this.destroyReview.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(ReviewShow, [{
+	    key: 'destroyReview',
+	    value: function destroyReview(event) {
+	      event.preventDefault();
+	      this.props.destroyReview(event.currentTarget.value);
+	    }
+	  }, {
+	    key: 'renderEditDelete',
+	    value: function renderEditDelete() {
+	      if (this.props.currentUserReview) {
+	        return _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'button',
+	            { onClick: this.destroyReview, value: this.props.reviewId, className: 'undo-loo-button' },
+	            'Redo Loo Review'
+	          )
+	        );
+	      } else {
+	        return _react2.default.createElement('div', null);
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'loo-show-review-item group' },
+	        this.renderEditDelete(),
+	        _react2.default.createElement(
+	          'p',
+	          { className: 'loo-show-review-item-username' },
+	          this.props.author
+	        ),
+	        _react2.default.createElement(
+	          'ul',
+	          { className: 'loo-show-review-item-reponses' },
+	          _react2.default.createElement(_reactStarRatingComponent2.default, {
+	            className: 'star',
+	            editing: false,
+	            starCount: 5,
+	            emptyStarColor: '#ccc',
+	            starColor: '#ffd700',
+	            value: this.props.rating
+	          }),
+	          _react2.default.createElement(
+	            'li',
+	            { className: 'loo-show-review-item-body' },
+	            '"',
+	            this.props.body,
+	            '"'
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return ReviewShow;
+	}(_react2.default.Component);
 	
 	exports.default = ReviewShow;
+	
+	// = ({author, rating, body, username, currentUserReview}) => {
 
 /***/ },
 /* 275 */
@@ -30125,165 +30212,7 @@
 
 
 /***/ },
-/* 277 */,
-/* 278 */,
-/* 279 */,
-/* 280 */,
-/* 281 */,
-/* 282 */,
-/* 283 */,
-/* 284 */,
-/* 285 */,
-/* 286 */,
-/* 287 */,
-/* 288 */,
-/* 289 */,
-/* 290 */,
-/* 291 */,
-/* 292 */,
-/* 293 */,
-/* 294 */,
-/* 295 */,
-/* 296 */,
-/* 297 */,
-/* 298 */,
-/* 299 */,
-/* 300 */,
-/* 301 */,
-/* 302 */,
-/* 303 */,
-/* 304 */,
-/* 305 */,
-/* 306 */,
-/* 307 */,
-/* 308 */,
-/* 309 */,
-/* 310 */,
-/* 311 */,
-/* 312 */,
-/* 313 */,
-/* 314 */,
-/* 315 */,
-/* 316 */,
-/* 317 */,
-/* 318 */,
-/* 319 */,
-/* 320 */,
-/* 321 */,
-/* 322 */,
-/* 323 */,
-/* 324 */,
-/* 325 */,
-/* 326 */,
-/* 327 */,
-/* 328 */,
-/* 329 */,
-/* 330 */,
-/* 331 */,
-/* 332 */,
-/* 333 */,
-/* 334 */,
-/* 335 */,
-/* 336 */,
-/* 337 */,
-/* 338 */,
-/* 339 */,
-/* 340 */,
-/* 341 */,
-/* 342 */,
-/* 343 */,
-/* 344 */,
-/* 345 */,
-/* 346 */,
-/* 347 */,
-/* 348 */,
-/* 349 */,
-/* 350 */,
-/* 351 */,
-/* 352 */,
-/* 353 */,
-/* 354 */,
-/* 355 */,
-/* 356 */,
-/* 357 */,
-/* 358 */,
-/* 359 */,
-/* 360 */,
-/* 361 */,
-/* 362 */,
-/* 363 */,
-/* 364 */,
-/* 365 */,
-/* 366 */,
-/* 367 */,
-/* 368 */,
-/* 369 */,
-/* 370 */,
-/* 371 */,
-/* 372 */,
-/* 373 */,
-/* 374 */,
-/* 375 */,
-/* 376 */,
-/* 377 */,
-/* 378 */,
-/* 379 */,
-/* 380 */,
-/* 381 */,
-/* 382 */,
-/* 383 */,
-/* 384 */,
-/* 385 */,
-/* 386 */,
-/* 387 */,
-/* 388 */,
-/* 389 */,
-/* 390 */,
-/* 391 */,
-/* 392 */,
-/* 393 */,
-/* 394 */,
-/* 395 */,
-/* 396 */,
-/* 397 */,
-/* 398 */,
-/* 399 */,
-/* 400 */,
-/* 401 */,
-/* 402 */,
-/* 403 */,
-/* 404 */,
-/* 405 */,
-/* 406 */,
-/* 407 */,
-/* 408 */,
-/* 409 */,
-/* 410 */,
-/* 411 */,
-/* 412 */,
-/* 413 */,
-/* 414 */,
-/* 415 */,
-/* 416 */,
-/* 417 */,
-/* 418 */,
-/* 419 */,
-/* 420 */,
-/* 421 */,
-/* 422 */,
-/* 423 */,
-/* 424 */,
-/* 425 */,
-/* 426 */,
-/* 427 */,
-/* 428 */,
-/* 429 */,
-/* 430 */,
-/* 431 */,
-/* 432 */,
-/* 433 */,
-/* 434 */,
-/* 435 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30296,13 +30225,13 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _review_form = __webpack_require__(436);
+	var _review_form = __webpack_require__(278);
 	
 	var _review_form2 = _interopRequireDefault(_review_form);
 	
 	var _reactRedux = __webpack_require__(236);
 	
-	var _review_actions = __webpack_require__(437);
+	var _review_actions = __webpack_require__(279);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -30326,7 +30255,7 @@
 	exports.default = ReviewFormContainer;
 
 /***/ },
-/* 436 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30455,7 +30384,7 @@
 	exports.default = ReviewForm;
 
 /***/ },
-/* 437 */
+/* 279 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -30466,6 +30395,7 @@
 	var CREATE_REVIEW = exports.CREATE_REVIEW = "CREATE_REVIEW";
 	var REQUEST_REVIEWS = exports.REQUEST_REVIEWS = "REQUEST_REVIEWS";
 	var RECEIVE_REVIEWS = exports.RECEIVE_REVIEWS = "RECEIVE_REVIEWS";
+	var DESTROY_REVIEW = exports.DESTROY_REVIEW = "DESTROY_REVIEW";
 	
 	var createReview = exports.createReview = function createReview(review) {
 	  return {
@@ -30473,9 +30403,16 @@
 	    review: review
 	  };
 	};
+	
+	var destroyReview = exports.destroyReview = function destroyReview(reviewId) {
+	  return {
+	    type: DESTROY_REVIEW,
+	    reviewId: reviewId
+	  };
+	};
 
 /***/ },
-/* 438 */
+/* 280 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -30516,7 +30453,7 @@
 	};
 
 /***/ },
-/* 439 */
+/* 281 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -30529,7 +30466,7 @@
 	};
 
 /***/ },
-/* 440 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30540,11 +30477,11 @@
 	
 	var _redux = __webpack_require__(243);
 	
-	var _root_reducer = __webpack_require__(441);
+	var _root_reducer = __webpack_require__(283);
 	
 	var _root_reducer2 = _interopRequireDefault(_root_reducer);
 	
-	var _root_middleware = __webpack_require__(447);
+	var _root_middleware = __webpack_require__(289);
 	
 	var _root_middleware2 = _interopRequireDefault(_root_middleware);
 	
@@ -30558,7 +30495,7 @@
 	exports.default = configureStore;
 
 /***/ },
-/* 441 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30569,15 +30506,15 @@
 	
 	var _redux = __webpack_require__(243);
 	
-	var _session_reducer = __webpack_require__(442);
+	var _session_reducer = __webpack_require__(284);
 	
 	var _session_reducer2 = _interopRequireDefault(_session_reducer);
 	
-	var _loos_reducer = __webpack_require__(445);
+	var _loos_reducer = __webpack_require__(287);
 	
 	var _loos_reducer2 = _interopRequireDefault(_loos_reducer);
 	
-	var _filter_reducer = __webpack_require__(446);
+	var _filter_reducer = __webpack_require__(288);
 	
 	var _filter_reducer2 = _interopRequireDefault(_filter_reducer);
 	
@@ -30592,7 +30529,7 @@
 	exports.default = RootReducer;
 
 /***/ },
-/* 442 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30601,7 +30538,7 @@
 	  value: true
 	});
 	
-	var _lodash = __webpack_require__(443);
+	var _lodash = __webpack_require__(285);
 	
 	var _session_actions = __webpack_require__(259);
 	
@@ -30640,7 +30577,7 @@
 	exports.default = SessionReducer;
 
 /***/ },
-/* 443 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global, module) {/**
@@ -47606,10 +47543,10 @@
 	  }
 	}.call(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(444)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(286)(module)))
 
 /***/ },
-/* 444 */
+/* 286 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -47625,7 +47562,7 @@
 
 
 /***/ },
-/* 445 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47634,9 +47571,9 @@
 	  value: true
 	});
 	
-	var _lodash = __webpack_require__(443);
+	var _lodash = __webpack_require__(285);
 	
-	var _loo_actions = __webpack_require__(438);
+	var _loo_actions = __webpack_require__(280);
 	
 	var LoosReducer = function LoosReducer() {
 	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
@@ -47659,7 +47596,7 @@
 	exports.default = LoosReducer;
 
 /***/ },
-/* 446 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47670,7 +47607,7 @@
 	
 	var _filter_actions = __webpack_require__(271);
 	
-	var _lodash = __webpack_require__(443);
+	var _lodash = __webpack_require__(285);
 	
 	var update_bounds = _filter_actions.UPDATE_BOUNDS;
 	
@@ -47693,7 +47630,7 @@
 	exports.default = FilterReducer;
 
 /***/ },
-/* 447 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47704,15 +47641,15 @@
 	
 	var _redux = __webpack_require__(243);
 	
-	var _session_middleware = __webpack_require__(448);
+	var _session_middleware = __webpack_require__(290);
 	
 	var _session_middleware2 = _interopRequireDefault(_session_middleware);
 	
-	var _loos_middleware = __webpack_require__(450);
+	var _loos_middleware = __webpack_require__(292);
 	
 	var _loos_middleware2 = _interopRequireDefault(_loos_middleware);
 	
-	var _reduxLogger = __webpack_require__(453);
+	var _reduxLogger = __webpack_require__(295);
 	
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 	
@@ -47723,7 +47660,7 @@
 	exports.default = RootMiddleware;
 
 /***/ },
-/* 448 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47736,7 +47673,7 @@
 	
 	var ACTIONS = _interopRequireWildcard(_session_actions);
 	
-	var _session_api_util = __webpack_require__(449);
+	var _session_api_util = __webpack_require__(291);
 	
 	var API = _interopRequireWildcard(_session_api_util);
 	
@@ -47773,7 +47710,7 @@
 	};
 
 /***/ },
-/* 449 */
+/* 291 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -47811,7 +47748,7 @@
 	};
 
 /***/ },
-/* 450 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47820,13 +47757,13 @@
 	  value: true
 	});
 	
-	var _loo_actions = __webpack_require__(438);
+	var _loo_actions = __webpack_require__(280);
 	
-	var _review_actions = __webpack_require__(437);
+	var _review_actions = __webpack_require__(279);
 	
-	var _review_api_util = __webpack_require__(451);
+	var _review_api_util = __webpack_require__(293);
 	
-	var _loo_api_util = __webpack_require__(452);
+	var _loo_api_util = __webpack_require__(294);
 	
 	var _filter_actions = __webpack_require__(271);
 	
@@ -47871,6 +47808,18 @@
 	            (0, _review_api_util.createReview)(review, _success2, error);
 	            break;
 	          }
+	        case _review_actions.DESTROY_REVIEW:
+	          {
+	            var reviewId = action.reviewId;
+	            var _success3 = function _success3(loo_id) {
+	              return dispatch((0, _loo_actions.requestLoo)(loo_id));
+	            };
+	            var _error2 = function _error2(error) {
+	              return console.log(error);
+	            };
+	            (0, _review_api_util.destroyReview)(reviewId, _success3, _error2);
+	            break;
+	          }
 	        default:
 	          return next(action);
 	      }
@@ -47879,7 +47828,7 @@
 	};
 
 /***/ },
-/* 451 */
+/* 293 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -47897,10 +47846,10 @@
 	  });
 	};
 	
-	var destroyReview = exports.destroyReview = function destroyReview(id, success) {
+	var destroyReview = exports.destroyReview = function destroyReview(reviewId, success) {
 	  $.ajax({
 	    method: 'DELETE',
-	    url: 'api/reviews/' + id,
+	    url: 'api/reviews/' + reviewId,
 	    success: success,
 	    error: function error() {
 	      return console.log('error');
@@ -47909,7 +47858,7 @@
 	};
 
 /***/ },
-/* 452 */
+/* 294 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -47941,7 +47890,7 @@
 	};
 
 /***/ },
-/* 453 */
+/* 295 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -48172,6 +48121,54 @@
 	}
 	
 	module.exports = createLogger;
+
+/***/ },
+/* 296 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _review_show = __webpack_require__(274);
+	
+	var _review_show2 = _interopRequireDefault(_review_show);
+	
+	var _reactRedux = __webpack_require__(236);
+	
+	var _review_actions = __webpack_require__(279);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	  return {
+	    reviewId: ownProps.reviewId,
+	    author: ownProps.author,
+	    rating: ownProps.rating,
+	    body: ownProps.body,
+	    currentUserReview: ownProps.currentUserReview,
+	    currentUser: state.session.currentUser,
+	    looId: state.loos.id
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    destroyReview: function destroyReview(reviewId) {
+	      return dispatch((0, _review_actions.destroyReview)(reviewId));
+	    }
+	  };
+	};
+	
+	var ReviewShowContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_review_show2.default);
+	
+	exports.default = ReviewShowContainer;
 
 /***/ }
 /******/ ]);

@@ -6,10 +6,10 @@ export const createReview = (review, success, error) => $.ajax({
   error
 });
 
-export const destroyReview = function(id, success){
+export const destroyReview = function(reviewId, success){
   $.ajax({
     method: 'DELETE',
-    url: `api/reviews/${id}`,
+    url: `api/reviews/${reviewId}`,
     success,
     error: () => console.log('error')
   });
