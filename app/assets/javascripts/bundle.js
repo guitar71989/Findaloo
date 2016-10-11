@@ -29412,11 +29412,8 @@
 	  return _react2.default.createElement(
 	    'div',
 	    null,
-	    _react2.default.createElement(
-	      _loo_map2.default,
-	      { loos: loos, updateBounds: updateBounds },
-	      _react2.default.createElement(_searchbar2.default, null)
-	    ),
+	    _react2.default.createElement(_loo_map2.default, { loos: loos, updateBounds: updateBounds }),
+	    _react2.default.createElement(_searchbar2.default, null),
 	    _react2.default.createElement(_loo_index2.default, { loos: loos, requestLoos: requestLoos })
 	  );
 	};
@@ -29615,7 +29612,7 @@
 	      };
 	
 	      var infoWindow = new google.maps.InfoWindow({
-	        content: '<div><a style="color:#82abed" href="#/loos/' + loo.id + ' "><b>' + loo.name + '</b></a></div>' + '<div style="color:#808080">' + loo.address + '</div>' + '★'.repeat(Math.round(loo.review_avg)) + '</br>' + '<p style="color:#808080">' + loo.review_count + '</p>'
+	        content: '<div><a style="color:#82abed" href="#/loos/' + loo.id + ' "><b>' + loo.name + '</b></a></div>' + '<div style="color:#808080">' + loo.address + '</div>' + '<p style="color:gold">' + '★'.repeat(Math.round(loo.review_avg)) + '</br>' + '<p style="color:#808080">' + loo.review_count + '</p>'
 	      });
 	
 	      google.maps.event.addListener(newMarker, 'click', function () {
@@ -29650,15 +29647,54 @@
 	  value: true
 	});
 	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var SearchBar = function SearchBar() {
-	  return _react2.default.createElement("div", { className: "search-bar" });
-	};
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var SearchBar = function (_React$Component) {
+	  _inherits(SearchBar, _React$Component);
+	
+	  function SearchBar(props) {
+	    _classCallCheck(this, SearchBar);
+	
+	    var _this = _possibleConstructorReturn(this, (SearchBar.__proto__ || Object.getPrototypeOf(SearchBar)).call(this, props));
+	
+	    _this.state = {
+	      textbar: "",
+	      ratings: 0,
+	      num_reviews: 0
+	    };
+	    return _this;
+	  }
+	
+	  _createClass(SearchBar, [{
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "search-bar" },
+	        _react2.default.createElement(
+	          "form",
+	          { className: "search-bar-form" },
+	          _react2.default.createElement("input", { className: "search-textbar", type: "text", placeholder: "Find a loo near you..." }),
+	          _react2.default.createElement("input", { type: "submit" })
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return SearchBar;
+	}(_react2.default.Component);
 	
 	exports.default = SearchBar;
 
@@ -29753,6 +29789,10 @@
 	
 	var _review_form_container2 = _interopRequireDefault(_review_form_container);
 	
+	var _reactStarRatingComponent = __webpack_require__(275);
+	
+	var _reactStarRatingComponent2 = _interopRequireDefault(_reactStarRatingComponent);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -29812,11 +29852,14 @@
 	          { className: 'single-loo-address' },
 	          loo.address
 	        ),
-	        _react2.default.createElement(
-	          'span',
-	          { className: 'single-loo-review_avg' },
-	          loo.review_avg
-	        ),
+	        _react2.default.createElement(_reactStarRatingComponent2.default, {
+	          className: 'single-loo-review_avg',
+	          editing: false,
+	          starCount: 5,
+	          emptyStarColor: '#ccc',
+	          starColor: '#ffd700',
+	          value: loo.review_avg
+	        }),
 	        _react2.default.createElement(
 	          'span',
 	          { className: 'single-loo-review_count' },

@@ -267,7 +267,8 @@ authcontainer small {
 
 #map-container-index {
   position: relative;
-  height: 400px;
+  height: 450px;
+  color: white;
   width: 900px;
   margin: 0 auto;
   border-left: 1px solid #ccc;
@@ -279,11 +280,29 @@ authcontainer small {
 
 .search-bar {
   position: absolute;
-  margin: 20px 20px;
+  margin: -75px 0px 0 50px;
+  display: block;
   background: #000;
-  opacity: .2;
+  opacity: .6;
   width: 900px;
-  height: 200px;
+  height: 75px;
+}
+
+.search-textbar::-webkit-input-placeholder {
+  font-weight: bold;
+  opacity: 1;
+  color: #000;
+}
+
+
+
+.search-textbar {
+  display: block;
+  margin: 30px 0 0 100px;
+  border: 1px solid #fff;
+  background: #fff;
+  width: 250px;
+  opacity: 1;
 }
 
 
@@ -389,6 +408,11 @@ authcontainer small {
   margin-left: 20px;
 }
 
+.single-loo-address {
+  display: block;
+  margin-right: 20px;
+}
+
 .single-loo-picture {
   float: right;
   height: 50px;
@@ -396,6 +420,14 @@ authcontainer small {
   border: 1px solid #000;
 }
 
+.single-loo-review_avg {
+  display:block;
+}
+
+.single-loo-review_count {
+  display:block;
+  height: 20px;
+}
 
 
 #map-container-show {

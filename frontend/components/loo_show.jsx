@@ -3,6 +3,7 @@ import LooMap from './loo_map.jsx';
 import { Link } from 'react-router';
 import ReviewShowContainer from './review_show_container.js';
 import ReviewFormContainer from './review_form_container.js';
+import StarRatingComponent from 'react-star-rating-component';
 
 
 const reviewList = (reviews=[]) => {
@@ -47,7 +48,14 @@ const LooShow = ({ loo, looId, requestLoo, currentUser }) => {
             />
           <span className="single-loo-title">{loo.name}</span>
           <span className="single-loo-address">{loo.address}</span>
-          <span className="single-loo-review_avg">{loo.review_avg}</span>
+            <StarRatingComponent
+              className="single-loo-review_avg"
+              editing={false}
+              starCount={5}
+              emptyStarColor={'#ccc'}
+              starColor={'#ffd700'}
+              value={loo.review_avg}
+              />
           <span className="single-loo-review_count">{loo.review_count}</span>
           <img className="single-loo-picture" src={loo.image_url} />
         </main>

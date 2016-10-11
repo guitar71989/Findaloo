@@ -50,7 +50,7 @@ class MarkerManager {
     var infoWindow = new google.maps.InfoWindow({
       content: ('<div><a style="color:#82abed" href="#/loos/' + loo.id + ' "><b>' + loo.name + '</b></a></div>' +
                 '<div style="color:#808080">' + loo.address + '</div>' +
-                '★'.repeat(Math.round(loo.review_avg)) + '</br>' +
+                '<p style="color:gold">' + '★'.repeat(Math.round(loo.review_avg)) + '</br>' +
                 '<p style="color:#808080">' + loo.review_count + '</p>'
                )
     });
