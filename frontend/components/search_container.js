@@ -1,10 +1,12 @@
 import { connect } from 'react-redux';
 import Search from './search.jsx';
 import { updateBounds } from './../actions/filter_actions.js';
+import { requestLoos } from './../actions/loo_actions.js';
 
 const mapStateToProps = state => {
   return({
-  loos: state.loos
+  loos: state.loos,
+  filters: state.filters
 });};
 
 

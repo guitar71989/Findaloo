@@ -35,7 +35,7 @@
     "react-star-rating": "^1.4.2",
     "react-star-rating-component": "^1.2.2",
     "redux": "^3.6.0",
-    "redux-logger": "^2.6.1",
+    "redux-logger": "^2.7.0",
     "webpack": "^1.13.2"
   },
   "engines": {

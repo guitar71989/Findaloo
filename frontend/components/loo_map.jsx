@@ -37,8 +37,12 @@ class LooMap extends React.Component {
     if(this.props.singleLoo){
      this.MarkerManager.updateMarkers([this.props.loos[Object.keys(this.props.loos)[0]]]);
      this.map.setOptions({center: {lat: this.props.loos[this.props.looId].latitude, lng: this.props.loos[this.props.looId].longitude}});
-   } else {
-     this.MarkerManager.updateMarkers(this.props.loos);
+    } else if (!!this.props.filters.coords.lat && !!this.props.filters.coords.lat) {
+      this.map.setCenter(this.props.filters.coords);
+    }
+
+    if (!this.props.singleLoo){
+      this.MarkerManager.updateMarkers(this.props.loos);
     }
   }
 

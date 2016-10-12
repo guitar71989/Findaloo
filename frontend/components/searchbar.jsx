@@ -1,4 +1,5 @@
 import React from 'react';
+import AutocompleteContainer from './autocomplete_container.js';
 
 class SearchBar extends React.Component{
   constructor(props){
@@ -14,8 +15,7 @@ class SearchBar extends React.Component{
     return(
     <div className="search-bar">
       <form className="search-bar-form">
-        <input className="search-textbar" type="text" placeholder="Find a loo near you..."></input>
-        <input type="submit" />
+        <AutocompleteContainer />
       </form>
     </div>
     );
