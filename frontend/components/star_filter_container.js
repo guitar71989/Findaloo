@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import Search from './search.jsx';
 import { updateStarFilter } from './../actions/filter_actions.js';
+import StarFilter from './star_filter.jsx';
 
 const mapDispatchToProps = dispatch => ({
   updateStarFilter: (filterValue) => {

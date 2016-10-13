@@ -1,6 +1,6 @@
 import React from 'react';
 import AutocompleteContainer from './autocomplete_container.js';
-import StarFilter from './star_filter.jsx';
+import StarFilterContainer from './star_filter_container.js';
 
 class SearchBar extends React.Component{
   constructor(props){
@@ -17,7 +17,7 @@ class SearchBar extends React.Component{
     <div className="search-bar">
       <form className="search-bar-form" onSubmit={(e)=>e.preventDefault()}>
         <AutocompleteContainer />
-        <StarFilter />
+        <StarFilterContainer />
       </form>
     </div>
     );

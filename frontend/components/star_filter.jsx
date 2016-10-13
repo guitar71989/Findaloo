@@ -3,7 +3,10 @@ import React from 'react';
 const StarFilter = ({updateStarFilter}) => {
 
   const change = (event) => {
-    updateStarFilter(event.target.value);
+    debugger
+    event.preventDefault();
+    const starValue = parseInt(event.target.value)
+    updateStarFilter(starValue);
   };
 
   return(

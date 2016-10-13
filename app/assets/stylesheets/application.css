@@ -314,7 +314,6 @@ authcontainer small {
 
 .search-textbar:focus {
   outline: 3px solid rgb(0,191,255);
-  opacity: .6
 }
 
 .search-bar-star-filter {

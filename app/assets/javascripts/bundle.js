@@ -29760,15 +29760,15 @@
 	  }, {
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(nextProps) {
-	      if (this.props.singleLoo) {
-	        this.MarkerManager.updateMarkers([this.props.loos[Object.keys(this.props.loos)[0]]]);
-	        this.map.setOptions({ center: { lat: this.props.loos[this.props.looId].latitude, lng: this.props.loos[this.props.looId].longitude } });
+	      if (nextProps.singleLoo) {
+	        this.MarkerManager.updateMarkers([nextProps.loos[Object.keys(nextProps.loos)[0]]]);
+	        this.map.setOptions({ center: { lat: nextProps.loos[nextProps.looId].latitude, lng: nextProps.loos[nextProps.looId].longitude } });
 	      } else if (this._coordsExist(nextProps) && this._coordsDifferent(this.props, nextProps)) {
 	        this.map.setOptions({ center: nextProps.filters.coords, zoom: 17 });
 	      }
 	
 	      if (!this.props.singleLoo) {
-	        this.MarkerManager.updateMarkers(this.props.loos);
+	        this.MarkerManager.updateMarkers(nextProps.loos);
 	      }
 	    }
 	  }, {
@@ -29943,9 +29943,9 @@
 	
 	var _autocomplete_container2 = _interopRequireDefault(_autocomplete_container);
 	
-	var _star_filter = __webpack_require__(304);
+	var _star_filter_container = __webpack_require__(304);
 	
-	var _star_filter2 = _interopRequireDefault(_star_filter);
+	var _star_filter_container2 = _interopRequireDefault(_star_filter_container);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -29983,7 +29983,7 @@
 	              return e.preventDefault();
 	            } },
 	          _react2.default.createElement(_autocomplete_container2.default, null),
-	          _react2.default.createElement(_star_filter2.default, null)
+	          _react2.default.createElement(_star_filter_container2.default, null)
 	        )
 	      );
 	    }
@@ -49023,6 +49023,38 @@
 /* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _reactRedux = __webpack_require__(236);
+	
+	var _filter_actions = __webpack_require__(276);
+	
+	var _star_filter = __webpack_require__(305);
+	
+	var _star_filter2 = _interopRequireDefault(_star_filter);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    updateStarFilter: function updateStarFilter(filterValue) {
+	      dispatch((0, _filter_actions.updateStarFilter)(filterValue));
+	    }
+	  };
+	};
+	
+	var StarFilterContainer = (0, _reactRedux.connect)(null, mapDispatchToProps)(_star_filter2.default);
+	
+	exports.default = StarFilterContainer;
+
+/***/ },
+/* 305 */
+/***/ function(module, exports, __webpack_require__) {
+
 	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
@@ -49040,7 +49072,10 @@
 	
 	
 	  var change = function change(event) {
-	    updateStarFilter(event.target.value);
+	    debugger;
+	    event.preventDefault();
+	    var starValue = parseInt(event.target.value);
+	    updateStarFilter(starValue);
 	  };
 	
 	  return _react2.default.createElement(
