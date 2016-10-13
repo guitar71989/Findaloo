@@ -286,6 +286,11 @@ authcontainer small {
   width: 100%;
   height: 50px;
 }
+.search-bar-form {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
 
 .search-textbar::-webkit-input-placeholder {
   opacity: 1;
@@ -295,18 +300,39 @@ authcontainer small {
 }
 
 .search-textbar {
+  box-sizing: border-box;
   display: block;
-  margin: 10px 0 0 150px;
+  float: left;
+  margin: 10px 0 0 0;
   background: #fff;
-  width: 250px;
-  font-size: 16px;
+  width: 300px;
+  font-size: 14px;
   padding: 5px;
   cursor: pointer;
+  border-radius: 5%
 }
 
 .search-textbar:focus {
-  background: #E6E6FA;
-  opacity: 1;
+  outline: 3px solid rgb(0,191,255);
+  opacity: .6
+}
+
+.search-bar-star-filter {
+  -webkit-appearance: none;
+  float: left;
+  display: block;
+  width: 150px;
+  background: #fff;
+  margin-top: 11px;
+  margin-left: 20px;
+  padding: 4.5px;
+  font-size: 14px;
+  font: sans-serif;
+}
+
+.search-bar-star-filter:focus {
+  outline: 3px solid rgb(0,191,255);
+  background: #fff;
 }
 
 

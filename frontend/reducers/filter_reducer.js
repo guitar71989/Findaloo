@@ -1,10 +1,11 @@
-import { UPDATE_BOUNDS, UPDATE_LOCATION } from './../actions/filter_actions.js';
+import { UPDATE_BOUNDS, UPDATE_LOCATION , UPDATE_STAR_FILTER } from './../actions/filter_actions.js';
 import { merge } from 'lodash';
 
 const defaultState = Object.freeze({
   bounds: {},
   coords: {},
-  location: {}
+  location: {},
+  starValue: ""
 });
 
 const FilterReducer = (state = defaultState, action) => {
@@ -18,6 +19,11 @@ const FilterReducer = (state = defaultState, action) => {
       const nextState = merge({}, state);
       nextState.coords = action.coords;
       nextState.location = action.location;
+      return nextState;
+    }
+    case UPDATE_STAR_FILTER: {
+      const nextState = merge({}, state);
+      nextState.starValue = action.starValue;
       return nextState;
     }
   default:

@@ -58,13 +58,13 @@
 	
 	var _root2 = _interopRequireDefault(_root);
 	
-	var _store = __webpack_require__(284);
+	var _store = __webpack_require__(286);
 	
 	var _store2 = _interopRequireDefault(_store);
 	
-	var _loo_actions = __webpack_require__(282);
+	var _loo_actions = __webpack_require__(277);
 	
-	var _review_api_util = __webpack_require__(294);
+	var _review_api_util = __webpack_require__(296);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -21501,11 +21501,11 @@
 	
 	var _search_container2 = _interopRequireDefault(_search_container);
 	
-	var _loo_show_container = __webpack_require__(275);
+	var _loo_show_container = __webpack_require__(278);
 	
 	var _loo_show_container2 = _interopRequireDefault(_loo_show_container);
 	
-	var _review_form_container = __webpack_require__(280);
+	var _review_form_container = __webpack_require__(283);
 	
 	var _review_form_container2 = _interopRequireDefault(_review_form_container);
 	
@@ -29617,9 +29617,9 @@
 	
 	var _search2 = _interopRequireDefault(_search);
 	
-	var _filter_actions = __webpack_require__(274);
+	var _filter_actions = __webpack_require__(276);
 	
-	var _loo_actions = __webpack_require__(282);
+	var _loo_actions = __webpack_require__(277);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -29736,7 +29736,9 @@
 	        draggable: true,
 	        zoomControl: true,
 	        scrollwheel: true,
-	        disableDoubleClickZoom: false
+	        disableDoubleClickZoom: false,
+	        zoomControlOptions: { position: google.maps.ControlPosition.RIGHT_CENTER },
+	        mapTypeControlOptions: { position: google.maps.ControlPosition.TOP_RIGHT }
 	      };
 	
 	      var func = this;
@@ -29756,18 +29758,28 @@
 	      }
 	    }
 	  }, {
-	    key: 'componentDidUpdate',
-	    value: function componentDidUpdate() {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
 	      if (this.props.singleLoo) {
 	        this.MarkerManager.updateMarkers([this.props.loos[Object.keys(this.props.loos)[0]]]);
 	        this.map.setOptions({ center: { lat: this.props.loos[this.props.looId].latitude, lng: this.props.loos[this.props.looId].longitude } });
-	      } else if (!!this.props.filters.coords.lat && !!this.props.filters.coords.lat) {
-	        this.map.setCenter(this.props.filters.coords);
+	      } else if (this._coordsExist(nextProps) && this._coordsDifferent(this.props, nextProps)) {
+	        this.map.setOptions({ center: nextProps.filters.coords, zoom: 17 });
 	      }
 	
 	      if (!this.props.singleLoo) {
 	        this.MarkerManager.updateMarkers(this.props.loos);
 	      }
+	    }
+	  }, {
+	    key: '_coordsExist',
+	    value: function _coordsExist(props) {
+	      return !!props.filters.coords.lat && !!props.filters.coords.lng;
+	    }
+	  }, {
+	    key: '_coordsDifferent',
+	    value: function _coordsDifferent(oldProps, nextProps) {
+	      return oldProps.filters.coords.lat !== nextProps.filters.coords.lat || oldProps.filters.coords.lng !== nextProps.filters.coords.lng;
 	    }
 	  }, {
 	    key: '_registerListeners',
@@ -29927,9 +29939,13 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _autocomplete_container = __webpack_require__(302);
+	var _autocomplete_container = __webpack_require__(274);
 	
 	var _autocomplete_container2 = _interopRequireDefault(_autocomplete_container);
+	
+	var _star_filter = __webpack_require__(304);
+	
+	var _star_filter2 = _interopRequireDefault(_star_filter);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -29963,8 +29979,11 @@
 	        { className: 'search-bar' },
 	        _react2.default.createElement(
 	          'form',
-	          { className: 'search-bar-form' },
-	          _react2.default.createElement(_autocomplete_container2.default, null)
+	          { className: 'search-bar-form', onSubmit: function onSubmit(e) {
+	              return e.preventDefault();
+	            } },
+	          _react2.default.createElement(_autocomplete_container2.default, null),
+	          _react2.default.createElement(_star_filter2.default, null)
 	        )
 	      );
 	    }
@@ -29977,6 +29996,114 @@
 
 /***/ },
 /* 274 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _reactRedux = __webpack_require__(236);
+	
+	var _autocomplete = __webpack_require__(275);
+	
+	var _autocomplete2 = _interopRequireDefault(_autocomplete);
+	
+	var _filter_actions = __webpack_require__(276);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    updateLocation: function updateLocation(coords, location) {
+	      return dispatch((0, _filter_actions.updateLocation)(coords, location));
+	    }
+	  };
+	};
+	
+	var AutocompleteContainer = (0, _reactRedux.connect)(null, mapDispatchToProps)(_autocomplete2.default);
+	
+	exports.default = AutocompleteContainer;
+
+/***/ },
+/* 275 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Autocomplete = function (_React$Component) {
+	  _inherits(Autocomplete, _React$Component);
+	
+	  function Autocomplete(props) {
+	    _classCallCheck(this, Autocomplete);
+	
+	    var _this = _possibleConstructorReturn(this, (Autocomplete.__proto__ || Object.getPrototypeOf(Autocomplete)).call(this, props));
+	
+	    _this.searchLocation = _this.searchLocation.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(Autocomplete, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var autocompleteDOMNode = this.refs.autocomplete;
+	      this.autocomplete = new google.maps.places.Autocomplete(autocompleteDOMNode, { types: ['geocode'] });
+	      this.autocomplete.addListener('place_changed', this.searchLocation);
+	    }
+	  }, {
+	    key: 'searchLocation',
+	    value: function searchLocation() {
+	      if (this.autocomplete.getPlace().geometry) {
+	        var location = this.autocomplete.getPlace().geometry.location;
+	        var lat = location.lat();
+	        var lng = location.lng();
+	
+	        if (this.props.callback) {
+	          this.props.callback(this.autocomplete.getPlace());
+	        }
+	
+	        if (this.props.updateLocation) {
+	          this.props.updateLocation({ lat: lat, lng: lng }, this.autocomplete.getPlace().formatted_address);
+	        }
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement('input', {
+	        ref: 'autocomplete',
+	        className: 'search-textbar',
+	        placeholder: 'Find a loo near you...'
+	      });
+	    }
+	  }]);
+	
+	  return Autocomplete;
+	}(_react2.default.Component);
+	
+	exports.default = Autocomplete;
+
+/***/ },
+/* 276 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -29986,6 +30113,7 @@
 	});
 	var UPDATE_BOUNDS = exports.UPDATE_BOUNDS = "UPDATE_BOUNDS";
 	var UPDATE_LOCATION = exports.UPDATE_LOCATION = "UPDATE_LOCATION";
+	var UPDATE_STAR_FILTER = exports.UPDATE_STAR_FILTER = "UPDATE_STAR_FILTER";
 	
 	var updateBounds = exports.updateBounds = function updateBounds(bounds) {
 	  return {
@@ -30001,9 +30129,57 @@
 	    location: location
 	  };
 	};
+	
+	var updateStarFilter = exports.updateStarFilter = function updateStarFilter(starValue) {
+	  return {
+	    type: UPDATE_STAR_FILTER,
+	    starValue: starValue
+	  };
+	};
 
 /***/ },
-/* 275 */
+/* 277 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var REQUEST_LOOS = exports.REQUEST_LOOS = "REQUEST_LOOS";
+	var RECEIVE_LOOS = exports.RECEIVE_LOOS = "RECEIVE_LOOS";
+	var REQUEST_LOO = exports.REQUEST_LOO = "REQUEST_LOO";
+	var RECEIVE_LOO = exports.RECEIVE_LOO = "RECEIVE_LOO";
+	
+	var requestLoos = exports.requestLoos = function requestLoos() {
+	  return {
+	    type: REQUEST_LOOS
+	  };
+	};
+	
+	var requestLoo = exports.requestLoo = function requestLoo(id) {
+	  return {
+	    type: REQUEST_LOO,
+	    id: id
+	  };
+	};
+	
+	var receiveLoos = exports.receiveLoos = function receiveLoos(loos) {
+	  return {
+	    type: RECEIVE_LOOS,
+	    loos: loos
+	  };
+	};
+	
+	var receiveLoo = exports.receiveLoo = function receiveLoo(loo) {
+	  return {
+	    type: RECEIVE_LOO,
+	    loo: loo
+	  };
+	};
+
+/***/ },
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30014,13 +30190,13 @@
 	
 	var _reactRedux = __webpack_require__(236);
 	
-	var _loo_show = __webpack_require__(276);
+	var _loo_show = __webpack_require__(279);
 	
 	var _loo_show2 = _interopRequireDefault(_loo_show);
 	
-	var _loo_actions = __webpack_require__(282);
+	var _loo_actions = __webpack_require__(277);
 	
-	var _selectors = __webpack_require__(283);
+	var _selectors = __webpack_require__(285);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -30048,7 +30224,7 @@
 	exports.default = LooShowContainer;
 
 /***/ },
-/* 276 */
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30067,11 +30243,11 @@
 	
 	var _reactRouter = __webpack_require__(173);
 	
-	var _review_show_container = __webpack_require__(277);
+	var _review_show_container = __webpack_require__(280);
 	
 	var _review_show_container2 = _interopRequireDefault(_review_show_container);
 	
-	var _review_form_container = __webpack_require__(280);
+	var _review_form_container = __webpack_require__(283);
 	
 	var _review_form_container2 = _interopRequireDefault(_review_form_container);
 	
@@ -30181,7 +30357,7 @@
 	exports.default = LooShow;
 
 /***/ },
-/* 277 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30194,13 +30370,13 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _review_show = __webpack_require__(278);
+	var _review_show = __webpack_require__(281);
 	
 	var _review_show2 = _interopRequireDefault(_review_show);
 	
 	var _reactRedux = __webpack_require__(236);
 	
-	var _review_actions = __webpack_require__(279);
+	var _review_actions = __webpack_require__(282);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -30229,7 +30405,7 @@
 	exports.default = ReviewShowContainer;
 
 /***/ },
-/* 278 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30334,7 +30510,7 @@
 	// = ({author, rating, body, username, currentUserReview}) => {
 
 /***/ },
-/* 279 */
+/* 282 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -30362,7 +30538,7 @@
 	};
 
 /***/ },
-/* 280 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30375,13 +30551,13 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _review_form = __webpack_require__(281);
+	var _review_form = __webpack_require__(284);
 	
 	var _review_form2 = _interopRequireDefault(_review_form);
 	
 	var _reactRedux = __webpack_require__(236);
 	
-	var _review_actions = __webpack_require__(279);
+	var _review_actions = __webpack_require__(282);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -30405,7 +30581,7 @@
 	exports.default = ReviewFormContainer;
 
 /***/ },
-/* 281 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30534,48 +30710,7 @@
 	exports.default = ReviewForm;
 
 /***/ },
-/* 282 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var REQUEST_LOOS = exports.REQUEST_LOOS = "REQUEST_LOOS";
-	var RECEIVE_LOOS = exports.RECEIVE_LOOS = "RECEIVE_LOOS";
-	var REQUEST_LOO = exports.REQUEST_LOO = "REQUEST_LOO";
-	var RECEIVE_LOO = exports.RECEIVE_LOO = "RECEIVE_LOO";
-	
-	var requestLoos = exports.requestLoos = function requestLoos() {
-	  return {
-	    type: REQUEST_LOOS
-	  };
-	};
-	
-	var requestLoo = exports.requestLoo = function requestLoo(id) {
-	  return {
-	    type: REQUEST_LOO,
-	    id: id
-	  };
-	};
-	
-	var receiveLoos = exports.receiveLoos = function receiveLoos(loos) {
-	  return {
-	    type: RECEIVE_LOOS,
-	    loos: loos
-	  };
-	};
-	
-	var receiveLoo = exports.receiveLoo = function receiveLoo(loo) {
-	  return {
-	    type: RECEIVE_LOO,
-	    loo: loo
-	  };
-	};
-
-/***/ },
-/* 283 */
+/* 285 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -30588,7 +30723,7 @@
 	};
 
 /***/ },
-/* 284 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30599,11 +30734,11 @@
 	
 	var _redux = __webpack_require__(243);
 	
-	var _root_reducer = __webpack_require__(285);
+	var _root_reducer = __webpack_require__(287);
 	
 	var _root_reducer2 = _interopRequireDefault(_root_reducer);
 	
-	var _root_middleware = __webpack_require__(290);
+	var _root_middleware = __webpack_require__(292);
 	
 	var _root_middleware2 = _interopRequireDefault(_root_middleware);
 	
@@ -30617,7 +30752,7 @@
 	exports.default = configureStore;
 
 /***/ },
-/* 285 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30628,15 +30763,15 @@
 	
 	var _redux = __webpack_require__(243);
 	
-	var _session_reducer = __webpack_require__(286);
+	var _session_reducer = __webpack_require__(288);
 	
 	var _session_reducer2 = _interopRequireDefault(_session_reducer);
 	
-	var _loos_reducer = __webpack_require__(288);
+	var _loos_reducer = __webpack_require__(290);
 	
 	var _loos_reducer2 = _interopRequireDefault(_loos_reducer);
 	
-	var _filter_reducer = __webpack_require__(289);
+	var _filter_reducer = __webpack_require__(291);
 	
 	var _filter_reducer2 = _interopRequireDefault(_filter_reducer);
 	
@@ -30651,7 +30786,7 @@
 	exports.default = RootReducer;
 
 /***/ },
-/* 286 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30660,7 +30795,7 @@
 	  value: true
 	});
 	
-	var _lodash = __webpack_require__(287);
+	var _lodash = __webpack_require__(289);
 	
 	var _session_actions = __webpack_require__(260);
 	
@@ -30699,7 +30834,7 @@
 	exports.default = SessionReducer;
 
 /***/ },
-/* 287 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global, module) {/**
@@ -47688,7 +47823,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(251)(module)))
 
 /***/ },
-/* 288 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47697,9 +47832,9 @@
 	  value: true
 	});
 	
-	var _lodash = __webpack_require__(287);
+	var _lodash = __webpack_require__(289);
 	
-	var _loo_actions = __webpack_require__(282);
+	var _loo_actions = __webpack_require__(277);
 	
 	var LoosReducer = function LoosReducer() {
 	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
@@ -47722,7 +47857,7 @@
 	exports.default = LoosReducer;
 
 /***/ },
-/* 289 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47731,14 +47866,15 @@
 	  value: true
 	});
 	
-	var _filter_actions = __webpack_require__(274);
+	var _filter_actions = __webpack_require__(276);
 	
-	var _lodash = __webpack_require__(287);
+	var _lodash = __webpack_require__(289);
 	
 	var defaultState = Object.freeze({
 	  bounds: {},
 	  coords: {},
-	  location: {}
+	  location: {},
+	  starValue: ""
 	});
 	
 	var FilterReducer = function FilterReducer() {
@@ -47759,6 +47895,12 @@
 	        _nextState.location = action.location;
 	        return _nextState;
 	      }
+	    case _filter_actions.UPDATE_STAR_FILTER:
+	      {
+	        var _nextState2 = (0, _lodash.merge)({}, state);
+	        _nextState2.starValue = action.starValue;
+	        return _nextState2;
+	      }
 	    default:
 	      return state;
 	  }
@@ -47767,7 +47909,7 @@
 	exports.default = FilterReducer;
 
 /***/ },
-/* 290 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47778,15 +47920,15 @@
 	
 	var _redux = __webpack_require__(243);
 	
-	var _session_middleware = __webpack_require__(291);
+	var _session_middleware = __webpack_require__(293);
 	
 	var _session_middleware2 = _interopRequireDefault(_session_middleware);
 	
-	var _loos_middleware = __webpack_require__(293);
+	var _loos_middleware = __webpack_require__(295);
 	
 	var _loos_middleware2 = _interopRequireDefault(_loos_middleware);
 	
-	var _reduxLogger = __webpack_require__(296);
+	var _reduxLogger = __webpack_require__(298);
 	
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 	
@@ -47797,7 +47939,7 @@
 	exports.default = RootMiddleware;
 
 /***/ },
-/* 291 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47810,7 +47952,7 @@
 	
 	var ACTIONS = _interopRequireWildcard(_session_actions);
 	
-	var _session_api_util = __webpack_require__(292);
+	var _session_api_util = __webpack_require__(294);
 	
 	var API = _interopRequireWildcard(_session_api_util);
 	
@@ -47847,7 +47989,7 @@
 	};
 
 /***/ },
-/* 292 */
+/* 294 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -47885,7 +48027,7 @@
 	};
 
 /***/ },
-/* 293 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47894,15 +48036,15 @@
 	  value: true
 	});
 	
-	var _loo_actions = __webpack_require__(282);
+	var _loo_actions = __webpack_require__(277);
 	
-	var _review_actions = __webpack_require__(279);
+	var _review_actions = __webpack_require__(282);
 	
-	var _review_api_util = __webpack_require__(294);
+	var _review_api_util = __webpack_require__(296);
 	
-	var _loo_api_util = __webpack_require__(295);
+	var _loo_api_util = __webpack_require__(297);
 	
-	var _filter_actions = __webpack_require__(274);
+	var _filter_actions = __webpack_require__(276);
 	
 	exports.default = function (_ref) {
 	  var getState = _ref.getState;
@@ -47965,7 +48107,7 @@
 	};
 
 /***/ },
-/* 294 */
+/* 296 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -47995,7 +48137,7 @@
 	};
 
 /***/ },
-/* 295 */
+/* 297 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -48027,7 +48169,7 @@
 	};
 
 /***/ },
-/* 296 */
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48038,11 +48180,11 @@
 	  value: true
 	});
 	
-	var _core = __webpack_require__(297);
+	var _core = __webpack_require__(299);
 	
-	var _helpers = __webpack_require__(298);
+	var _helpers = __webpack_require__(300);
 	
-	var _defaults = __webpack_require__(301);
+	var _defaults = __webpack_require__(303);
 	
 	var _defaults2 = _interopRequireDefault(_defaults);
 	
@@ -48145,7 +48287,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 297 */
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48155,9 +48297,9 @@
 	});
 	exports.printBuffer = printBuffer;
 	
-	var _helpers = __webpack_require__(298);
+	var _helpers = __webpack_require__(300);
 	
-	var _diff = __webpack_require__(299);
+	var _diff = __webpack_require__(301);
 	
 	var _diff2 = _interopRequireDefault(_diff);
 	
@@ -48278,7 +48420,7 @@
 	}
 
 /***/ },
-/* 298 */
+/* 300 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -48302,7 +48444,7 @@
 	var timer = exports.timer = typeof performance !== "undefined" && performance !== null && typeof performance.now === "function" ? performance : Date;
 
 /***/ },
-/* 299 */
+/* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48312,7 +48454,7 @@
 	});
 	exports.default = diffLogger;
 	
-	var _deepDiff = __webpack_require__(300);
+	var _deepDiff = __webpack_require__(302);
 	
 	var _deepDiff2 = _interopRequireDefault(_deepDiff);
 	
@@ -48398,7 +48540,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 300 */
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global) {/*!
@@ -48827,7 +48969,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 301 */
+/* 303 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -48878,48 +49020,14 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 302 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	
-	var _reactRedux = __webpack_require__(236);
-	
-	var _autocomplete = __webpack_require__(303);
-	
-	var _autocomplete2 = _interopRequireDefault(_autocomplete);
-	
-	var _filter_actions = __webpack_require__(274);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	  return {
-	    updateLocation: function updateLocation(coords, location) {
-	      return dispatch((0, _filter_actions.updateLocation)(coords, location));
-	    }
-	  };
-	};
-	
-	var AutocompleteContainer = (0, _reactRedux.connect)(null, mapDispatchToProps)(_autocomplete2.default);
-	
-	exports.default = AutocompleteContainer;
-
-/***/ },
-/* 303 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _react = __webpack_require__(1);
 	
@@ -48927,63 +49035,51 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	var StarFilter = function StarFilter(_ref) {
+	  var updateStarFilter = _ref.updateStarFilter;
 	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	  var change = function change(event) {
+	    updateStarFilter(event.target.value);
+	  };
 	
-	var Autocomplete = function (_React$Component) {
-	  _inherits(Autocomplete, _React$Component);
+	  return _react2.default.createElement(
+	    "select",
+	    { className: "search-bar-star-filter", onChange: change, name: "select" },
+	    _react2.default.createElement(
+	      "option",
+	      { value: "0" },
+	      "Filter by reviews"
+	    ),
+	    _react2.default.createElement(
+	      "option",
+	      { value: "1" },
+	      "\u2605+"
+	    ),
+	    _react2.default.createElement(
+	      "option",
+	      { value: "2" },
+	      "\u2605\u2605+"
+	    ),
+	    _react2.default.createElement(
+	      "option",
+	      { value: "3" },
+	      "\u2605\u2605\u2605+"
+	    ),
+	    _react2.default.createElement(
+	      "option",
+	      { value: "4" },
+	      "\u2605\u2605\u2605\u2605+"
+	    ),
+	    _react2.default.createElement(
+	      "option",
+	      { value: "5" },
+	      "\u2605\u2605\u2605\u2605\u2605"
+	    )
+	  );
+	};
 	
-	  function Autocomplete(props) {
-	    _classCallCheck(this, Autocomplete);
-	
-	    var _this = _possibleConstructorReturn(this, (Autocomplete.__proto__ || Object.getPrototypeOf(Autocomplete)).call(this, props));
-	
-	    _this.searchLocation = _this.searchLocation.bind(_this);
-	    return _this;
-	  }
-	
-	  _createClass(Autocomplete, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      var autocompleteDOMNode = this.refs.autocomplete;
-	      this.autocomplete = new google.maps.places.Autocomplete(autocompleteDOMNode, { types: ['geocode'] });
-	      this.autocomplete.addListener('place_changed', this.searchLocation);
-	    }
-	  }, {
-	    key: 'searchLocation',
-	    value: function searchLocation() {
-	      if (this.autocomplete.getPlace().geometry) {
-	        var location = this.autocomplete.getPlace().geometry.location;
-	        var lat = location.lat();
-	        var lng = location.lng();
-	
-	        if (this.props.callback) {
-	          this.props.callback(this.autocomplete.getPlace());
-	        }
-	
-	        if (this.props.updateLocation) {
-	          this.props.updateLocation({ lat: lat, lng: lng }, this.autocomplete.getPlace().formatted_address);
-	        }
-	      }
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement('input', {
-	        ref: 'autocomplete',
-	        className: 'search-textbar',
-	        placeholder: 'Find a loo near you...'
-	      });
-	    }
-	  }]);
-	
-	  return Autocomplete;
-	}(_react2.default.Component);
-	
-	exports.default = Autocomplete;
+	exports.default = StarFilter;
 
 /***/ }
 /******/ ]);

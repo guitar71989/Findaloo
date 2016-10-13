@@ -12,7 +12,9 @@ class LooMap extends React.Component {
         draggable: true,
         zoomControl: true,
         scrollwheel: true,
-        disableDoubleClickZoom: false
+        disableDoubleClickZoom: false,
+        zoomControlOptions: { position: google.maps.ControlPosition.RIGHT_CENTER },
+        mapTypeControlOptions: { position: google.maps.ControlPosition.TOP_RIGHT }
       };
 
     let func = this;
@@ -33,18 +35,29 @@ class LooMap extends React.Component {
 
   }
 
-  componentDidUpdate() {
+  componentWillReceiveProps(nextProps) {
     if(this.props.singleLoo){
      this.MarkerManager.updateMarkers([this.props.loos[Object.keys(this.props.loos)[0]]]);
      this.map.setOptions({center: {lat: this.props.loos[this.props.looId].latitude, lng: this.props.loos[this.props.looId].longitude}});
-    } else if (!!this.props.filters.coords.lat && !!this.props.filters.coords.lat) {
-      this.map.setCenter(this.props.filters.coords);
-    }
+   } else if (this._coordsExist(nextProps) && this._coordsDifferent(this.props, nextProps)) {
+     this.map.setOptions({center: nextProps.filters.coords, zoom: 17});
+   }
 
-    if (!this.props.singleLoo){
-      this.MarkerManager.updateMarkers(this.props.loos);
-    }
+   if (!this.props.singleLoo){
+     this.MarkerManager.updateMarkers(this.props.loos);
+   }
+
   }
+
+  _coordsExist(props) {
+    return !!props.filters.coords.lat && !!props.filters.coords.lng;
+  }
+
+  _coordsDifferent(oldProps, nextProps){
+    return oldProps.filters.coords.lat !== nextProps.filters.coords.lat ||
+    oldProps.filters.coords.lng !== nextProps.filters.coords.lng;
+  }
+
 
   _registerListeners() {
     google.maps.event.addListener(this.map, 'idle', () => {
