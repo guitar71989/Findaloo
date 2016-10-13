@@ -7,7 +7,7 @@ import { requestLoo,
 import { CREATE_REVIEW, DESTROY_REVIEW } from './../actions/review_actions.js';
 import { createReview, destroyReview } from './../util/review_api_util.js';
 import { fetchLoos, fetchLoo } from './../util/loo_api_util.js';
-import { UPDATE_BOUNDS } from './../actions/filter_actions.js';
+import { UPDATE_BOUNDS, UPDATE_STAR_FILTER } from './../actions/filter_actions.js';
 
 export default ({ getState, dispatch }) => next => action => {
   switch(action.type){
@@ -23,6 +23,11 @@ export default ({ getState, dispatch }) => next => action => {
       break;
     }
     case UPDATE_BOUNDS: {
+      next(action);
+      dispatch(requestLoos());
+      break;
+    }
+    case UPDATE_STAR_FILTER: {
       next(action);
       dispatch(requestLoos());
       break;

@@ -58,13 +58,13 @@
 	
 	var _root2 = _interopRequireDefault(_root);
 	
-	var _store = __webpack_require__(286);
+	var _store = __webpack_require__(288);
 	
 	var _store2 = _interopRequireDefault(_store);
 	
-	var _loo_actions = __webpack_require__(277);
+	var _loo_actions = __webpack_require__(279);
 	
-	var _review_api_util = __webpack_require__(296);
+	var _review_api_util = __webpack_require__(298);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -21501,11 +21501,11 @@
 	
 	var _search_container2 = _interopRequireDefault(_search_container);
 	
-	var _loo_show_container = __webpack_require__(278);
+	var _loo_show_container = __webpack_require__(280);
 	
 	var _loo_show_container2 = _interopRequireDefault(_loo_show_container);
 	
-	var _review_form_container = __webpack_require__(283);
+	var _review_form_container = __webpack_require__(285);
 	
 	var _review_form_container2 = _interopRequireDefault(_review_form_container);
 	
@@ -29619,7 +29619,7 @@
 	
 	var _filter_actions = __webpack_require__(276);
 	
-	var _loo_actions = __webpack_require__(277);
+	var _loo_actions = __webpack_require__(279);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -29943,7 +29943,7 @@
 	
 	var _autocomplete_container2 = _interopRequireDefault(_autocomplete_container);
 	
-	var _star_filter_container = __webpack_require__(304);
+	var _star_filter_container = __webpack_require__(277);
 	
 	var _star_filter_container2 = _interopRequireDefault(_star_filter_container);
 	
@@ -30139,6 +30139,102 @@
 
 /***/ },
 /* 277 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _reactRedux = __webpack_require__(236);
+	
+	var _filter_actions = __webpack_require__(276);
+	
+	var _star_filter = __webpack_require__(278);
+	
+	var _star_filter2 = _interopRequireDefault(_star_filter);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    updateStarFilter: function updateStarFilter(filterValue) {
+	      dispatch((0, _filter_actions.updateStarFilter)(filterValue));
+	    }
+	  };
+	};
+	
+	var StarFilterContainer = (0, _reactRedux.connect)(null, mapDispatchToProps)(_star_filter2.default);
+	
+	exports.default = StarFilterContainer;
+
+/***/ },
+/* 278 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var StarFilter = function StarFilter(_ref) {
+	  var updateStarFilter = _ref.updateStarFilter;
+	
+	
+	  var change = function change(event) {
+	    event.preventDefault();
+	    var starValue = parseInt(event.target.value);
+	    updateStarFilter(starValue);
+	  };
+	
+	  return _react2.default.createElement(
+	    "select",
+	    { className: "search-bar-star-filter", onChange: change, name: "select" },
+	    _react2.default.createElement(
+	      "option",
+	      { value: "0" },
+	      "Filter by reviews \u2193"
+	    ),
+	    _react2.default.createElement(
+	      "option",
+	      { value: "1" },
+	      "\u2605+"
+	    ),
+	    _react2.default.createElement(
+	      "option",
+	      { value: "2" },
+	      "\u2605\u2605+"
+	    ),
+	    _react2.default.createElement(
+	      "option",
+	      { value: "3" },
+	      "\u2605\u2605\u2605+"
+	    ),
+	    _react2.default.createElement(
+	      "option",
+	      { value: "4" },
+	      "\u2605\u2605\u2605\u2605+"
+	    ),
+	    _react2.default.createElement(
+	      "option",
+	      { value: "5" },
+	      "\u2605\u2605\u2605\u2605\u2605"
+	    )
+	  );
+	};
+	
+	exports.default = StarFilter;
+
+/***/ },
+/* 279 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -30179,7 +30275,7 @@
 	};
 
 /***/ },
-/* 278 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30190,13 +30286,13 @@
 	
 	var _reactRedux = __webpack_require__(236);
 	
-	var _loo_show = __webpack_require__(279);
+	var _loo_show = __webpack_require__(281);
 	
 	var _loo_show2 = _interopRequireDefault(_loo_show);
 	
-	var _loo_actions = __webpack_require__(277);
+	var _loo_actions = __webpack_require__(279);
 	
-	var _selectors = __webpack_require__(285);
+	var _selectors = __webpack_require__(287);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -30224,7 +30320,7 @@
 	exports.default = LooShowContainer;
 
 /***/ },
-/* 279 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30243,11 +30339,11 @@
 	
 	var _reactRouter = __webpack_require__(173);
 	
-	var _review_show_container = __webpack_require__(280);
+	var _review_show_container = __webpack_require__(282);
 	
 	var _review_show_container2 = _interopRequireDefault(_review_show_container);
 	
-	var _review_form_container = __webpack_require__(283);
+	var _review_form_container = __webpack_require__(285);
 	
 	var _review_form_container2 = _interopRequireDefault(_review_form_container);
 	
@@ -30357,7 +30453,7 @@
 	exports.default = LooShow;
 
 /***/ },
-/* 280 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30370,13 +30466,13 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _review_show = __webpack_require__(281);
+	var _review_show = __webpack_require__(283);
 	
 	var _review_show2 = _interopRequireDefault(_review_show);
 	
 	var _reactRedux = __webpack_require__(236);
 	
-	var _review_actions = __webpack_require__(282);
+	var _review_actions = __webpack_require__(284);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -30405,7 +30501,7 @@
 	exports.default = ReviewShowContainer;
 
 /***/ },
-/* 281 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30510,7 +30606,7 @@
 	// = ({author, rating, body, username, currentUserReview}) => {
 
 /***/ },
-/* 282 */
+/* 284 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -30538,7 +30634,7 @@
 	};
 
 /***/ },
-/* 283 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30551,13 +30647,13 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _review_form = __webpack_require__(284);
+	var _review_form = __webpack_require__(286);
 	
 	var _review_form2 = _interopRequireDefault(_review_form);
 	
 	var _reactRedux = __webpack_require__(236);
 	
-	var _review_actions = __webpack_require__(282);
+	var _review_actions = __webpack_require__(284);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -30581,7 +30677,7 @@
 	exports.default = ReviewFormContainer;
 
 /***/ },
-/* 284 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30710,7 +30806,7 @@
 	exports.default = ReviewForm;
 
 /***/ },
-/* 285 */
+/* 287 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -30723,7 +30819,7 @@
 	};
 
 /***/ },
-/* 286 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30734,11 +30830,11 @@
 	
 	var _redux = __webpack_require__(243);
 	
-	var _root_reducer = __webpack_require__(287);
+	var _root_reducer = __webpack_require__(289);
 	
 	var _root_reducer2 = _interopRequireDefault(_root_reducer);
 	
-	var _root_middleware = __webpack_require__(292);
+	var _root_middleware = __webpack_require__(294);
 	
 	var _root_middleware2 = _interopRequireDefault(_root_middleware);
 	
@@ -30752,7 +30848,7 @@
 	exports.default = configureStore;
 
 /***/ },
-/* 287 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30763,15 +30859,15 @@
 	
 	var _redux = __webpack_require__(243);
 	
-	var _session_reducer = __webpack_require__(288);
+	var _session_reducer = __webpack_require__(290);
 	
 	var _session_reducer2 = _interopRequireDefault(_session_reducer);
 	
-	var _loos_reducer = __webpack_require__(290);
+	var _loos_reducer = __webpack_require__(292);
 	
 	var _loos_reducer2 = _interopRequireDefault(_loos_reducer);
 	
-	var _filter_reducer = __webpack_require__(291);
+	var _filter_reducer = __webpack_require__(293);
 	
 	var _filter_reducer2 = _interopRequireDefault(_filter_reducer);
 	
@@ -30786,7 +30882,7 @@
 	exports.default = RootReducer;
 
 /***/ },
-/* 288 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30795,7 +30891,7 @@
 	  value: true
 	});
 	
-	var _lodash = __webpack_require__(289);
+	var _lodash = __webpack_require__(291);
 	
 	var _session_actions = __webpack_require__(260);
 	
@@ -30834,7 +30930,7 @@
 	exports.default = SessionReducer;
 
 /***/ },
-/* 289 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global, module) {/**
@@ -47823,7 +47919,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(251)(module)))
 
 /***/ },
-/* 290 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47832,9 +47928,9 @@
 	  value: true
 	});
 	
-	var _lodash = __webpack_require__(289);
+	var _lodash = __webpack_require__(291);
 	
-	var _loo_actions = __webpack_require__(277);
+	var _loo_actions = __webpack_require__(279);
 	
 	var LoosReducer = function LoosReducer() {
 	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
@@ -47857,7 +47953,7 @@
 	exports.default = LoosReducer;
 
 /***/ },
-/* 291 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47868,13 +47964,13 @@
 	
 	var _filter_actions = __webpack_require__(276);
 	
-	var _lodash = __webpack_require__(289);
+	var _lodash = __webpack_require__(291);
 	
 	var defaultState = Object.freeze({
 	  bounds: {},
 	  coords: {},
 	  location: {},
-	  starValue: ""
+	  starValue: 0
 	});
 	
 	var FilterReducer = function FilterReducer() {
@@ -47909,7 +48005,7 @@
 	exports.default = FilterReducer;
 
 /***/ },
-/* 292 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47920,15 +48016,15 @@
 	
 	var _redux = __webpack_require__(243);
 	
-	var _session_middleware = __webpack_require__(293);
+	var _session_middleware = __webpack_require__(295);
 	
 	var _session_middleware2 = _interopRequireDefault(_session_middleware);
 	
-	var _loos_middleware = __webpack_require__(295);
+	var _loos_middleware = __webpack_require__(297);
 	
 	var _loos_middleware2 = _interopRequireDefault(_loos_middleware);
 	
-	var _reduxLogger = __webpack_require__(298);
+	var _reduxLogger = __webpack_require__(300);
 	
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 	
@@ -47939,7 +48035,7 @@
 	exports.default = RootMiddleware;
 
 /***/ },
-/* 293 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47952,7 +48048,7 @@
 	
 	var ACTIONS = _interopRequireWildcard(_session_actions);
 	
-	var _session_api_util = __webpack_require__(294);
+	var _session_api_util = __webpack_require__(296);
 	
 	var API = _interopRequireWildcard(_session_api_util);
 	
@@ -47989,7 +48085,7 @@
 	};
 
 /***/ },
-/* 294 */
+/* 296 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -48027,7 +48123,7 @@
 	};
 
 /***/ },
-/* 295 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48036,13 +48132,13 @@
 	  value: true
 	});
 	
-	var _loo_actions = __webpack_require__(277);
+	var _loo_actions = __webpack_require__(279);
 	
-	var _review_actions = __webpack_require__(282);
+	var _review_actions = __webpack_require__(284);
 	
-	var _review_api_util = __webpack_require__(296);
+	var _review_api_util = __webpack_require__(298);
 	
-	var _loo_api_util = __webpack_require__(297);
+	var _loo_api_util = __webpack_require__(299);
 	
 	var _filter_actions = __webpack_require__(276);
 	
@@ -48070,6 +48166,12 @@
 	            break;
 	          }
 	        case _filter_actions.UPDATE_BOUNDS:
+	          {
+	            next(action);
+	            dispatch(requestLoos());
+	            break;
+	          }
+	        case _filter_actions.UPDATE_STAR_FILTER:
 	          {
 	            next(action);
 	            dispatch(requestLoos());
@@ -48107,7 +48209,7 @@
 	};
 
 /***/ },
-/* 296 */
+/* 298 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -48137,7 +48239,7 @@
 	};
 
 /***/ },
-/* 297 */
+/* 299 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -48169,7 +48271,7 @@
 	};
 
 /***/ },
-/* 298 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48180,11 +48282,11 @@
 	  value: true
 	});
 	
-	var _core = __webpack_require__(299);
+	var _core = __webpack_require__(301);
 	
-	var _helpers = __webpack_require__(300);
+	var _helpers = __webpack_require__(302);
 	
-	var _defaults = __webpack_require__(303);
+	var _defaults = __webpack_require__(305);
 	
 	var _defaults2 = _interopRequireDefault(_defaults);
 	
@@ -48287,7 +48389,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 299 */
+/* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48297,9 +48399,9 @@
 	});
 	exports.printBuffer = printBuffer;
 	
-	var _helpers = __webpack_require__(300);
+	var _helpers = __webpack_require__(302);
 	
-	var _diff = __webpack_require__(301);
+	var _diff = __webpack_require__(303);
 	
 	var _diff2 = _interopRequireDefault(_diff);
 	
@@ -48420,7 +48522,7 @@
 	}
 
 /***/ },
-/* 300 */
+/* 302 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -48444,7 +48546,7 @@
 	var timer = exports.timer = typeof performance !== "undefined" && performance !== null && typeof performance.now === "function" ? performance : Date;
 
 /***/ },
-/* 301 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48454,7 +48556,7 @@
 	});
 	exports.default = diffLogger;
 	
-	var _deepDiff = __webpack_require__(302);
+	var _deepDiff = __webpack_require__(304);
 	
 	var _deepDiff2 = _interopRequireDefault(_deepDiff);
 	
@@ -48540,7 +48642,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 302 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global) {/*!
@@ -48969,7 +49071,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 303 */
+/* 305 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -49018,103 +49120,6 @@
 	  transformer: undefined
 	};
 	module.exports = exports['default'];
-
-/***/ },
-/* 304 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _reactRedux = __webpack_require__(236);
-	
-	var _filter_actions = __webpack_require__(276);
-	
-	var _star_filter = __webpack_require__(305);
-	
-	var _star_filter2 = _interopRequireDefault(_star_filter);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	  return {
-	    updateStarFilter: function updateStarFilter(filterValue) {
-	      dispatch((0, _filter_actions.updateStarFilter)(filterValue));
-	    }
-	  };
-	};
-	
-	var StarFilterContainer = (0, _reactRedux.connect)(null, mapDispatchToProps)(_star_filter2.default);
-	
-	exports.default = StarFilterContainer;
-
-/***/ },
-/* 305 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var StarFilter = function StarFilter(_ref) {
-	  var updateStarFilter = _ref.updateStarFilter;
-	
-	
-	  var change = function change(event) {
-	    debugger;
-	    event.preventDefault();
-	    var starValue = parseInt(event.target.value);
-	    updateStarFilter(starValue);
-	  };
-	
-	  return _react2.default.createElement(
-	    "select",
-	    { className: "search-bar-star-filter", onChange: change, name: "select" },
-	    _react2.default.createElement(
-	      "option",
-	      { value: "0" },
-	      "Filter by reviews"
-	    ),
-	    _react2.default.createElement(
-	      "option",
-	      { value: "1" },
-	      "\u2605+"
-	    ),
-	    _react2.default.createElement(
-	      "option",
-	      { value: "2" },
-	      "\u2605\u2605+"
-	    ),
-	    _react2.default.createElement(
-	      "option",
-	      { value: "3" },
-	      "\u2605\u2605\u2605+"
-	    ),
-	    _react2.default.createElement(
-	      "option",
-	      { value: "4" },
-	      "\u2605\u2605\u2605\u2605+"
-	    ),
-	    _react2.default.createElement(
-	      "option",
-	      { value: "5" },
-	      "\u2605\u2605\u2605\u2605\u2605"
-	    )
-	  );
-	};
-	
-	exports.default = StarFilter;
 
 /***/ }
 /******/ ]);

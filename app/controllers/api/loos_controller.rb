@@ -1,7 +1,7 @@
 class Api::LoosController < ApplicationController
 
   def index
-    @loos = bounds ? Loo.in_bounds(bounds) : Loo.all
+    @loos = bounds ? Loo.by_params(bounds, starValue) : Loo.all
     @loos = @loos.includes(:reviews)
     render :index
   end
@@ -15,6 +15,10 @@ class Api::LoosController < ApplicationController
 
   def bounds
     params[:bounds]
+  end
+
+  def starValue
+    params[:starValue].to_i
   end
 
 end

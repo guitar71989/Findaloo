@@ -5,7 +5,7 @@ const defaultState = Object.freeze({
   bounds: {},
   coords: {},
   location: {},
-  starValue: ""
+  starValue: 0
 });
 
 const FilterReducer = (state = defaultState, action) => {

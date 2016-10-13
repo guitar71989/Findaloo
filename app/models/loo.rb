@@ -15,6 +15,12 @@ class Loo < ActiveRecord::Base
         .where("longitude < ?", bounds[:northEast][:lng])
   end
 
+  def self.by_params(bounds, starValue)
+    in_bounds(bounds).joins("LEFT OUTER JOIN reviews ON loos.id = reviews.loo_id")
+    .group("loos.id")
+    .having("AVG(reviews.rating) >= ?", starValue)
+  end
+
   def other_users_reviews(user)
     (user.nil?) ? reviews.all : reviews.where.not(user_id: user.id)
   end
