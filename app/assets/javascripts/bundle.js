@@ -28854,6 +28854,9 @@
 	  var currentUser = _ref.currentUser;
 	  var logout = _ref.logout;
 	
+	
+	  debugger;
+	
 	  if (currentUser) {
 	    return _react2.default.createElement(
 	      'div',

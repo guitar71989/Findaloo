@@ -2,6 +2,9 @@ import React from 'react';
 import {Link} from 'react-router';
 
 const Greeting = ({ currentUser, logout }) => {
+
+  debugger
+
   if (currentUser) {
       return(
         <div className="logged-in-ctn-main group">
