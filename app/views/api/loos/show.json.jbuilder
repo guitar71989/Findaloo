@@ -6,6 +6,7 @@ json.current_user_review @current_user.nil? ? "" : @loo.reviews.find_by(user_id:
 json.reviews @other_users_reviews do |review|
   json.id review.id
   json.author review.user.username
+  json.image_url asset_path(review.user.image.url)
   json.body review.body
   json.rating review.rating
 end

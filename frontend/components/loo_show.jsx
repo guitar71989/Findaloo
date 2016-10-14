@@ -8,9 +8,9 @@ import StarRatingComponent from 'react-star-rating-component';
 
 const reviewList = (reviews=[]) => {
   return(reviews.map( (review) => (
-  <ReviewShowContainer reviewId={review.id} author={review.author} rating={review.rating} body={review.body} key={review.id}/>
-  )))
-}
+  <ReviewShowContainer reviewId={review.id} imageUrl={review.image_url} author={review.author} rating={review.rating} body={review.body} key={review.id}/>
+  )));
+};
 
 const LooShow = ({ loo, looId, requestLoo, currentUser }) => {
   const loos = {
@@ -27,36 +27,38 @@ const LooShow = ({ loo, looId, requestLoo, currentUser }) => {
             body={loo.current_user_review.body}
             currentUserReview={true}
             key={loo.current_user_review.id}/>
-      )
+        );
     } else {
       return(
         <ReviewFormContainer />
-      )
+      );
     }
-  }
+  };
 
 
   return(
     <div className="single-loo-show">
       <div className="single-loo-map">
         <main className="single-loo-show-main-container group">
-          <LooMap className="single-loo-map"
-            looId = {looId}
-            requestLoo={requestLoo}
-            singleLoo={true}
-            loos={loos}
-            />
-          <span className="single-loo-title">{loo.name}</span>
-          <span className="single-loo-address">{loo.address}</span>
-            <StarRatingComponent
-              className="single-loo-review_avg"
-              editing={false}
-              starCount={5}
-              emptyStarColor={'#ccc'}
-              starColor={'#ffd700'}
-              value={loo.review_avg}
+          <div className="single-loo-text">
+            <LooMap className="single-loo-map"
+              looId = {looId}
+              requestLoo={requestLoo}
+              singleLoo={true}
+              loos={loos}
               />
+            <span className="single-loo-title">{loo.name}</span>
+            <span className="single-loo-address">{loo.address}</span>
+              <StarRatingComponent
+                className="single-loo-review_avg"
+                editing={false}
+                starCount={5}
+                emptyStarColor={'#ccc'}
+                starColor={'#ffd700'}
+                value={loo.review_avg}
+                />
           <span className="single-loo-review_count">{loo.review_count}</span>
+          </div>
           <img className="single-loo-picture" src={loo.image_url} />
         </main>
       </div>
@@ -70,7 +72,7 @@ const LooShow = ({ loo, looId, requestLoo, currentUser }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default LooShow;

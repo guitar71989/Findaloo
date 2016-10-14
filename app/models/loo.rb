@@ -1,6 +1,9 @@
 class Loo < ActiveRecord::Base
   validates :name, :address, presence: true
-  has_attached_file :image, default_url: "toilet_illustration.png"
+  has_attached_file :image,
+          :style => { :medium => "300x300>", :thumb => "100x100>" },
+          :storage => :s3,
+          :bucket  => ENV['findaloo-dev']
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
 
   has_many :reviews

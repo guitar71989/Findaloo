@@ -32,7 +32,11 @@ class ReviewShow extends React.Component {
   render(){
     return(<div className="loo-show-review-item group">
       {this.renderEditDelete()}
-      <p className="loo-show-review-item-username">{this.props.author}</p>
+      <div className="loo-show-review-item-user-info">
+        <img className="loo-show-review-item-image" src={this.props.imageUrl} />
+        <p className="loo-show-review-item-username">{this.props.author}</p>
+      </div>
+
       <ul className="loo-show-review-item-reponses">
 
         <StarRatingComponent

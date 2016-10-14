@@ -247,12 +247,11 @@ authcontainer small {
 
 
 .logout-btn {
-  float: left;
+  float: right;
   display: block;
 }
 
 .logout-btn:hover {
-  float: left;
   display: block;
   cursor:pointer;
   color: #eee;
@@ -260,6 +259,14 @@ authcontainer small {
 .username {
   float: left;
   display: block;
+}
+
+.logged-in-user-image {
+  float: left;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  margin-right: 20px;
 }
 
 
@@ -423,6 +430,8 @@ authcontainer small {
   background: #fff;
   padding: 20px;
   margin: 0 auto;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
 }
 
 
@@ -438,12 +447,17 @@ authcontainer small {
 .single-loo-address {
   display: block;
   margin-right: 20px;
+  width: 360px;
+}
+
+.single-loo-text {
+  float: left;
 }
 
 .single-loo-picture {
   float: right;
-  height: 50px;
-  width: 50px;
+  height: 300px;
+  width: 450px;
   border: 1px solid #000;
 }
 
@@ -467,6 +481,7 @@ authcontainer small {
 }
 
 
+
  /* --- REVIEWS ON SHOW PAGE --- */
 
 .reviews-container {
@@ -483,6 +498,8 @@ authcontainer small {
 
 .loo-show-review-item-reponses {
   float: left;
+  width: 600px;
+  margin-left: 40px;
 }
 
  .loo-show-review-item {
@@ -497,15 +514,27 @@ authcontainer small {
    margin-bottom: 20px;
  }
 
+ .loo-show-review-item-image {
+   width: 60px;
+   height: 60px;
+   border-radius: 50%;
+   margin: 0 auto;
+ }
+
+.loo-show-review-item-user-info {
+  float: left;
+  display: block;
+  margin: 0 auto;
+  width: 200px;
+}
+
 .review-loo-form {
   margin: 0 20px 20px 20px;
 }
 
 .loo-show-review-item-username {
-  float: left;
-  margin-left: 20px;
-  width: 150px;
-  margin-right: 20px;
+  text-align: center;
+  margin-top: 10px;
 }
 
 .review-loo-form-user {
@@ -550,13 +579,14 @@ authcontainer small {
 }
 
 
+
 .review-loo-form-body {
   padding: 10px;
   display: block;
   vertical-align: text-top;
   border: 1px solid #ccc;
-  width: 275px;
   height: 75px;
+  width: 300px;
 }
 
 fieldset {

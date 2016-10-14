@@ -7,6 +7,7 @@ const mapStateToProps = (state, ownProps) => {
   return({
   reviewId: ownProps.reviewId,
   author: ownProps.author,
+  imageUrl: ownProps.imageUrl,
   rating: ownProps.rating,
   body: ownProps.body,
   currentUserReview: ownProps.currentUserReview,

@@ -4,6 +4,14 @@ class User < ActiveRecord::Base
   validates :password_digest, presence: {message: "Password can't be blank"}
   validates :password, length: { minimum: 6, allow_nil: true}
 
+
+  has_attached_file :image, default_url: "default.jpg",
+          :style => { :medium => "300x300>", :thumb => "100x100>" },
+          :storage => :s3,
+          :bucket  => ENV['findaloo-dev']
+
+  validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
+
   has_many :reviews
   attr_reader :password
 

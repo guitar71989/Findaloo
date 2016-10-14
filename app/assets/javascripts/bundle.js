@@ -28267,7 +28267,7 @@
 /* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module, global) {'use strict';
+	/* WEBPACK VAR INJECTION */(function(global, module) {'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -28279,7 +28279,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var root = module; /* global window */
+	var root; /* global window */
 	
 	
 	if (typeof self !== 'undefined') {
@@ -28288,13 +28288,15 @@
 	  root = window;
 	} else if (typeof global !== 'undefined') {
 	  root = global;
+	} else if (true) {
+	  root = module;
 	} else {
 	  root = Function('return this')();
 	}
 	
 	var result = (0, _ponyfill2['default'])(root);
 	exports['default'] = result;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(251)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(251)(module)))
 
 /***/ },
 /* 251 */
@@ -28852,11 +28854,11 @@
 	  var currentUser = _ref.currentUser;
 	  var logout = _ref.logout;
 	
-	
 	  if (currentUser) {
 	    return _react2.default.createElement(
 	      'div',
-	      { className: 'logged-in-ctn-main' },
+	      { className: 'logged-in-ctn-main group' },
+	      _react2.default.createElement('img', { className: 'logged-in-user-image', src: currentUser.image_url }),
 	      _react2.default.createElement(
 	        'p',
 	        { className: 'logged-in-ctn username' },
@@ -29762,7 +29764,7 @@
 	    value: function componentWillReceiveProps(nextProps) {
 	      if (nextProps.singleLoo) {
 	        this.MarkerManager.updateMarkers([nextProps.loos[Object.keys(nextProps.loos)[0]]]);
-	        this.map.setOptions({ center: { lat: nextProps.loos[nextProps.looId].latitude, lng: nextProps.loos[nextProps.looId].longitude } });
+	        this.map.setOptions({ center: { lat: nextProps.loos[nextProps.looId].latitude, lng: nextProps.loos[nextProps.looId].longitude }, zoomControl: false });
 	      } else if (this._coordsExist(nextProps) && this._coordsDifferent(this.props, nextProps)) {
 	        this.map.setOptions({ center: nextProps.filters.coords, zoom: 17 });
 	      }
@@ -30359,7 +30361,7 @@
 	  var reviews = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	
 	  return reviews.map(function (review) {
-	    return _react2.default.createElement(_review_show_container2.default, { reviewId: review.id, author: review.author, rating: review.rating, body: review.body, key: review.id });
+	    return _react2.default.createElement(_review_show_container2.default, { reviewId: review.id, imageUrl: review.image_url, author: review.author, rating: review.rating, body: review.body, key: review.id });
 	  });
 	};
 	
@@ -30394,34 +30396,38 @@
 	      _react2.default.createElement(
 	        'main',
 	        { className: 'single-loo-show-main-container group' },
-	        _react2.default.createElement(_loo_map2.default, { className: 'single-loo-map',
-	          looId: looId,
-	          requestLoo: requestLoo,
-	          singleLoo: true,
-	          loos: loos
-	        }),
 	        _react2.default.createElement(
-	          'span',
-	          { className: 'single-loo-title' },
-	          loo.name
-	        ),
-	        _react2.default.createElement(
-	          'span',
-	          { className: 'single-loo-address' },
-	          loo.address
-	        ),
-	        _react2.default.createElement(_reactStarRatingComponent2.default, {
-	          className: 'single-loo-review_avg',
-	          editing: false,
-	          starCount: 5,
-	          emptyStarColor: '#ccc',
-	          starColor: '#ffd700',
-	          value: loo.review_avg
-	        }),
-	        _react2.default.createElement(
-	          'span',
-	          { className: 'single-loo-review_count' },
-	          loo.review_count
+	          'div',
+	          { className: 'single-loo-text' },
+	          _react2.default.createElement(_loo_map2.default, { className: 'single-loo-map',
+	            looId: looId,
+	            requestLoo: requestLoo,
+	            singleLoo: true,
+	            loos: loos
+	          }),
+	          _react2.default.createElement(
+	            'span',
+	            { className: 'single-loo-title' },
+	            loo.name
+	          ),
+	          _react2.default.createElement(
+	            'span',
+	            { className: 'single-loo-address' },
+	            loo.address
+	          ),
+	          _react2.default.createElement(_reactStarRatingComponent2.default, {
+	            className: 'single-loo-review_avg',
+	            editing: false,
+	            starCount: 5,
+	            emptyStarColor: '#ccc',
+	            starColor: '#ffd700',
+	            value: loo.review_avg
+	          }),
+	          _react2.default.createElement(
+	            'span',
+	            { className: 'single-loo-review_count' },
+	            loo.review_count
+	          )
 	        ),
 	        _react2.default.createElement('img', { className: 'single-loo-picture', src: loo.image_url })
 	      )
@@ -30480,6 +30486,7 @@
 	  return {
 	    reviewId: ownProps.reviewId,
 	    author: ownProps.author,
+	    imageUrl: ownProps.imageUrl,
 	    rating: ownProps.rating,
 	    body: ownProps.body,
 	    currentUserReview: ownProps.currentUserReview,
@@ -30571,9 +30578,14 @@
 	        { className: 'loo-show-review-item group' },
 	        this.renderEditDelete(),
 	        _react2.default.createElement(
-	          'p',
-	          { className: 'loo-show-review-item-username' },
-	          this.props.author
+	          'div',
+	          { className: 'loo-show-review-item-user-info' },
+	          _react2.default.createElement('img', { className: 'loo-show-review-item-image', src: this.props.imageUrl }),
+	          _react2.default.createElement(
+	            'p',
+	            { className: 'loo-show-review-item-username' },
+	            this.props.author
+	          )
 	        ),
 	        _react2.default.createElement(
 	          'ul',
