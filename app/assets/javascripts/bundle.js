@@ -29229,7 +29229,8 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var loos = void 0;
+	      var loos = void 0,
+	          loos_n = void 0;
 	
 	      if (this.props.loos.length > 0) {
 	        loos = this.props.loos.map(function (loo) {
@@ -29237,13 +29238,17 @@
 	        });
 	      }
 	
+	      loos_n = this.props.loos.length === 1 ? "Loo" : "Loos";
+	
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'loo-index' },
 	        _react2.default.createElement(
 	          'h1',
 	          { className: 'loo-index-title' },
-	          'Loos'
+	          this.props.loos.length,
+	          ' ',
+	          loos_n
 	        ),
 	        loos
 	      );

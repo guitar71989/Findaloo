@@ -15,7 +15,7 @@ const Greeting = ({ currentUser, logout }) => {
       <li><Link to="/signup" className="nav signup">Sign Up</Link></li>
       <li><Link to="/login" className="nav login">Log In</Link></li>
     </ul>
-    )
+  );
   }
 };
 

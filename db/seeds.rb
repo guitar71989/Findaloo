@@ -21,7 +21,7 @@ loo9 = Loo.create!(name: "Port Authority", address: "42nd Street and 8th Avenue"
 loo10 = Loo.create!(name: "Prospect Park", address: "Prospect Park, Brooklyn, New York", image: File.open('app/assets/images/prospect_park.jpg'))
 
 
-user1 = User.create!(username: "Guest User", password: "password")
+user1 = User.create!(username: "Guest User", password: "password", image: File.open('app/assets/images/default.png'))
 user2 = User.create!(username: "Jerry Seinfeld", password: "password", image: File.open('app/assets/images/jerry_seinfeld.jpg'))
 user3 = User.create!(username: "Michael Corleone", password: "password", image: File.open('app/assets/images/al_pacino.jpg'))
 user4 = User.create!(username: "Annie Hall", password: "password", image: File.open('app/assets/images/diane_keaton.jpg'))
