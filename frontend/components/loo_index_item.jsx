@@ -23,6 +23,7 @@ class LooIndexItem extends React.Component {
         <div className="index-item-category-title">{loo.name}</div>
         <StarRatingComponent
           className="index-item-category-review_avg"
+          name="name"
           editing={false}
           starCount={5}
           emptyStarColor={'#ccc'}

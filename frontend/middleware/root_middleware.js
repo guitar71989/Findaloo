@@ -3,10 +3,25 @@ import SessionMiddleware from './session_middleware';
 import LoosMiddleware from './loos_middleware';
 import createLogger from 'redux-logger';
 
-const RootMiddleware = applyMiddleware(
+let RootMiddleware;
+
+const middlewares = [
   SessionMiddleware,
   LoosMiddleware,
-  createLogger()
-);
+];
+
+if (process.env.NODE_ENV === "production") {
+  RootMiddleware = applyMiddleware(
+    ...middlewares
+  );
+} else {
+  RootMiddleware = applyMiddleware(
+    ...middlewares,
+    createLogger()
+  );
+}
+
+
+
 
 export default RootMiddleware;

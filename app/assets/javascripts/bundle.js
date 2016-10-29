@@ -28851,11 +28851,9 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var Greeting = function Greeting(_ref) {
-	  var currentUser = _ref.currentUser;
-	  var logout = _ref.logout;
+	  var currentUser = _ref.currentUser,
+	      logout = _ref.logout;
 	
-	
-	  debugger;
 	
 	  if (currentUser) {
 	    return _react2.default.createElement(
@@ -29329,6 +29327,7 @@
 	          ),
 	          _react2.default.createElement(_reactStarRatingComponent2.default, {
 	            className: 'index-item-category-review_avg',
+	            name: 'name',
 	            editing: false,
 	            starCount: 5,
 	            emptyStarColor: '#ccc',
@@ -29684,10 +29683,10 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var Search = function Search(_ref) {
-	  var loos = _ref.loos;
-	  var requestLoos = _ref.requestLoos;
-	  var updateBounds = _ref.updateBounds;
-	  var filters = _ref.filters;
+	  var loos = _ref.loos,
+	      requestLoos = _ref.requestLoos,
+	      updateBounds = _ref.updateBounds,
+	      filters = _ref.filters;
 	
 	  return _react2.default.createElement(
 	    'div',
@@ -29797,12 +29796,11 @@
 	      var _this2 = this;
 	
 	      google.maps.event.addListener(this.map, 'idle', function () {
-	        var _map$getBounds$toJSON = _this2.map.getBounds().toJSON();
-	
-	        var north = _map$getBounds$toJSON.north;
-	        var south = _map$getBounds$toJSON.south;
-	        var east = _map$getBounds$toJSON.east;
-	        var west = _map$getBounds$toJSON.west;
+	        var _map$getBounds$toJSON = _this2.map.getBounds().toJSON(),
+	            north = _map$getBounds$toJSON.north,
+	            south = _map$getBounds$toJSON.south,
+	            east = _map$getBounds$toJSON.east,
+	            west = _map$getBounds$toJSON.west;
 	
 	        var bounds = {
 	          northEast: { lat: north, lng: east },
@@ -30374,10 +30372,10 @@
 	};
 	
 	var LooShow = function LooShow(_ref) {
-	  var loo = _ref.loo;
-	  var looId = _ref.looId;
-	  var requestLoo = _ref.requestLoo;
-	  var currentUser = _ref.currentUser;
+	  var loo = _ref.loo,
+	      looId = _ref.looId,
+	      requestLoo = _ref.requestLoo,
+	      currentUser = _ref.currentUser;
 	
 	  var loos = _defineProperty({}, looId, loo);
 	
@@ -48028,7 +48026,7 @@
 /* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -48050,9 +48048,18 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var RootMiddleware = (0, _redux.applyMiddleware)(_session_middleware2.default, _loos_middleware2.default, (0, _reduxLogger2.default)());
+	var RootMiddleware = void 0;
+	
+	var middlewares = [_session_middleware2.default, _loos_middleware2.default];
+	
+	if (process.env.NODE_ENV === "production") {
+	  RootMiddleware = _redux.applyMiddleware.apply(undefined, middlewares);
+	} else {
+	  RootMiddleware = _redux.applyMiddleware.apply(undefined, middlewares.concat([(0, _reduxLogger2.default)()]));
+	}
 	
 	exports.default = RootMiddleware;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
 /* 295 */
@@ -48075,8 +48082,8 @@
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	exports.default = function (_ref) {
-	  var getState = _ref.getState;
-	  var dispatch = _ref.dispatch;
+	  var getState = _ref.getState,
+	      dispatch = _ref.dispatch;
 	  return function (next) {
 	    return function (action) {
 	      var successCallback = function successCallback(user) {
@@ -48163,8 +48170,8 @@
 	var _filter_actions = __webpack_require__(276);
 	
 	exports.default = function (_ref) {
-	  var getState = _ref.getState;
-	  var dispatch = _ref.dispatch;
+	  var getState = _ref.getState,
+	      dispatch = _ref.dispatch;
 	  return function (next) {
 	    return function (action) {
 	      switch (action.type) {
@@ -48457,7 +48464,15 @@
 	  var duration = options.duration;
 	
 	  return function (action, time, took) {
-	    return 'action @ ' + (timestamp ? time : '') + ' ' + action.type + ' ' + (duration ? '(in ' + took.toFixed(2) + ' ms)' : '');
+	    var parts = ['action'];
+	    if (timestamp) {
+	      parts.push('@ ' + time);
+	    }
+	    parts.push(action.type);
+	    if (duration) {
+	      parts.push('(in ' + took.toFixed(2) + ' ms)');
+	    }
+	    return parts.join(' ');
 	  };
 	}
 	
