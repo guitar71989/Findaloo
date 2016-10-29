@@ -532,6 +532,7 @@ authcontainer small {
   margin: 0 20px 20px 20px;
 }
 
+
 .loo-show-review-item-username {
   text-align: center;
   margin-top: 10px;
@@ -554,6 +555,10 @@ authcontainer small {
   font-weight: bold;
   padding: 10px;
   border-radius: 5%
+}
+
+.review-loo-form-submit:hover, .redo-loo-button:hover, .undo-loo-button:hover { 
+  cursor: pointer;
 }
 
 .redo-loo-button {
