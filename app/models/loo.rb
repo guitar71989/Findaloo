@@ -19,9 +19,14 @@ class Loo < ActiveRecord::Base
   end
 
   def self.by_params(bounds, starValue)
-    in_bounds(bounds).joins("LEFT OUTER JOIN reviews ON loos.id = reviews.loo_id")
-    .group("loos.id")
-    .having("AVG(reviews.rating) >= ?", starValue)
+    if starValue == 0
+      in_bounds(bounds).joins("LEFT OUTER JOIN reviews ON loos.id = reviews.loo_id")
+      .group("loos.id")
+    else
+      in_bounds(bounds).joins("LEFT OUTER JOIN reviews ON loos.id = reviews.loo_id")
+      .group("loos.id")
+      .having("AVG(reviews.rating) >= ?", starValue)
+    end
   end
 
   def other_users_reviews(user)

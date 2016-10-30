@@ -29981,7 +29981,7 @@
 	    key: "placeMarker",
 	    value: function placeMarker(location) {
 	      var infoWindow2 = new google.maps.InfoWindow({
-	        content: '<p style="color:#82abed; font-weight:bold"><a href="/#/loos/new?lng=' + JSON.stringify(location.lng()) + 'lat=' + JSON.stringify(location.lat()) + ' "target="_blank">Click here to add a loo</a></p>'
+	        content: '<p style="color:#82abed; font-weight:bold"><a href="/#/loos/new?lng=' + JSON.stringify(location.lng()) + '&lat=' + JSON.stringify(location.lat()) + ' ">Click here to add this loo</a></p>'
 	      });
 	
 	      var icon = {
@@ -30359,10 +30359,11 @@
 	  };
 	};
 	
-	var createLoo = exports.createLoo = function createLoo(loo) {
+	var createLoo = exports.createLoo = function createLoo(formData, callback) {
 	  return {
 	    type: CREATE_LOO,
-	    loo: loo
+	    formData: formData,
+	    callback: callback
 	  };
 	};
 
@@ -48247,9 +48248,9 @@
 	
 	var _review_actions = __webpack_require__(284);
 	
-	var _review_api_util = __webpack_require__(298);
-	
 	var _loo_api_util = __webpack_require__(299);
+	
+	var _review_api_util = __webpack_require__(298);
 	
 	var _filter_actions = __webpack_require__(276);
 	
@@ -48279,13 +48280,23 @@
 	        case _filter_actions.UPDATE_BOUNDS:
 	          {
 	            next(action);
-	            dispatch(requestLoos());
+	            dispatch((0, _loo_actions.requestLoos)());
 	            break;
 	          }
 	        case _filter_actions.UPDATE_STAR_FILTER:
 	          {
 	            next(action);
-	            dispatch(requestLoos());
+	            dispatch((0, _loo_actions.requestLoos)());
+	            break;
+	          }
+	        case _loo_actions.CREATE_LOO:
+	          {
+	            var formData = action.formData;
+	            var callback = action.callback;
+	            var error = function error(_error) {
+	              return console.log(_error);
+	            };
+	            (0, _loo_api_util.createLoo)(formData, callback, error);
 	            break;
 	          }
 	        case _review_actions.CREATE_REVIEW:
@@ -48294,10 +48305,10 @@
 	            var _success2 = function _success2(data) {
 	              return dispatch((0, _loo_actions.requestLoo)(data.loo_id));
 	            };
-	            var error = function error(_error) {
-	              return console.log(_error);
+	            var _error2 = function _error2(error) {
+	              return console.log(error);
 	            };
-	            (0, _review_api_util.createReview)(review, _success2, error);
+	            (0, _review_api_util.createReview)(review, _success2, _error2);
 	            break;
 	          }
 	        case _review_actions.DESTROY_REVIEW:
@@ -48306,10 +48317,10 @@
 	            var _success3 = function _success3(loo_id) {
 	              return dispatch((0, _loo_actions.requestLoo)(loo_id));
 	            };
-	            var _error2 = function _error2(error) {
+	            var _error3 = function _error3(error) {
 	              return console.log(error);
 	            };
-	            (0, _review_api_util.destroyReview)(reviewId, _success3, _error2);
+	            (0, _review_api_util.destroyReview)(reviewId, _success3, _error3);
 	            break;
 	          }
 	        default:
@@ -48377,6 +48388,20 @@
 	    success: success,
 	    error: function error() {
 	      return console.log('error');
+	    }
+	  });
+	};
+	
+	var createLoo = exports.createLoo = function createLoo(formData, callback, error) {
+	  return $.ajax({
+	    url: 'api/loos/',
+	    method: 'POST',
+	    dataType: "json",
+	    contentType: false,
+	    processData: false,
+	    data: formData,
+	    success: function success() {
+	      callback();
 	    }
 	  });
 	};
@@ -49258,23 +49283,21 @@
 	
 	var _loo_actions = __webpack_require__(279);
 	
-	var _loo_actions2 = _interopRequireDefault(_loo_actions);
-	
 	var _reactRouter = __webpack_require__(173);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var mapStateToProps = function mapStateToProps(state, ownProps) {
 	  return {
-	    lat: ownProps.location.query.lat,
-	    lng: ownProps.location.query.lng
+	    lat: parseFloat(ownProps.location.query.lat),
+	    lng: parseFloat(ownProps.location.query.lng)
 	  };
 	};
 	
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	  return {
-	    createLoo: function createLoo(loo) {
-	      return dispatch((0, _loo_actions2.default)(loo));
+	    createLoo: function createLoo(loo, callback) {
+	      return dispatch((0, _loo_actions.createLoo)(loo, callback));
 	    }
 	  };
 	};
@@ -49287,7 +49310,7 @@
 /* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -49298,6 +49321,8 @@
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(173);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -49317,13 +49342,11 @@
 	
 	    var _this = _possibleConstructorReturn(this, (LooForm.__proto__ || Object.getPrototypeOf(LooForm)).call(this, props));
 	
-	    _this.coords = { lat: props.lat, lng: props.lng };
-	
 	    _this.state = {
 	      name: "",
 	      address: "",
-	      latittude: null,
-	      longitude: null,
+	      latitude: _this.props.lat,
+	      longitude: _this.props.lng,
 	      imageFile: null,
 	      imageUrl: null
 	    };
@@ -49336,21 +49359,21 @@
 	  }
 	
 	  _createClass(LooForm, [{
-	    key: "navigateToSearch",
+	    key: 'navigateToSearch',
 	    value: function navigateToSearch() {
 	      this.props.router.push("/");
 	    }
 	  }, {
-	    key: "update",
+	    key: 'update',
 	    value: function update(field) {
 	      var _this2 = this;
 	
 	      return function (e) {
-	        return _this2.setState(_defineProperty({}, field, event.target.value));
+	        return _this2.setState(_defineProperty({}, field, e.target.value));
 	      };
 	    }
 	  }, {
-	    key: "updateFile",
+	    key: 'updateFile',
 	    value: function updateFile(e) {
 	      var file = e.currentTarget.files[0];
 	      var fileReader = new FileReader();
@@ -49363,7 +49386,7 @@
 	      }
 	    }
 	  }, {
-	    key: "handleSubmit",
+	    key: 'handleSubmit',
 	    value: function handleSubmit(e) {
 	      e.preventDefault();
 	
@@ -49371,35 +49394,34 @@
 	
 	      formData.append("loo[name]", this.state.name);
 	      formData.append("loo[address]", this.state.address);
-	      formData.append("loo[latittude]", this.state.latitude);
+	      formData.append("loo[latitude]", this.state.latitude);
 	      formData.append("loo[longitude]", this.state.longitude);
 	      formData.append("loo[image]", this.state.imageFile);
-	      this.props.createLoo(formData);
-	      this.navigateToSearch();
+	      this.props.createLoo(formData, this.navigateToSearch);
 	    }
 	  }, {
-	    key: "render",
+	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
-	        "div",
-	        { className: "new-loo-form-ctn group" },
+	        'div',
+	        { className: 'new-loo-form-ctn group' },
 	        _react2.default.createElement(
-	          "h1",
+	          'h1',
 	          null,
-	          "Add a Loo"
+	          'Add a Loo'
 	        ),
 	        _react2.default.createElement(
-	          "form",
-	          { className: "new-loo-form group" },
-	          _react2.default.createElement("input", { className: "new-loo-form-name",
-	            type: "text",
-	            placeholder: "name" }),
-	          _react2.default.createElement("input", { type: "text", className: "new-loo-form-address", placeholder: "address" }),
-	          _react2.default.createElement("input", { type: "file", onChange: this.updateFile, className: "new-loo-form-image" }),
-	          _react2.default.createElement("input", { className: "new-loo-form-submit",
-	            type: "submit",
-	            value: "Create Loo" }),
-	          _react2.default.createElement("img", { src: this.state.imageUrl })
+	          'form',
+	          { onSubmit: this.handleSubmit, className: 'new-loo-form group' },
+	          _react2.default.createElement('input', { onChange: this.update('name'), className: 'new-loo-form-name',
+	            type: 'text',
+	            placeholder: 'name' }),
+	          _react2.default.createElement('input', { type: 'text', onChange: this.update('address'), className: 'new-loo-form-address', placeholder: 'address' }),
+	          _react2.default.createElement('input', { type: 'file', onChange: this.updateFile, className: 'new-loo-form-image' }),
+	          _react2.default.createElement('input', { className: 'new-loo-form-submit',
+	            type: 'submit',
+	            value: 'Create Loo' }),
+	          _react2.default.createElement('img', { src: this.state.imageUrl })
 	        )
 	      );
 	    }
@@ -49408,7 +49430,7 @@
 	  return LooForm;
 	}(_react2.default.Component);
 	
-	exports.default = LooForm;
+	exports.default = (0, _reactRouter.withRouter)(LooForm);
 	
 	// <label className='new-loo-form-lat-label'>Latitudes</label>
 	//  <input className='new-loo-form-lat'

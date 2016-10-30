@@ -23,7 +23,9 @@ export const receiveLoo = (loo) => ({
   loo
 });
 
-export const createLoo = (loo) => ({
+export const createLoo = (formData, callback) => {
+return {
   type: CREATE_LOO,
-  loo
-});
+  formData,
+  callback
+};};

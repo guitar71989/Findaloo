@@ -16,3 +16,15 @@ export const fetchLoo = function(id, success){
     error: () => console.log('error')
   });
 };
+
+export const createLoo = (formData, callback, error) => $.ajax({
+  url: 'api/loos/',
+  method: 'POST',
+  dataType: "json",
+  contentType: false,
+  processData: false,
+  data: formData,
+  success: function() {
+    callback();
+  }
+});

@@ -1,10 +1,13 @@
 import { requestLoo,
          REQUEST_LOOS,
          receiveLoos,
+         requestLoos,
          REQUEST_LOO,
          receiveLoo,
+         CREATE_LOO
        } from './../actions/loo_actions.js';
 import { CREATE_REVIEW, DESTROY_REVIEW } from './../actions/review_actions.js';
+import { createLoo } from './../util/loo_api_util.js';
 import { createReview, destroyReview } from './../util/review_api_util.js';
 import { fetchLoos, fetchLoo } from './../util/loo_api_util.js';
 import { UPDATE_BOUNDS, UPDATE_STAR_FILTER } from './../actions/filter_actions.js';
@@ -32,21 +35,28 @@ export default ({ getState, dispatch }) => next => action => {
       dispatch(requestLoos());
       break;
     }
+    case CREATE_LOO: {
+      const formData = action.formData;
+      const callback = action.callback;
+      const error = (error) => console.log(error);
+      createLoo(formData, callback, error);
+      break;
+    }
     case CREATE_REVIEW: {
-      const review = action.review
-      const success = (data) => dispatch(requestLoo(data.loo_id))
-      const error = (error) => console.log(error)
-      createReview(review, success, error)
+      const review = action.review;
+      const success = (data) => dispatch(requestLoo(data.loo_id));
+      const error = (error) => console.log(error);
+      createReview(review, success, error);
       break;
     }
     case DESTROY_REVIEW: {
-      const reviewId = action.reviewId
-      const success = (loo_id) => dispatch(requestLoo(loo_id))
+      const reviewId = action.reviewId;
+      const success = (loo_id) => dispatch(requestLoo(loo_id));
       const error = (error) => console.log(error)
-      destroyReview(reviewId, success, error)
+      destroyReview(reviewId, success, error);
       break;
     }
     default:
       return next(action);
   }
-}
+};

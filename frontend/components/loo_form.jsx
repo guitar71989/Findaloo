@@ -1,15 +1,15 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 
 class LooForm extends React.Component {
   constructor(props){
     super(props);
-    this.coords = {lat: props.lat, lng: props.lng};
 
     this.state = {
       name: "",
       address: "",
-      latittude: null,
-      longitude: null,
+      latitude: this.props.lat,
+      longitude: this.props.lng,
       imageFile: null,
       imageUrl: null
     };
@@ -25,7 +25,7 @@ class LooForm extends React.Component {
   }
 
   update(field){
-    return(e) => this.setState({ [field]: event.target.value } );
+    return e => this.setState({[field]: e.target.value});
   }
 
   updateFile(e) {
@@ -48,11 +48,10 @@ class LooForm extends React.Component {
 
     formData.append("loo[name]", this.state.name);
     formData.append("loo[address]", this.state.address);
-    formData.append("loo[latittude]", this.state.latitude);
+    formData.append("loo[latitude]", this.state.latitude);
     formData.append("loo[longitude]", this.state.longitude);
     formData.append("loo[image]", this.state.imageFile);
-    this.props.createLoo(formData);
-    this.navigateToSearch();
+    this.props.createLoo(formData, this.navigateToSearch);
   }
 
   render () {
@@ -60,13 +59,13 @@ class LooForm extends React.Component {
       <div className="new-loo-form-ctn group">
         <h1>Add a Loo</h1>
 
-        <form className='new-loo-form group'>
+        <form onSubmit={this.handleSubmit} className='new-loo-form group'>
 
-          <input className='new-loo-form-name'
+          <input onChange={this.update('name')} className='new-loo-form-name'
                  type="text"
                  placeholder="name"/>
 
-          <input type="text" className="new-loo-form-address" placeholder="address" />
+               <input type="text" onChange={this.update('address')} className="new-loo-form-address" placeholder="address" />
 
           <input type="file" onChange={this.updateFile} className="new-loo-form-image" />
 
@@ -84,7 +83,7 @@ class LooForm extends React.Component {
 
 }
 
-export default LooForm;
+export default withRouter(LooForm);
 
 
 // <label className='new-loo-form-lat-label'>Latitudes</label>

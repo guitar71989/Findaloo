@@ -80,8 +80,8 @@ class MarkerManager {
   placeMarker(location) {
     var infoWindow2 = new google.maps.InfoWindow({
       content: ('<p style="color:#82abed; font-weight:bold"><a href="/#/loos/new?lng=' +
-      JSON.stringify(location.lng()) + 'lat=' +
-      JSON.stringify(location.lat()) + ' "target="_blank">Click here to add a loo</a></p>')
+      JSON.stringify(location.lng()) + '&lat=' +
+      JSON.stringify(location.lat()) + ' ">Click here to add this loo</a></p>')
     });
 
 

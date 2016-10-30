@@ -7,7 +7,7 @@ class Api::LoosController < ApplicationController
   end
 
   def create
-  @loo = Loo.new(loo_params)
+    @loo = Loo.new(loo_params)
     if @loo.save
       render :show
     else
@@ -28,6 +28,10 @@ class Api::LoosController < ApplicationController
 
   def starValue
     params[:starValue].to_i
+  end
+
+  def loo_params
+    params.require(:loo).permit(:latitude, :longitude, :address, :name, :image)
   end
 
 end
