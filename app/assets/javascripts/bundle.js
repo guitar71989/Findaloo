@@ -21505,6 +21505,10 @@
 	
 	var _loo_show_container2 = _interopRequireDefault(_loo_show_container);
 	
+	var _loo_form_container = __webpack_require__(306);
+	
+	var _loo_form_container2 = _interopRequireDefault(_loo_form_container);
+	
 	var _review_form_container = __webpack_require__(285);
 	
 	var _review_form_container2 = _interopRequireDefault(_review_form_container);
@@ -21534,6 +21538,7 @@
 	        _react2.default.createElement(_reactRouter.IndexRoute, { component: _search_container2.default }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/login', onEnter: _redirectIfLoggedIn, component: _session_form_container2.default }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/signup', onEnter: _redirectIfLoggedIn, component: _session_form_container2.default }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/loos/new', component: _loo_form_container2.default }),
 	        _react2.default.createElement(
 	          _reactRouter.Route,
 	          { path: '/loos/:looId', component: _loo_show_container2.default },
@@ -29719,6 +29724,8 @@
 	
 	var _marker_manager2 = _interopRequireDefault(_marker_manager);
 	
+	var _reactRouter = __webpack_require__(173);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -29726,6 +29733,13 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var _getCoordsObj = function _getCoordsObj(latLng) {
+	  return {
+	    lat: latLng.lat(),
+	    lng: latLng.lng()
+	  };
+	};
 	
 	var LooMap = function (_React$Component) {
 	  _inherits(LooMap, _React$Component);
@@ -29791,6 +29805,24 @@
 	      return oldProps.filters.coords.lat !== nextProps.filters.coords.lat || oldProps.filters.coords.lng !== nextProps.filters.coords.lng;
 	    }
 	  }, {
+	    key: '_handleClick',
+	    value: function _handleClick(coords) {
+	      this.props.router.push({
+	        pathname: "loos/new",
+	        query: coords
+	      });
+	    }
+	  }, {
+	    key: 'placeMarker',
+	    value: function placeMarker(location) {
+	      this.MarkerManager.placeMarker(location);
+	    }
+	  }, {
+	    key: 'closeMarker',
+	    value: function closeMarker(location) {
+	      this.MarkerManager.removeLastMarker();
+	    }
+	  }, {
 	    key: '_registerListeners',
 	    value: function _registerListeners() {
 	      var _this2 = this;
@@ -29807,6 +29839,21 @@
 	          southWest: { lat: south, lng: west } };
 	        _this2.props.updateBounds(bounds);
 	      });
+	
+	      var markerOpen = void 0;
+	
+	      google.maps.event.addListener(this.map, 'click', function (event) {
+	        //   const coords = _getCoordsObj(event.latLng);
+	        //   this._handleClick(coords);
+	        // });
+	        if (markerOpen) {
+	          _this2.closeMarker();
+	          markerOpen = false;
+	        } else {
+	          _this2.placeMarker(event.latLng);
+	          markerOpen = true;
+	        }
+	      });
 	    }
 	  }, {
 	    key: 'render',
@@ -29822,7 +29869,7 @@
 	  return LooMap;
 	}(_react2.default.Component);
 	
-	exports.default = LooMap;
+	exports.default = (0, _reactRouter.withRouter)(LooMap);
 
 /***/ },
 /* 272 */
@@ -29923,6 +29970,35 @@
 	      var idx = this.markers.indexOf(marker);
 	      this.markers[idx].setMap(null);
 	      this.markers.splice(idx, 1);
+	    }
+	  }, {
+	    key: "removeLastMarker",
+	    value: function removeLastMarker() {
+	      this.markers[this.markers.length - 1].setMap(null);
+	      this.markers.pop();
+	    }
+	  }, {
+	    key: "placeMarker",
+	    value: function placeMarker(location) {
+	      var infoWindow2 = new google.maps.InfoWindow({
+	        content: '<p style="color:#82abed; font-weight:bold"><a href="/#/loos/new?lng=' + JSON.stringify(location.lng()) + 'lat=' + JSON.stringify(location.lat()) + ' "target="_blank">Click here to add a loo</a></p>'
+	      });
+	
+	      var icon = {
+	        url: "https://s3.amazonaws.com/findaloo-dev/toilet_illustration.png",
+	        scaledSize: new google.maps.Size(25, 25), // scaled size
+	        origin: new google.maps.Point(0, 0), // origin
+	        anchor: new google.maps.Point(0, 0) // anchor
+	      };
+	
+	      var marker = new google.maps.Marker({
+	        position: location,
+	        map: this.map,
+	        icon: icon
+	      });
+	
+	      infoWindow2.open(this.map, marker);
+	      this.markers.push(marker);
 	    }
 	  }]);
 	
@@ -30254,6 +30330,7 @@
 	var RECEIVE_LOOS = exports.RECEIVE_LOOS = "RECEIVE_LOOS";
 	var REQUEST_LOO = exports.REQUEST_LOO = "REQUEST_LOO";
 	var RECEIVE_LOO = exports.RECEIVE_LOO = "RECEIVE_LOO";
+	var CREATE_LOO = exports.CREATE_LOO = "CREATE_LOO";
 	
 	var requestLoos = exports.requestLoos = function requestLoos() {
 	  return {
@@ -30278,6 +30355,13 @@
 	var receiveLoo = exports.receiveLoo = function receiveLoo(loo) {
 	  return {
 	    type: RECEIVE_LOO,
+	    loo: loo
+	  };
+	};
+	
+	var createLoo = exports.createLoo = function createLoo(loo) {
+	  return {
+	    type: CREATE_LOO,
 	    loo: loo
 	  };
 	};
@@ -49155,6 +49239,185 @@
 	  transformer: undefined
 	};
 	module.exports = exports['default'];
+
+/***/ },
+/* 306 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _reactRedux = __webpack_require__(236);
+	
+	var _loo_form = __webpack_require__(307);
+	
+	var _loo_form2 = _interopRequireDefault(_loo_form);
+	
+	var _loo_actions = __webpack_require__(279);
+	
+	var _loo_actions2 = _interopRequireDefault(_loo_actions);
+	
+	var _reactRouter = __webpack_require__(173);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	  return {
+	    lat: ownProps.location.query.lat,
+	    lng: ownProps.location.query.lng
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    createLoo: function createLoo(loo) {
+	      return dispatch((0, _loo_actions2.default)(loo));
+	    }
+	  };
+	};
+	
+	var LooFormContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_loo_form2.default);
+	
+	exports.default = LooFormContainer;
+
+/***/ },
+/* 307 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var LooForm = function (_React$Component) {
+	  _inherits(LooForm, _React$Component);
+	
+	  function LooForm(props) {
+	    _classCallCheck(this, LooForm);
+	
+	    var _this = _possibleConstructorReturn(this, (LooForm.__proto__ || Object.getPrototypeOf(LooForm)).call(this, props));
+	
+	    _this.coords = { lat: props.lat, lng: props.lng };
+	
+	    _this.state = {
+	      name: "",
+	      address: "",
+	      latittude: null,
+	      longitude: null,
+	      imageFile: null,
+	      imageUrl: null
+	    };
+	
+	    _this.navigateToSearch = _this.navigateToSearch.bind(_this);
+	    _this.handleSubmit = _this.handleSubmit.bind(_this);
+	    _this.updateFile = _this.updateFile.bind(_this);
+	
+	    return _this;
+	  }
+	
+	  _createClass(LooForm, [{
+	    key: "navigateToSearch",
+	    value: function navigateToSearch() {
+	      this.props.router.push("/");
+	    }
+	  }, {
+	    key: "update",
+	    value: function update(field) {
+	      var _this2 = this;
+	
+	      return function (e) {
+	        return _this2.setState(_defineProperty({}, field, event.target.value));
+	      };
+	    }
+	  }, {
+	    key: "updateFile",
+	    value: function updateFile(e) {
+	      var file = e.currentTarget.files[0];
+	      var fileReader = new FileReader();
+	      fileReader.onloadend = function () {
+	        this.setState({ imageFile: file, imageUrl: fileReader.result });
+	      }.bind(this);
+	
+	      if (file) {
+	        fileReader.readAsDataURL(file);
+	      }
+	    }
+	  }, {
+	    key: "handleSubmit",
+	    value: function handleSubmit(e) {
+	      e.preventDefault();
+	
+	      var formData = new FormData();
+	
+	      formData.append("loo[name]", this.state.name);
+	      formData.append("loo[address]", this.state.address);
+	      formData.append("loo[latittude]", this.state.latitude);
+	      formData.append("loo[longitude]", this.state.longitude);
+	      formData.append("loo[image]", this.state.imageFile);
+	      this.props.createLoo(formData);
+	      this.navigateToSearch();
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "new-loo-form-ctn group" },
+	        _react2.default.createElement(
+	          "h1",
+	          null,
+	          "Add a Loo"
+	        ),
+	        _react2.default.createElement(
+	          "form",
+	          { className: "new-loo-form group" },
+	          _react2.default.createElement("input", { className: "new-loo-form-name",
+	            type: "text",
+	            placeholder: "name" }),
+	          _react2.default.createElement("input", { type: "text", className: "new-loo-form-address", placeholder: "address" }),
+	          _react2.default.createElement("input", { type: "file", onChange: this.updateFile, className: "new-loo-form-image" }),
+	          _react2.default.createElement("input", { className: "new-loo-form-submit",
+	            type: "submit",
+	            value: "Create Loo" }),
+	          _react2.default.createElement("img", { src: this.state.imageUrl })
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return LooForm;
+	}(_react2.default.Component);
+	
+	exports.default = LooForm;
+	
+	// <label className='new-loo-form-lat-label'>Latitudes</label>
+	//  <input className='new-loo-form-lat'
+	//         type="text" value={this.coords.lat} readOnly />
+	
+	
+	// <label className='new-loo-form-lng-label'>Longitudes</label>
+	// <input className='new-loo-form-lng'
+	//        type="text" value={this.coords.lng} readOnly />
 
 /***/ }
 /******/ ]);

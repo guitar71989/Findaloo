@@ -55,6 +55,8 @@ class MarkerManager {
                )
     });
 
+
+
     google.maps.event.addListener(newMarker,'click', function(){
       infoWindow.open(this.map, newMarker);
     });
@@ -68,6 +70,36 @@ class MarkerManager {
     const idx = this.markers.indexOf( marker );
     this.markers[idx].setMap(null);
     this.markers.splice(idx, 1);
+  }
+
+  removeLastMarker() {
+    this.markers[this.markers.length - 1].setMap(null);
+    this.markers.pop();
+  }
+
+  placeMarker(location) {
+    var infoWindow2 = new google.maps.InfoWindow({
+      content: ('<p style="color:#82abed; font-weight:bold"><a href="/#/loos/new?lng=' +
+      JSON.stringify(location.lng()) + 'lat=' +
+      JSON.stringify(location.lat()) + ' "target="_blank">Click here to add a loo</a></p>')
+    });
+
+
+    const icon = {
+      url: "https://s3.amazonaws.com/findaloo-dev/toilet_illustration.png",
+      scaledSize: new google.maps.Size(25, 25), // scaled size
+      origin: new google.maps.Point(0,0), // origin
+      anchor: new google.maps.Point(0, 0) // anchor
+    };
+
+    var marker = new google.maps.Marker({
+     position: location,
+     map: this.map,
+     icon: icon
+    });
+
+    infoWindow2.open(this.map, marker);
+    this.markers.push(marker);
   }
 }
 

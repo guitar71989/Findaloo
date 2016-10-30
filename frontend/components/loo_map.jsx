@@ -1,6 +1,13 @@
 import React from 'react';
 import MarkerManager from './../util/marker_manager.js';
+import { withRouter } from 'react-router';
 
+
+
+const _getCoordsObj = latLng => ({
+  lat: latLng.lat(),
+  lng: latLng.lng()
+});
 
 class LooMap extends React.Component {
 
@@ -58,6 +65,21 @@ class LooMap extends React.Component {
     oldProps.filters.coords.lng !== nextProps.filters.coords.lng;
   }
 
+  _handleClick(coords){
+  this.props.router.push({
+    pathname: "loos/new",
+    query: coords
+  });
+}
+
+
+  placeMarker(location) {
+    this.MarkerManager.placeMarker(location);
+  }
+
+  closeMarker(location) {
+    this.MarkerManager.removeLastMarker();
+  }
 
   _registerListeners() {
     google.maps.event.addListener(this.map, 'idle', () => {
@@ -67,9 +89,24 @@ class LooMap extends React.Component {
         southWest: { lat: south, lng: west } };
       this.props.updateBounds(bounds);
     });
+
+    let markerOpen;
+
+    google.maps.event.addListener(this.map, 'click', event => {
+    //   const coords = _getCoordsObj(event.latLng);
+    //   this._handleClick(coords);
+    // });
+    if (markerOpen) {
+      this.closeMarker();
+      markerOpen = false;
+    } else {
+      this.placeMarker(event.latLng);
+      markerOpen = true;
+    }
+    });
   }
 
-  render(){
+  render() {
     if (this.props.singleLoo){
       return(
         <div id="map-container-show" ref="map">
@@ -84,4 +121,4 @@ class LooMap extends React.Component {
   }
 }
 
-export default LooMap;
+export default withRouter(LooMap);

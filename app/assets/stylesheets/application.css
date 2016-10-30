@@ -557,7 +557,7 @@ authcontainer small {
   border-radius: 5%
 }
 
-.review-loo-form-submit:hover, .redo-loo-button:hover, .undo-loo-button:hover { 
+.review-loo-form-submit:hover, .redo-loo-button:hover, .undo-loo-button:hover {
   cursor: pointer;
 }
 
@@ -614,4 +614,71 @@ fieldset {
 
 input[type="submit"][disabled] {
   background: #eee;
+}
+
+/* --- NEW LOO FORM --- */
+
+.new-loo-form-ctn {
+  display: block;
+  margin: 20px;
+  text-align: center;
+  width: 900px;
+  background: #fff;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+}
+
+.new-loo-form-ctn h1 {
+  padding-top: 20px;
+  font-weight: bold;
+  font-size: 20px;
+  margin: 0 auto;
+  color: #ff0000;
+}
+
+.new-loo-form {
+  margin: 0 auto;
+  padding: 20px;
+
+}
+
+.new-loo-form input {
+  display: block;
+  font-size: 14px;
+  margin: 20px auto;
+  width: 200px;
+  border: 1px solid #ccc;
+  padding: 9px;
+}
+
+ .new-loo-form > input:first-child {
+   margin-top: 0px;
+ }
+
+.new-loo-form-name:focus {
+  outline: none;
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.new-loo-form-address:focus {
+  outline: none;
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+
+
+.new-loo-form-lat-label, .new-loo-form-lng-label {
+  margin: 0 auto;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.new-loo-form-submit {
+  background: #ff0000;
+  display: block;
+  color: #fff;
+  margin: 0 20px 20px 0;
+  font-weight: bold;
+  border-radius: 5%;
+  cursor: pointer;
 }

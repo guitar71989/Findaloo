@@ -2,6 +2,7 @@ export const REQUEST_LOOS = "REQUEST_LOOS";
 export const RECEIVE_LOOS = "RECEIVE_LOOS";
 export const REQUEST_LOO = "REQUEST_LOO";
 export const RECEIVE_LOO = "RECEIVE_LOO";
+export const CREATE_LOO = "CREATE_LOO";
 
 export const requestLoos = () => ({
   type: REQUEST_LOOS
@@ -19,5 +20,10 @@ export const receiveLoos = (loos) => ({
 
 export const receiveLoo = (loo) => ({
   type: RECEIVE_LOO,
+  loo
+});
+
+export const createLoo = (loo) => ({
+  type: CREATE_LOO,
   loo
 });
