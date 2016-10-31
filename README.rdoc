@@ -1,5 +1,3 @@
-== README
-
 # Findaloo
 
 [Visit Findaloo][live]
