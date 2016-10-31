@@ -10,7 +10,6 @@ The backend is built using Ruby on Rails on a PostgreSQL database, and
 the frontend employs React within the Redux framework.
 
 ![Home Page](./screenshots/main-page.png)
-![Demo](./screenshots/demo.png)
 
 ## Features & Implementation
 
@@ -28,12 +27,7 @@ Google Maps API autocomplete searching and adding a loo by clicking the location
 on the map. In addition, Findaloo integrates Google Maps StreetView API
 to seed the database with authentic pictures at each location.
 
-## Controls:
-
-  * ← move block left
-  * → move block right
-  * ↑ rotate block 90 degrees clockwise
-  * ↓ soft drop
+![Demo](./screenshots/demo.gif)
 
 ## Intro Modal
 
