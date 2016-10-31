@@ -10,11 +10,23 @@ The backend is built using Ruby on Rails on a PostgreSQL database, and
 the frontend employs React within the Redux framework.
 
 ![Home Page](./screenshots/main-page.png)
+![Demo](./screenshots/demo.png)
 
-## Features
+## Features & Implementation
 
-A browser Tetris game implemented with Javascript, jQuery, HTML5, and
-CSS3.
+Findaloo is a single-page application, dynamically updating without constant
+reloads. Upon first rendering, both authenticated and non-authenticated users
+are brought to the index page of "loos" (i.e. restrooms) on the default map.
+
+## Map
+
+A central feature of Findaloo is the index page's map. With the deep integration
+of the Google Maps API, Findaloo has been able to enhance its geolocation
+functionality. For example, the loos that are shown on the index page are
+filtered by the bounds of the map (among other parameters). Other uses of the
+Google Maps API autocomplete searching and adding a loo by clicking the location
+on the map. In addition, Findaloo integrates Google Maps StreetView API
+to seed the database with authentic pictures at each location.
 
 ## Controls:
 
