@@ -29,63 +29,51 @@ to seed the database with authentic pictures at each location.
 
 ![Demo](./screenshots/demo.gif)
 
-## Intro Modal
 
-Upon loading the game, an introductory modal appears with a "Play" button
-and the basic game instructions. For the sake of clean code, I created
-all of the modal-related html as variables using jQuery, along with a modal
-function to call them. Within jQuery's version the DOMContentLoaded event
-listener, I opened the modal.
+## Filtering
 
-Code Snippet:
+In addition to filtering by the bounds of the map, users can also
+filter the loos on the index page by their average review ratings.
+Forgoing the need to create additional columns on the loos table,
+I've created class methods on the loo model which query the database to
+perform this filter.
 
-![Modal Code](./screenshots/modal.png)
+![Filtering Code](./screenshots/filtering_code.gif)
 
-User View:
 
-![Play Game Modal](./screenshots/playmodal.png)
+## Reviews
 
-## Game Layout
+Reviews are displayed with the current users' review at the top of the
+page, and then all other user reviews following after. If the user
+does not have a review, he/she are prompted to create a review for this
+loo. If the user is not signed in, they will be prompted to sign in to
+review this loo. To implement this, I separated out current user review
+and other reviews into separate variables in the Loo controller so that
+the loo show component can render them appropriately.
 
-Once the user clicks play, the modal closes and a new game is started.
-The board consists of three main containers: score, tetris board, and t
-he next piece preview. When the game starts, I create two tetris pieces
-— currentPiece and nextPiece — the nextPiece sits in the Next Piece
-container while the Current Piece begins its descent to the bottom of the
-tetris board. The score level and lines are all set at zero when the game
-starts as well.
+![Reviews](./screenshots/reviews.png)
 
-![Game View](./screenshots/gameview.png)
+In addition to reviewing individual user reviews, by adding methods to the Loo model,
+users can also retrieve aggregate data regarding average rating and number of reviews for each loo.
+With Google Maps API's built-in infoWindow, this relevant information appears
+when users click on an icon.
 
-## Moving Pieces
+![Reviews](./screenshots/addloo.png)
 
-When a user wants to move a piece, a keydown listener and switch-case
-statement translates the given keycode into a move on the piece object.
+##User authentication
 
-To successfully move a piece, I first move the piece to the intended location,
-check to see if that is a valid move, and if it is, then I complete the move.
-Otherwise, the piece remains in the same position.
+To authenticate users without storing their password, I implemented
+BCrypt encryption to store an encrypted-version of the password. In addition,
+I bootstrapped the current user alongside my HTML to ensure that the app
+knows who the current user at all times.
 
-While moving left, right, and down, were simple changes to the y and x coordinates,
-rotating pieces used vector matrix logic. Specifically, I assigned a center
-block for each piece, find each blocks relative vector to this block, rotate that vector, and then translate it back to its absolute position.
+![User-auth](./screenshots/user-auth.png)
 
-To keep my code DRY, I created a Coord class to handle the movements of the individual cells within a piece as well as non-piece movements.
-blocks into Javascript and a switch case
+![User](./screenshots/user.png)
 
-![Game View](./screenshots/rotatecode.png)
-
-## Gravity
-
-In order to implement gravity, I created a setTimeout event on the window, which
-is called at the bottom of each call to the gravity function. The timer for the timeout
-is indirectly proportional to the level of the game the user has reached. With this
-implementation, the gravity function only runs once the previous call has
-been completed, ensuring a smooth user experience even as the user reaches higher levels
-of the game.
 
 ## Forthcoming
 
-* Users will be able to hear tetris theme song as they play game
-* Users will be able to hold pieces for future use in the game
-* Users will be able to record their highest scores
+* Users will be able to create a profile
+* Users will be able to sign up with Google or Facebook
+* Users will be able to filter by number of reviews
