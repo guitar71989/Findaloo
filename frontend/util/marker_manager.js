@@ -30,7 +30,7 @@ class MarkerManager {
     const newMarkerPos = {lat: loo.latitude, lng: loo.longitude};
     const newMarkerTitle = loo.name;
     const icon = {
-      url: "https://s3.amazonaws.com/findaloo-dev/toilet_illustration.png",
+      url: window.findalooAssets.toilet_illustration,
       scaledSize: new google.maps.Size(25, 25), // scaled size
       origin: new google.maps.Point(0,0), // origin
       anchor: new google.maps.Point(0, 0) // anchor
