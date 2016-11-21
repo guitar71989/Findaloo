@@ -13,14 +13,20 @@ class SearchBar extends React.Component{
   }
 
   render(){
-    return(
-    <div className="search-bar">
-      <form className="search-bar-form" onSubmit={(e)=>e.preventDefault()}>
-        <AutocompleteContainer />
-        <StarFilterContainer />
-      </form>
-    </div>
-    );
+    if (window.location.hash.slice(0,3) == "#/?") {
+      return(
+        <div className="search-bar">
+          <form className="search-bar-form" onSubmit={(e)=>e.preventDefault()}>
+            <AutocompleteContainer />
+            <StarFilterContainer />
+          </form>
+        </div>
+      );
+    } else {
+      return(
+        <div className="search-bar">
+        </div>
+      );}
   }
 }
 

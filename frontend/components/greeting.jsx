@@ -5,7 +5,7 @@ const Greeting = ({ currentUser, logout }) => {
 
   if (currentUser) {
       return(
-        <div className="logged-in-ctn-main group">
+        <div className="logged-in-ctn-main">
           <img className="logged-in-user-image" src={currentUser.image_url} />
           <p className="logged-in-ctn username">{'Signed in as ' + currentUser.username}</p><br></br>
           <button className="logged-in-ctn logout-btn" onClick={logout}>Log Out</button>
