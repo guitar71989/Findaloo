@@ -436,7 +436,7 @@ authcontainer small {
 
 .index-item-category-review_count {
   display: block;
-  color: #ccc;
+  color: #aaa;
   margin-top: 2px;
   height: 20px;
   text-align: left;
@@ -470,6 +470,7 @@ authcontainer small {
 
 .single-loo-text {
   float: left;
+  max-width: 400px;
 }
 
 .single-loo-picture {
