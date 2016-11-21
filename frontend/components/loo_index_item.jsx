@@ -17,10 +17,11 @@ class LooIndexItem extends React.Component {
   render() {
     const loo = this.props.loo;
     return(
-    <div className="index-item-info group" onClick={this.handleClick}>
+    <div className="index-item-info" onClick={this.handleClick}>
       <img className="toilet" src={loo.image_url} />
       <div className="index-item-info-copy">
         <div className="index-item-category-title">{loo.name}</div>
+        <div className="index-item-category-address">{loo.address}</div>
         <StarRatingComponent
           className="index-item-category-review_avg"
           name="name"
@@ -31,7 +32,6 @@ class LooIndexItem extends React.Component {
           value={loo.review_avg}
           />
         <div className="index-item-category-review_count">{loo.review_count} </div>
-        <div className="index-item-category-address">{loo.address}</div>
       </div>
     </div>);
   }

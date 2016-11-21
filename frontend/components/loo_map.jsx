@@ -14,7 +14,7 @@ class LooMap extends React.Component {
 
   componentDidMount() {
     const mapOptions = {
-        center: {lat: 40.7250279, lng: -73.998986},
+        center: {lat: 40.750670688015944, lng: -73.998986},
         zoom: 13,
         draggable: true,
         zoomControl: true,

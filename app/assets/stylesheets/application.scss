@@ -43,6 +43,7 @@
    font-size: 14px;
    background: #eee;
    color: #000;
+   overflow-x: hidden;
  }
 
  ul {
@@ -77,11 +78,18 @@
    border-bottom: 1px solid #ccc;
  }
 
+.header-nav {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+ }
+
  .header-logo {
-   float: left;
-   display: block;
+  //  float: left;
+    order: 1;
    padding: 10px;
    width: 350px;
+   min-width: 350px;
    font-size: 18px;
    cursor: pointer;
  }
@@ -94,7 +102,8 @@
  }
 
  .header-list {
-   float: right;
+   order: 3;
+   min-width: 200px;
  }
 
  .header-list > li {
@@ -272,28 +281,35 @@ authcontainer small {
 
  /* --- LOO MAP --- */
 
-#map-container-index {
-  position: relative;
-  height: 450px;
-  color: white;
+.main-ctn {
+  display: flex;
+  height: calc(100vh - 75px);
   width: 100%;
-  margin: 0 auto;
+}
+
+
+.map-ctn {
+  height: 100%;
+  width: 100%;
+}
+
+#map-container-index {
+  height: 100%;
+  width: 100%;
   border-left: 1px solid #ccc;
   border-right: 1px solid #ccc;
   border-bottom: 1px solid #ccc
+
 }
 
  /* --- SEARCH BAR --- */
 
 .search-bar {
-  position: absolute;
-  background: rgba(204, 204, 204, .8);
-  border: 1px solid #C0C0C0;
-  margin-top: -50px;
-  width: 100%;
-  height: 50px;
+  flex-grow: 4;
+  order: 2;
 }
 .search-bar-form {
+  min-width: 400px;
   align-items: center;
   display: flex;
   justify-content: center;
@@ -309,14 +325,14 @@ authcontainer small {
 .search-textbar {
   box-sizing: border-box;
   display: block;
-  float: left;
   margin: 10px 0 0 0;
   background: #fff;
-  width: 300px;
+  color: #000;
+  width: 400px;
   font-size: 14px;
-  padding: 5px;
+  padding: 10px 5px;
   cursor: pointer;
-  border-radius: 5%
+  border: green;
 }
 
 .search-textbar:focus {
@@ -347,9 +363,12 @@ authcontainer small {
 
  .loo-index {
    background: #fff;
-   width: 900px;
-   margin: 10px auto;
-   border: 1px solid #ccc;
+   border-left: 1px solid #ccc;
+   border-right: 1px solid #ccc;
+   border-top: 1px solid #ccc;
+   width: 60%;
+   overflow: scroll;
+   max-width: 500px;
  }
 
  .loo-index-title {
@@ -369,7 +388,7 @@ authcontainer small {
   background-color: #fff;
 }
 
-.index-item-info.group:hover {
+.index-item-info:hover {
   background: #a3c6ff;
   color: #fff;
 }
@@ -378,15 +397,17 @@ authcontainer small {
   border-bottom: 0px solid #fff;
 }
 
-
-.index-item-info-copy {
-  margin-left: 20px;
+.index-item-info {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  font-size: 16px;
 }
 
 .index-item-category-title {
+  margin-top: 10px;
   color: #42bcf4;
   display:block;
-  margin-left: 20px;
   font-weight: bold;
 }
 
@@ -398,12 +419,11 @@ authcontainer small {
   color: #ffffff;
 }
 
-.toilet {
+.toilet img {
   float: left;
   height: 50px;
   width: 50px;
   border: 1px solid #000;
-  margin-right: 20px;
 }
 
 .index-item-category-address {
@@ -412,7 +432,6 @@ authcontainer small {
 
 .index-item-category-review_avg {
   display: block;
-  float: left;
   margin-right: 5px;
 }
 

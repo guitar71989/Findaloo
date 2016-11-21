@@ -12,7 +12,7 @@ const Greeting = ({ currentUser, logout }) => {
         </div>
       );
   } else {
-    return( <ul className="header-list group">
+    return( <ul className="header-list">
       <li><Link to="/signup" className="nav signup">Sign Up</Link></li>
       <li><Link to="/login" className="nav login">Log In</Link></li>
     </ul>
